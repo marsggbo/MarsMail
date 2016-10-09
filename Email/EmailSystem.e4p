@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Project SYSTEM "Project-5.1.dtd">
+<!-- eric project file for project EmailSystem -->
+<!-- Saved: 2016-10-08, 23:36:09 -->
+<!-- Copyright (C) 2016 贺鑫, marsggbo@foxmail.com -->
+<Project version="5.1">
+  <Language>en_US</Language>
+  <Hash>c22583f2ece7e2b5e55abe8d6e11503c6daeb65b</Hash>
+  <ProgLanguage mixed="0">Python3</ProgLanguage>
+  <ProjectType>Qt4</ProjectType>
+  <Description>邮件桌面管理软件</Description>
+  <Version>0.1</Version>
+  <Author>贺鑫</Author>
+  <Email>marsggbo@foxmail.com</Email>
+  <Eol index="-1"/>
+  <Sources>
+    <Source>Libs/Ui_calender.py</Source>
+    <Source>Libs/Ui_main.py</Source>
+    <Source>Libs/Ui_writemail.py</Source>
+    <Source>Libs/__init__.py</Source>
+    <Source>Libs/calender.py</Source>
+    <Source>Libs/main.py</Source>
+    <Source>Libs/myPic_rc.py</Source>
+    <Source>Libs/pop.py</Source>
+    <Source>Libs/smtp.py</Source>
+    <Source>Libs/writemail.py</Source>
+  </Sources>
+  <Forms>
+    <Form>Libs/writemail.ui</Form>
+    <Form>Libs/calender.ui</Form>
+    <Form>Libs/main.ui</Form>
+  </Forms>
+  <Translations/>
+  <Resources>
+    <Resource>Libs/myPic.qrc</Resource>
+  </Resources>
+  <Interfaces/>
+  <Others/>
+  <Vcs>
+    <VcsType>None</VcsType>
+  </Vcs>
+  <FiletypeAssociations>
+    <FiletypeAssociation pattern="*.idl" type="INTERFACES"/>
+    <FiletypeAssociation pattern="*.py" type="SOURCES"/>
+    <FiletypeAssociation pattern="*.py3" type="SOURCES"/>
+    <FiletypeAssociation pattern="*.pyw" type="SOURCES"/>
+    <FiletypeAssociation pattern="*.pyw3" type="SOURCES"/>
+    <FiletypeAssociation pattern="*.qm" type="TRANSLATIONS"/>
+    <FiletypeAssociation pattern="*.qrc" type="RESOURCES"/>
+    <FiletypeAssociation pattern="*.ts" type="TRANSLATIONS"/>
+    <FiletypeAssociation pattern="*.ui" type="FORMS"/>
+  </FiletypeAssociations>
+</Project>
