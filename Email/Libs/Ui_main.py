@@ -37,6 +37,7 @@ class Ui_MainWindow(object):
         self.centralWidget.setObjectName(_fromUtf8("centralWidget"))
         self.widget = QtGui.QWidget(self.centralWidget)
         self.widget.setGeometry(QtCore.QRect(0, 0, 200, 590))
+        self.widget.setWhatsThis(_fromUtf8(""))
         self.widget.setStyleSheet(_fromUtf8("#widget{background-color: rgb(242, 242, 242);}\n"
 "\n"
 "QPushButton{border:none;}"))
@@ -59,6 +60,8 @@ class Ui_MainWindow(object):
         self.slidebar.setObjectName(_fromUtf8("slidebar"))
         self.email = QtGui.QPushButton(self.slidebar)
         self.email.setGeometry(QtCore.QRect(2, 19, 25, 25))
+        self.email.setMouseTracking(False)
+        self.email.setAccessibleName(_fromUtf8(""))
         self.email.setStyleSheet(_fromUtf8("#sliderbar1:hover{\n"
 "background-color: rgb(255, 170, 127);}"))
         self.email.setText(_fromUtf8(""))
@@ -88,13 +91,10 @@ class Ui_MainWindow(object):
         icon4.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/设置.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.settings.setIcon(icon4)
         self.settings.setObjectName(_fromUtf8("settings"))
-        self.logo_2 = QtGui.QGraphicsView(self.widget)
-        self.logo_2.setGeometry(QtCore.QRect(50, 100, 80, 80))
-        self.logo_2.setStyleSheet(_fromUtf8("border-image: url(:/pics/pics/登录.png);"))
-        self.logo_2.setObjectName(_fromUtf8("logo_2"))
-        self.pushButton_2 = QtGui.QPushButton(self.widget)
-        self.pushButton_2.setGeometry(QtCore.QRect(0, 330, 201, 31))
-        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        self.headlogo = QtGui.QGraphicsView(self.widget)
+        self.headlogo.setGeometry(QtCore.QRect(60, 100, 80, 80))
+        self.headlogo.setStyleSheet(_fromUtf8("border-image: url(:/pics/pics/登录.png);"))
+        self.headlogo.setObjectName(_fromUtf8("headlogo"))
         self.groupBox = QtGui.QGroupBox(self.widget)
         self.groupBox.setGeometry(QtCore.QRect(0, 50, 200, 50))
         self.groupBox.setStyleSheet(_fromUtf8("QPushButton{background-color:rgb(41,189,139);}\n"
@@ -104,30 +104,20 @@ class Ui_MainWindow(object):
         self.groupBox.setTitle(_fromUtf8(""))
         self.groupBox.setFlat(False)
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
-        self.writeletter_2 = QtGui.QPushButton(self.groupBox)
-        self.writeletter_2.setGeometry(QtCore.QRect(0, 0, 102, 50))
-        self.writeletter_2.setObjectName(_fromUtf8("writeletter_2"))
-        self.receiveletter_2 = QtGui.QPushButton(self.groupBox)
-        self.receiveletter_2.setGeometry(QtCore.QRect(100, 0, 100, 50))
-        self.receiveletter_2.setObjectName(_fromUtf8("receiveletter_2"))
-        self.receiveEmail = QtGui.QComboBox(self.widget)
-        self.receiveEmail.setGeometry(QtCore.QRect(0, 190, 200, 21))
-        self.receiveEmail.setStyleSheet(_fromUtf8("#emaillist{\n"
-"    background-color: rgb(242, 242, 242);\n"
-"    border:none;\n"
-"}\n"
-"#emaillist:hover{\n"
-"    border-left: 5px solid rgb(41, 189, 139);\n"
-"    background-color: #ccc;\n"
-"}"))
-        self.receiveEmail.setEditable(False)
-        self.receiveEmail.setCurrentText(_fromUtf8(""))
-        self.receiveEmail.setObjectName(_fromUtf8("receiveEmail"))
-        self.menu = QtGui.QGroupBox(self.centralWidget)
+        self.mainwriteletter = QtGui.QPushButton(self.groupBox)
+        self.mainwriteletter.setGeometry(QtCore.QRect(0, 0, 102, 50))
+        self.mainwriteletter.setObjectName(_fromUtf8("mainwriteletter"))
+        self.mainreceiveletter = QtGui.QPushButton(self.groupBox)
+        self.mainreceiveletter.setGeometry(QtCore.QRect(100, 0, 100, 50))
+        self.mainreceiveletter.setObjectName(_fromUtf8("mainreceiveletter"))
+        self.mainlogin = QtGui.QPushButton(self.widget)
+        self.mainlogin.setGeometry(QtCore.QRect(65, 200, 70, 25))
+        self.mainlogin.setStyleSheet(_fromUtf8("background-color: rgb(41, 189, 139);"))
+        self.mainlogin.setObjectName(_fromUtf8("mainlogin"))
+        self.menu = QtGui.QWidget(self.centralWidget)
         self.menu.setGeometry(QtCore.QRect(200, 0, 870, 50))
         self.menu.setStyleSheet(_fromUtf8("background-color: rgb(66, 74, 89);\n"
 "border:none;"))
-        self.menu.setTitle(_fromUtf8(""))
         self.menu.setObjectName(_fromUtf8("menu"))
         self.graphicsView = QtGui.QGraphicsView(self.menu)
         self.graphicsView.setGeometry(QtCore.QRect(10, 15, 20, 20))
@@ -146,10 +136,32 @@ class Ui_MainWindow(object):
 ""))
         self.searchrange.setTitle(_fromUtf8(""))
         self.searchrange.setObjectName(_fromUtf8("searchrange"))
-        self.graphicsView_2 = QtGui.QGraphicsView(self.searchrange)
-        self.graphicsView_2.setGeometry(QtCore.QRect(3, 15, 20, 20))
-        self.graphicsView_2.setStyleSheet(_fromUtf8("border-image: url(:/pics/pics/下拉 (2).png);"))
-        self.graphicsView_2.setObjectName(_fromUtf8("graphicsView_2"))
+        self.pushButton = QtGui.QPushButton(self.searchrange)
+        self.pushButton.setGeometry(QtCore.QRect(3, 15, 20, 20))
+        self.pushButton.setStyleSheet(_fromUtf8("border-image: url(:/pics/pics/下拉 (2).png);"))
+        self.pushButton.setText(_fromUtf8(""))
+        self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.mainclose = QtGui.QPushButton(self.menu)
+        self.mainclose.setGeometry(QtCore.QRect(830, 15, 20, 20))
+        self.mainclose.setStyleSheet(_fromUtf8("#mainclose{\n"
+"    background-color:tomato;\n"
+"    border-radius:10px;}\n"
+"#mainclose:hover{border-image: url(:/pics/pics/关闭1.png);}\n"
+""))
+        self.mainclose.setText(_fromUtf8(""))
+        self.mainclose.setObjectName(_fromUtf8("mainclose"))
+        self.mainmin = QtGui.QPushButton(self.menu)
+        self.mainmin.setGeometry(QtCore.QRect(800, 15, 20, 20))
+        self.mainmin.setToolTip(_fromUtf8(""))
+        self.mainmin.setStyleSheet(_fromUtf8("#mainmin{\n"
+"background-color:rgb(255,224,81);\n"
+"    border-radius:10px;}\n"
+"#mainmin:hover{\n"
+"border-image: url(:/pics/pics/最小化.png);\n"
+"}\n"
+""))
+        self.mainmin.setText(_fromUtf8(""))
+        self.mainmin.setObjectName(_fromUtf8("mainmin"))
         self.receivedletter = QtGui.QGroupBox(self.centralWidget)
         self.receivedletter.setGeometry(QtCore.QRect(200, 50, 260, 540))
         self.receivedletter.setStyleSheet(_fromUtf8("#receivedletter{background-color: white;}\n"
@@ -162,18 +174,16 @@ class Ui_MainWindow(object):
 "}"))
         self.receivedletter.setTitle(_fromUtf8(""))
         self.receivedletter.setObjectName(_fromUtf8("receivedletter"))
-        self.emailtype = QtGui.QPushButton(self.receivedletter)
-        self.emailtype.setGeometry(QtCore.QRect(0, 0, 132, 50))
-        self.emailtype.setObjectName(_fromUtf8("emailtype"))
-        self.sort = QtGui.QPushButton(self.receivedletter)
-        self.sort.setGeometry(QtCore.QRect(130, 0, 130, 50))
-        self.sort.setObjectName(_fromUtf8("sort"))
+        self.emailsort = QtGui.QPushButton(self.receivedletter)
+        self.emailsort.setGeometry(QtCore.QRect(0, 0, 132, 50))
+        self.emailsort.setObjectName(_fromUtf8("emailsort"))
+        self.moreemail = QtGui.QPushButton(self.receivedletter)
+        self.moreemail.setGeometry(QtCore.QRect(130, 0, 130, 50))
+        self.moreemail.setObjectName(_fromUtf8("moreemail"))
         self.emaillist = QtGui.QListWidget(self.receivedletter)
         self.emaillist.setGeometry(QtCore.QRect(0, 50, 260, 490))
+        self.emaillist.setGridSize(QtCore.QSize(260, 80))
         self.emaillist.setObjectName(_fromUtf8("emaillist"))
-        self.pushButton = QtGui.QPushButton(self.receivedletter)
-        self.pushButton.setGeometry(QtCore.QRect(0, 50, 260, 70))
-        self.pushButton.setObjectName(_fromUtf8("pushButton"))
         self.showemail = QtGui.QGroupBox(self.centralWidget)
         self.showemail.setGeometry(QtCore.QRect(459, 50, 611, 540))
         self.showemail.setStyleSheet(_fromUtf8("#showemail{background-color: white;}\n"
@@ -182,24 +192,31 @@ class Ui_MainWindow(object):
         self.showemail.setObjectName(_fromUtf8("showemail"))
         self.webView = QtWebKit.QWebView(self.showemail)
         self.webView.setGeometry(QtCore.QRect(0, 0, 611, 540))
-        self.webView.setStyleSheet(_fromUtf8("background-color: rgb(255, 255, 127);"))
-        self.webView.setUrl(QtCore.QUrl(_fromUtf8("file:///C:/Users/14356/Desktop/EmailSystem/Email/data/test.html")))
+        # self.webView.setStyleSheet(_fromUtf8("background-color: rgb(255, 255, 127);"))
+        self.webView.setUrl(QtCore.QUrl(_fromUtf8("file:///C:/Users/14356/Desktop/EmailSystem/Email/Libs/index.html")))
+        # self.webView.setUrl(QtCore.QUrl(QFileInfo("../data/index.html").absoluteFilePath()))
         self.webView.setObjectName(_fromUtf8("webView"))
         MainWindow.setCentralWidget(self.centralWidget)
 
         self.retranslateUi(MainWindow)
+        self.emaillist.setCurrentRow(-1)
         QtCore.QObject.connect(self.email, QtCore.SIGNAL(_fromUtf8("clicked()")), self.receivedletter.show)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "XYZ Mail", None))
-        self.pushButton_2.setText(_translate("MainWindow", "当前用户名", None))
-        self.writeletter_2.setText(_translate("MainWindow", "写信", None))
-        self.receiveletter_2.setText(_translate("MainWindow", "收信", None))
+        self.email.setToolTip(_translate("MainWindow", "邮件", None))
+        self.addressbook.setToolTip(_translate("MainWindow", "通讯录", None))
+        self.addressbook.setWhatsThis(_translate("MainWindow", "通讯录", None))
+        self.calender.setToolTip(_translate("MainWindow", "日历", None))
+        self.settings.setToolTip(_translate("MainWindow", "设置", None))
+        self.mainwriteletter.setText(_translate("MainWindow", "写信", None))
+        self.mainreceiveletter.setText(_translate("MainWindow", "收信", None))
+        self.mainlogin.setText(_translate("MainWindow", "登录", None))
         self.searchlineEdit.setPlaceholderText(_translate("MainWindow", "搜索邮件信息", None))
-        self.emailtype.setText(_translate("MainWindow", "全部邮件", None))
-        self.sort.setText(_translate("MainWindow", "排序", None))
-        self.pushButton.setText(_translate("MainWindow", "PushButton", None))
+        self.emailsort.setText(_translate("MainWindow", "排序", None))
+        self.moreemail.setText(_translate("MainWindow", "更多", None))
+        self.emaillist.setSortingEnabled(False)
 
 from PyQt4 import QtWebKit
 import myPic_rc

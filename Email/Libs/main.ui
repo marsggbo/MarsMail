@@ -45,6 +45,9 @@
       <height>590</height>
      </rect>
     </property>
+    <property name="whatsThis">
+     <string/>
+    </property>
     <property name="styleSheet">
      <string notr="true">#widget{background-color: rgb(242, 242, 242);}
 
@@ -101,7 +104,7 @@ QPushButton:hover {
        <bool>false</bool>
       </property>
       <property name="toolTip">
-       <string/>
+       <string>邮件</string>
       </property>
       <property name="accessibleName">
        <string/>
@@ -127,6 +130,12 @@ background-color: rgb(255, 170, 127);}</string>
         <height>25</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>通讯录</string>
+      </property>
+      <property name="whatsThis">
+       <string>通讯录</string>
+      </property>
       <property name="styleSheet">
        <string notr="true">leftbar QPushButtom{background-color:gray;}</string>
       </property>
@@ -147,6 +156,9 @@ background-color: rgb(255, 170, 127);}</string>
         <height>25</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>日历</string>
+      </property>
       <property name="text">
        <string/>
       </property>
@@ -164,6 +176,9 @@ background-color: rgb(255, 170, 127);}</string>
         <height>25</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>设置</string>
+      </property>
       <property name="text">
        <string/>
       </property>
@@ -173,10 +188,10 @@ background-color: rgb(255, 170, 127);}</string>
       </property>
      </widget>
     </widget>
-    <widget class="QGraphicsView" name="logo_2">
+    <widget class="QGraphicsView" name="headlogo">
      <property name="geometry">
       <rect>
-       <x>50</x>
+       <x>60</x>
        <y>100</y>
        <width>80</width>
        <height>80</height>
@@ -184,19 +199,6 @@ background-color: rgb(255, 170, 127);}</string>
      </property>
      <property name="styleSheet">
       <string notr="true">border-image: url(:/pics/pics/登录.png);</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_2">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>330</y>
-       <width>201</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>当前用户名</string>
      </property>
     </widget>
     <widget class="QGroupBox" name="groupBox">
@@ -220,7 +222,7 @@ QPushButton:hover {
      <property name="flat">
       <bool>false</bool>
      </property>
-     <widget class="QPushButton" name="writeletter_2">
+     <widget class="QPushButton" name="mainwriteletter">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -233,7 +235,7 @@ QPushButton:hover {
        <string>写信</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="receiveletter_2">
+     <widget class="QPushButton" name="mainreceiveletter">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -247,34 +249,24 @@ QPushButton:hover {
       </property>
      </widget>
     </widget>
-    <widget class="QComboBox" name="receiveEmail">
+    <widget class="QPushButton" name="mainlogin">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>190</y>
-       <width>200</width>
-       <height>21</height>
+       <x>65</x>
+       <y>200</y>
+       <width>70</width>
+       <height>25</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">#emaillist{
-	background-color: rgb(242, 242, 242);
-	border:none;
-}
-#emaillist:hover{
-	border-left: 5px solid rgb(41, 189, 139);
-	background-color: #ccc;
-}</string>
+      <string notr="true">background-color: rgb(41, 189, 139);</string>
      </property>
-     <property name="editable">
-      <bool>false</bool>
-     </property>
-     <property name="currentText">
-      <string/>
+     <property name="text">
+      <string>登录</string>
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="menu">
+   <widget class="QWidget" name="menu" native="true">
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -286,9 +278,6 @@ QPushButton:hover {
     <property name="styleSheet">
      <string notr="true">background-color: rgb(66, 74, 89);
 border:none;</string>
-    </property>
-    <property name="title">
-     <string/>
     </property>
     <widget class="QGraphicsView" name="graphicsView">
      <property name="geometry">
@@ -340,7 +329,7 @@ QGroupBox:hover{background-color: rgb(255, 255, 127);}
      <property name="title">
       <string/>
      </property>
-     <widget class="QGraphicsView" name="graphicsView_2">
+     <widget class="QPushButton" name="pushButton">
       <property name="geometry">
        <rect>
         <x>3</x>
@@ -352,7 +341,55 @@ QGroupBox:hover{background-color: rgb(255, 255, 127);}
       <property name="styleSheet">
        <string notr="true">border-image: url(:/pics/pics/下拉 (2).png);</string>
       </property>
+      <property name="text">
+       <string/>
+      </property>
      </widget>
+    </widget>
+    <widget class="QPushButton" name="mainclose">
+     <property name="geometry">
+      <rect>
+       <x>830</x>
+       <y>15</y>
+       <width>20</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#mainclose{
+	background-color:tomato;
+	border-radius:10px;}
+#mainclose:hover{border-image: url(:/pics/pics/关闭1.png);}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="mainmin">
+     <property name="geometry">
+      <rect>
+       <x>800</x>
+       <y>15</y>
+       <width>20</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#mainmin{
+background-color:rgb(255,224,81);
+	border-radius:10px;}
+#mainmin:hover{
+border-image: url(:/pics/pics/最小化.png);
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
     </widget>
    </widget>
    <widget class="QGroupBox" name="receivedletter">
@@ -377,7 +414,7 @@ QGroupBox:hover{background-color: rgb(255, 255, 127);}
     <property name="title">
      <string/>
     </property>
-    <widget class="QPushButton" name="emailtype">
+    <widget class="QPushButton" name="emailsort">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -387,10 +424,10 @@ QGroupBox:hover{background-color: rgb(255, 255, 127);}
       </rect>
      </property>
      <property name="text">
-      <string>全部邮件</string>
+      <string>排序</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="sort">
+    <widget class="QPushButton" name="moreemail">
      <property name="geometry">
       <rect>
        <x>130</x>
@@ -400,7 +437,7 @@ QGroupBox:hover{background-color: rgb(255, 255, 127);}
       </rect>
      </property>
      <property name="text">
-      <string>排序</string>
+      <string>更多</string>
      </property>
     </widget>
     <widget class="QListWidget" name="emaillist">
@@ -412,18 +449,17 @@ QGroupBox:hover{background-color: rgb(255, 255, 127);}
        <height>490</height>
       </rect>
      </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton">
-     <property name="geometry">
-      <rect>
-       <x>1</x>
-       <y>50</y>
-       <width>258</width>
-       <height>70</height>
-      </rect>
+     <property name="gridSize">
+      <size>
+       <width>260</width>
+       <height>80</height>
+      </size>
      </property>
-     <property name="text">
-      <string>PushButton</string>
+     <property name="currentRow">
+      <number>-1</number>
+     </property>
+     <property name="sortingEnabled">
+      <bool>false</bool>
      </property>
     </widget>
    </widget>
@@ -457,7 +493,7 @@ QGroupBox:hover{background-color: rgb(255, 255, 127);}
      </property>
      <property name="url">
       <url>
-       <string>file:///C:/Users/14356/Desktop/EmailSystem/Email/data/test.html</string>
+       <string>file:///C:/Users/14356/Desktop/EmailSystem/Email/data/content1.html</string>
       </url>
      </property>
     </widget>

@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="pics">
+    <file>pics/关闭1.png</file>
+    <file>pics/最小化.png</file>
     <file>pics/发送.png</file>
     <file>pics/附件.png</file>
     <file>pics/搜索.png</file>

@@ -33,16 +33,9 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
         self.email.emailInfo["to_addr"] = receiver
         self.email.emailInfo["subject"] = subject
         self.email.emailInfo["plain"] = self.emailContent.toPlainText()
+        self.email.emailInfo["html"] = self.emailContent.toPlainText()
         self.email.Send()
 
     @pyqtSlot()
     def on_accessory_clicked(self):
         print("Fujian")
-        
-    @pyqtSlot(int, int)
-    def on_subjectEdit_cursorPositionChanged(self, p0, p1):
-        pass
-    
-    @pyqtSlot(int, int)
-    def on_receiverEdit_cursorPositionChanged(self, p0, p1):
-        pass
