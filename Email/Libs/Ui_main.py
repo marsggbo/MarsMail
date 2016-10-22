@@ -45,7 +45,7 @@ class Ui_MainWindow(object):
         self.headpic_2 = QtGui.QGraphicsView(self.widget)
         self.headpic_2.setGeometry(QtCore.QRect(0, 0, 200, 50))
         self.headpic_2.setMaximumSize(QtCore.QSize(200, 50))
-        self.headpic_2.setStyleSheet(_fromUtf8("border-image: url(:/pics/pics/16.png);"))
+        self.headpic_2.setStyleSheet(_fromUtf8("border-image: url(:/souce/souce/XYZ.jpg);"))
         self.headpic_2.setObjectName(_fromUtf8("headpic_2"))
         self.slidebar = QtGui.QGroupBox(self.widget)
         self.slidebar.setGeometry(QtCore.QRect(0, 425, 26, 171))
@@ -66,7 +66,7 @@ class Ui_MainWindow(object):
 "background-color: rgb(255, 170, 127);}"))
         self.email.setText(_fromUtf8(""))
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/邮箱.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/邮箱 (1).png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.email.setIcon(icon1)
         self.email.setObjectName(_fromUtf8("email"))
         self.addressbook = QtGui.QPushButton(self.slidebar)
@@ -74,26 +74,26 @@ class Ui_MainWindow(object):
         self.addressbook.setStyleSheet(_fromUtf8("leftbar QPushButtom{background-color:gray;}"))
         self.addressbook.setText(_fromUtf8(""))
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/通讯录.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/通讯录.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.addressbook.setIcon(icon2)
         self.addressbook.setObjectName(_fromUtf8("addressbook"))
         self.calender = QtGui.QPushButton(self.slidebar)
         self.calender.setGeometry(QtCore.QRect(2, 93, 25, 25))
         self.calender.setText(_fromUtf8(""))
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/日历.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/日历.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.calender.setIcon(icon3)
         self.calender.setObjectName(_fromUtf8("calender"))
         self.settings = QtGui.QPushButton(self.slidebar)
         self.settings.setGeometry(QtCore.QRect(2, 130, 25, 25))
         self.settings.setText(_fromUtf8(""))
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/设置.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/设置.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.settings.setIcon(icon4)
         self.settings.setObjectName(_fromUtf8("settings"))
         self.headlogo = QtGui.QGraphicsView(self.widget)
         self.headlogo.setGeometry(QtCore.QRect(60, 100, 80, 80))
-        self.headlogo.setStyleSheet(_fromUtf8("border-image: url(:/pics/pics/登录.png);"))
+        self.headlogo.setStyleSheet(_fromUtf8("border-image: url(:/souce/souce/登录.png);"))
         self.headlogo.setObjectName(_fromUtf8("headlogo"))
         self.groupBox = QtGui.QGroupBox(self.widget)
         self.groupBox.setGeometry(QtCore.QRect(0, 50, 200, 50))
@@ -121,7 +121,7 @@ class Ui_MainWindow(object):
         self.menu.setObjectName(_fromUtf8("menu"))
         self.graphicsView = QtGui.QGraphicsView(self.menu)
         self.graphicsView.setGeometry(QtCore.QRect(10, 15, 20, 20))
-        self.graphicsView.setStyleSheet(_fromUtf8("border-image: url(:/pics/pics/搜索.png);"))
+        self.graphicsView.setStyleSheet(_fromUtf8("border-image: url(:/souce/souce/搜索.png);"))
         self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
         self.searchlineEdit = QtGui.QLineEdit(self.menu)
         self.searchlineEdit.setGeometry(QtCore.QRect(40, 16, 140, 18))
@@ -138,7 +138,7 @@ class Ui_MainWindow(object):
         self.searchrange.setObjectName(_fromUtf8("searchrange"))
         self.pushButton = QtGui.QPushButton(self.searchrange)
         self.pushButton.setGeometry(QtCore.QRect(3, 15, 20, 20))
-        self.pushButton.setStyleSheet(_fromUtf8("border-image: url(:/pics/pics/下拉 (2).png);"))
+        self.pushButton.setStyleSheet(_fromUtf8("border-image: url(:/souce/souce/下拉 (2).png);"))
         self.pushButton.setText(_fromUtf8(""))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
         self.mainclose = QtGui.QPushButton(self.menu)
@@ -146,7 +146,7 @@ class Ui_MainWindow(object):
         self.mainclose.setStyleSheet(_fromUtf8("#mainclose{\n"
 "    background-color:tomato;\n"
 "    border-radius:10px;}\n"
-"#mainclose:hover{border-image: url(:/pics/pics/关闭1.png);}\n"
+"#mainclose:hover{border-image: url(:/souce/souce/关闭1.png);}\n"
 ""))
         self.mainclose.setText(_fromUtf8(""))
         self.mainclose.setObjectName(_fromUtf8("mainclose"))
@@ -157,7 +157,7 @@ class Ui_MainWindow(object):
 "background-color:rgb(255,224,81);\n"
 "    border-radius:10px;}\n"
 "#mainmin:hover{\n"
-"border-image: url(:/pics/pics/最小化.png);\n"
+"border-image: url(:/souce/souce/最小化.png);\n"
 "}\n"
 ""))
         self.mainmin.setText(_fromUtf8(""))
@@ -190,12 +190,10 @@ class Ui_MainWindow(object):
 ""))
         self.showemail.setTitle(_fromUtf8(""))
         self.showemail.setObjectName(_fromUtf8("showemail"))
-        self.webView = QtWebKit.QWebView(self.showemail)
-        self.webView.setGeometry(QtCore.QRect(0, 0, 611, 540))
-        # self.webView.setStyleSheet(_fromUtf8("background-color: rgb(255, 255, 127);"))
-        self.webView.setUrl(QtCore.QUrl(_fromUtf8("file:///C:/Users/14356/Desktop/EmailSystem/Email/Libs/index.html")))
-        # self.webView.setUrl(QtCore.QUrl(QFileInfo("../data/index.html").absoluteFilePath()))
-        self.webView.setObjectName(_fromUtf8("webView"))
+        self.emailShow = QtWebKit.QWebView(self.showemail)
+        self.emailShow.setGeometry(QtCore.QRect(0, 0, 611, 544))
+        self.emailShow.setUrl(QtCore.QUrl(_fromUtf8("qrc:/souce/index.html")))
+        self.emailShow.setObjectName(_fromUtf8("emailShow"))
         MainWindow.setCentralWidget(self.centralWidget)
 
         self.retranslateUi(MainWindow)
@@ -219,7 +217,7 @@ class Ui_MainWindow(object):
         self.emaillist.setSortingEnabled(False)
 
 from PyQt4 import QtWebKit
-import myPic_rc
+import souce_rc
 
 if __name__ == "__main__":
     import sys

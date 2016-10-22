@@ -29,7 +29,7 @@
    <string>XYZ Mail</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="myPic.qrc">
+   <iconset>
     <normaloff>:/pics/pics/XYZ.ico</normaloff>:/pics/pics/XYZ.ico</iconset>
   </property>
   <property name="styleSheet">
@@ -69,7 +69,7 @@ QPushButton{border:none;}</string>
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-image: url(:/pics/pics/16.png);</string>
+      <string notr="true">border-image: url(:/souce/souce/XYZ.jpg);</string>
      </property>
     </widget>
     <widget class="QGroupBox" name="slidebar">
@@ -117,8 +117,8 @@ background-color: rgb(255, 170, 127);}</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="myPic.qrc">
-        <normaloff>:/pics/pics/邮箱.png</normaloff>:/pics/pics/邮箱.png</iconset>
+       <iconset resource="souce.qrc">
+        <normaloff>:/souce/souce/邮箱 (1).png</normaloff>:/souce/souce/邮箱 (1).png</iconset>
       </property>
      </widget>
      <widget class="QPushButton" name="addressbook">
@@ -143,8 +143,8 @@ background-color: rgb(255, 170, 127);}</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="myPic.qrc">
-        <normaloff>:/pics/pics/通讯录.png</normaloff>:/pics/pics/通讯录.png</iconset>
+       <iconset resource="souce.qrc">
+        <normaloff>:/souce/souce/通讯录.png</normaloff>:/souce/souce/通讯录.png</iconset>
       </property>
      </widget>
      <widget class="QPushButton" name="calender">
@@ -163,8 +163,8 @@ background-color: rgb(255, 170, 127);}</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="myPic.qrc">
-        <normaloff>:/pics/pics/日历.png</normaloff>:/pics/pics/日历.png</iconset>
+       <iconset resource="souce.qrc">
+        <normaloff>:/souce/souce/日历.png</normaloff>:/souce/souce/日历.png</iconset>
       </property>
      </widget>
      <widget class="QPushButton" name="settings">
@@ -183,8 +183,8 @@ background-color: rgb(255, 170, 127);}</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="myPic.qrc">
-        <normaloff>:/pics/pics/设置.png</normaloff>:/pics/pics/设置.png</iconset>
+       <iconset resource="souce.qrc">
+        <normaloff>:/souce/souce/设置.png</normaloff>:/souce/souce/设置.png</iconset>
       </property>
      </widget>
     </widget>
@@ -198,7 +198,7 @@ background-color: rgb(255, 170, 127);}</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-image: url(:/pics/pics/登录.png);</string>
+      <string notr="true">border-image: url(:/souce/souce/登录.png);</string>
      </property>
     </widget>
     <widget class="QGroupBox" name="groupBox">
@@ -289,7 +289,7 @@ border:none;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-image: url(:/pics/pics/搜索.png);</string>
+      <string notr="true">border-image: url(:/souce/souce/搜索.png);</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="searchlineEdit">
@@ -339,7 +339,7 @@ QGroupBox:hover{background-color: rgb(255, 255, 127);}
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">border-image: url(:/pics/pics/下拉 (2).png);</string>
+       <string notr="true">border-image: url(:/souce/souce/下拉 (2).png);</string>
       </property>
       <property name="text">
        <string/>
@@ -359,7 +359,7 @@ QGroupBox:hover{background-color: rgb(255, 255, 127);}
       <string notr="true">#mainclose{
 	background-color:tomato;
 	border-radius:10px;}
-#mainclose:hover{border-image: url(:/pics/pics/关闭1.png);}
+#mainclose:hover{border-image: url(:/souce/souce/关闭1.png);}
 </string>
      </property>
      <property name="text">
@@ -383,7 +383,7 @@ QGroupBox:hover{background-color: rgb(255, 255, 127);}
 background-color:rgb(255,224,81);
 	border-radius:10px;}
 #mainmin:hover{
-border-image: url(:/pics/pics/最小化.png);
+border-image: url(:/souce/souce/最小化.png);
 }
 </string>
      </property>
@@ -479,21 +479,18 @@ border-image: url(:/pics/pics/最小化.png);
     <property name="title">
      <string/>
     </property>
-    <widget class="QWebView" name="webView">
+    <widget class="QWebView" name="emailShow">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
        <width>611</width>
-       <height>540</height>
+       <height>544</height>
       </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 127);</string>
      </property>
      <property name="url">
       <url>
-       <string>file:///C:/Users/14356/Desktop/EmailSystem/Email/data/content1.html</string>
+       <string>qrc:/souce/index.html</string>
       </url>
      </property>
     </widget>
@@ -508,7 +505,7 @@ border-image: url(:/pics/pics/最小化.png);
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="myPic.qrc"/>
+  <include location="souce.qrc"/>
  </resources>
  <connections>
   <connection>

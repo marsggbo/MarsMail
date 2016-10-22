@@ -42,14 +42,14 @@ class Ui_WriteEmailDialog(object):
         self.send.setGeometry(QtCore.QRect(30, 15, 60, 30))
         self.send.setStyleSheet(_fromUtf8(""))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/发送.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/发送.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.send.setIcon(icon)
         self.send.setObjectName(_fromUtf8("send"))
         self.accessory = QtGui.QPushButton(self.head)
         self.accessory.setGeometry(QtCore.QRect(110, 15, 60, 30))
         self.accessory.setStyleSheet(_fromUtf8(""))
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/附件.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/附件.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.accessory.setIcon(icon1)
         self.accessory.setObjectName(_fromUtf8("accessory"))
         self.groupBox = QtGui.QGroupBox(WriteEmailDialog)
@@ -101,7 +101,7 @@ class Ui_WriteEmailDialog(object):
         self.pushButton_2.setText(_translate("WriteEmailDialog", "样式编辑", None))
         self.pushButton_3.setText(_translate("WriteEmailDialog", "样式编辑", None))
 
-import myPic_rc
+import souce_rc
 
 if __name__ == "__main__":
     import sys

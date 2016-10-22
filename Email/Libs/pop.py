@@ -60,8 +60,10 @@ def print_info(msg, indent=0):
 			date = decode_str(date)
 			my_info['date'] = date
 
-
-		my_emailInfos[subject] = my_info
+		if len(subject)>30:
+			my_emailInfos[subject[:30]] = my_info
+		else:
+			my_emailInfos[subject] = my_info
 
 		my_oringinInfo = GetJsonInfo('contacts.json')
 		my_oringinInfo.update(my_emailInfos)
@@ -82,14 +84,14 @@ def print_info(msg, indent=0):
 			# print('%sText: %s' % ('  ' * indent, content + '...'))
 
 			# 保存为文件形式
-			# if len(subject) > 30:
-			# 	f = open('../data/%s.html'%subject[:30],'wb')
-			# 	f.write(content.encode('utf-8'))
-			# 	f.close()
-			# else:
-			# 	f = open('../data/%s.html'%subject,'wb')
-			# 	f.write(content.encode('utf-8'))
-			# 	f.close()
+			if len(subject) > 30:
+				f = open('../data/%s.html'%subject[:30],'wb')
+				f.write(content.encode('utf-8'))
+				f.close()
+			else:
+				f = open('../data/%s.html'%subject ,'wb')
+				f.write(content.encode('utf-8'))
+				f.close()
 
 		else:
 			# print('%sAttachment: %s' % ('  ' * indent, content_type))

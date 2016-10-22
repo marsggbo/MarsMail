@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project EmailSystem -->
-<!-- Saved: 2016-10-10, 22:46:15 -->
+<!-- Saved: 2016-10-22, 18:23:02 -->
 <!-- Copyright (C) 2016 贺鑫, marsggbo@foxmail.com -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -25,17 +25,18 @@
     <Source>Libs/myPic_rc.py</Source>
     <Source>Libs/pop.py</Source>
     <Source>Libs/smtp.py</Source>
+    <Source>Libs/souce_rc.py</Source>
     <Source>Libs/writemail.py</Source>
   </Sources>
   <Forms>
-    <Form>Libs/login.ui</Form>
     <Form>Libs/calender.ui</Form>
+    <Form>Libs/login.ui</Form>
     <Form>Libs/main.ui</Form>
     <Form>Libs/writemail.ui</Form>
   </Forms>
   <Translations/>
   <Resources>
-    <Resource>Libs/myPic.qrc</Resource>
+    <Resource>Libs/souce.qrc</Resource>
   </Resources>
   <Interfaces/>
   <Others/>

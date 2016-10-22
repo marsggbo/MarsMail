@@ -1,0 +1,20 @@
+<RCC>
+  <qresource prefix="souce">
+    <file>index.html</file>
+    <file>souce/附件.png</file>
+    <file>souce/设置.png</file>
+    <file>souce/16.png</file>
+    <file>souce/XYZ.jpg</file>
+    <file>souce/登录.png</file>
+    <file>souce/发送.png</file>
+    <file>souce/附件.png</file>
+    <file>souce/关闭1.png</file>
+    <file>souce/日历.png</file>
+    <file>souce/设置.png</file>
+    <file>souce/搜索.png</file>
+    <file>souce/通讯录.png</file>
+    <file>souce/下拉 (2).png</file>
+    <file>souce/邮箱 (1).png</file>
+    <file>souce/最小化.png</file>
+  </qresource>
+</RCC>

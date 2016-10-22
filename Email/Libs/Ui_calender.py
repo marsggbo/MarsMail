@@ -49,7 +49,6 @@ class Ui_calenderDialog(object):
         calenderDialog.setWindowTitle(_translate("calenderDialog", "Calender", None))
         self.calenderclose.setText(_translate("calenderDialog", "关闭", None))
 
-import myPic_rc
 
 if __name__ == "__main__":
     import sys

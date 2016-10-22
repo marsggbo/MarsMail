@@ -26,11 +26,15 @@ def SaveLoginInfo(data):
     f.write(json.dumps(data))
     f.close()
 
-a = GetLoginInfo()
-print(a)
-a.pop('test')
-SaveLoginInfo(a)
+# a = GetLoginInfo()
+# print(a)
+# a.pop('test')
+# SaveLoginInfo(a)
 
+
+# -*- coding: utf-8 -*-
+# import sys, os
+# print (os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))
 
 
 # f = open("../data/241.html",'rb')
@@ -257,12 +261,12 @@ a = {}
 # print(a)
 
 #
-# a = "你怎么会在这了？这里是华中科技大学啊亲啊！！！(⊙o⊙)哦"
-# print(len(a))
-# if len(a) > 20:
-# 	b = a[:20]
-# 	print(len(b))
-# 	print(b)
-# else:
-# 	print(a)
-# print(a)
+a = "你怎么会在这了？这里是华中科技大学啊亲啊！！！(⊙o⊙)哦"
+print(len(a))
+if len(a) > 20:
+	b = a[:20]
+	print(len(b))
+	print(b)
+else:
+	print(a)
+print(a)

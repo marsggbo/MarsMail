@@ -55,8 +55,8 @@
      <string>发送</string>
     </property>
     <property name="icon">
-     <iconset resource="myPic.qrc">
-      <normaloff>:/pics/pics/发送.png</normaloff>:/pics/pics/发送.png</iconset>
+     <iconset resource="souce.qrc">
+      <normaloff>:/souce/souce/发送.png</normaloff>:/souce/souce/发送.png</iconset>
     </property>
    </widget>
    <widget class="QPushButton" name="accessory">
@@ -75,8 +75,8 @@
      <string>附件</string>
     </property>
     <property name="icon">
-     <iconset resource="myPic.qrc">
-      <normaloff>:/pics/pics/附件.png</normaloff>:/pics/pics/附件.png</iconset>
+     <iconset resource="souce.qrc">
+      <normaloff>:/souce/souce/附件.png</normaloff>:/souce/souce/附件.png</iconset>
     </property>
    </widget>
   </widget>
@@ -213,6 +213,7 @@
  </widget>
  <resources>
   <include location="myPic.qrc"/>
+  <include location="souce.qrc"/>
  </resources>
  <connections/>
 </ui>
