@@ -4,67 +4,76 @@
 Module implementing Dialog.
 """
 import smtplib
-import json
+from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import pyqtSlot
-from PyQt4.QtGui import QDialog
+from PyQt4.QtGui import QDialog,QMessageBox
 
 from Ui_login import Ui_Dialog
+from DealJsonFile import GetJsonInfo, SaveJsonInfo
+import time, threading
+from multiprocessing import Process
 
-# {
-#   "email":"1435679023@qq.com",
-#   "pwd":"19960229hexinABC",
-#   "smtp_server":"smtp.qq.com",
-#   "pop3_server":"pop.qq.com"
-#
-# }
+class LoginEmail(QtCore.QThread):
+	def __init__(self, parent=None):
+		super(LoginEmail,self).__init__(parent)
+		self.emailInfo = {}
 
-def GetLoginInfo():
-    f = open('conf.json','r',encoding='utf-8')
-    s = json.load(f)
-    f.close()
-    return s
+	def run(self):
+		try:
+			start = time.time()
+			self.emailInfo = GetJsonInfo('conf.json')
+			server = smtplib.SMTP_SSL(self.emailInfo["smtp_server"], 465)
+			server.set_debuglevel(1)
+			print('\n***************************************\n\n')
+			server.login(self.emailInfo["email"], self.emailInfo["pwd"])
+			self.emailInfo["status"] = 1
+			SaveJsonInfo('conf.json', self.emailInfo)
+			end = time.time()
+			print('耗时：' + str(end-start))
 
-def SaveLoginInfo(data):
-    f = open("conf.json","w",encoding='utf-8')
-    data.write(json.loads(data))
-    f.close()
+		except Exception as e:
+			print(type(e))
+			print(e)
+			self.emailInfo["status"] = 0
+			SaveJsonInfo('conf.json', self.emailInfo)
 
 class Login(QDialog, Ui_Dialog):
-    """
-    Class documentation goes here.
-    """
-    def __init__(self, parent=None):
-        super(Login, self).__init__(parent)
-        self.setupUi(self)
-        self.email = GetLoginInfo()
-        if self.email["email"] and self.email["pwd"]:
-            email = self.email["email"]
-            pwd = self.email["pwd"]
-            self.loginmail.setText(email)
-            self.loginpwd.setText(pwd)
-            smtp_server = 'smtp.'+ email.split("@")[1]
-            pop3_server = 'pop.'+ email.split("@")[1]
-            self.loginsmtp.setText(smtp_server)
-            self.loginpop.setText(pop3_server)
+	"""
+	Class documentation goes here.
+	"""
+	def __init__(self, parent=None):
+		super(Login, self).__init__(parent)
+		self.setupUi(self)
+		self.emailInfo = GetJsonInfo('conf.json')
+		if self.emailInfo["email"] and self.emailInfo["pwd"]:
+			email = self.emailInfo["email"]
+			pwd = self.emailInfo["pwd"]
+			self.loginmail.setText(email)
+			self.loginpwd.setText(pwd)
+			self.loginsmtp.setText(self.emailInfo['smtp_server'])
+			self.loginpop.setText(self.emailInfo['pop3_server'])
 
-    @pyqtSlot()
-    def on_login_clicked(self):
-        self.email["email"] = self.loginmail.text()
-        self.email["pwd"] = self.loginpwd.text()
-        self.email["smtp_server"] = self.loginsmtp.text()
-        self.email["pop3_server"] = self.loginpop.text()
-        try:
-            server = smtplib.SMTP_SSL(self.email["smtp_server"], 465)
+	@pyqtSlot()
+	def on_login_clicked(self):
+		self.emailInfo["email"] = self.loginmail.text()
+		self.emailInfo["pwd"] = self.loginpwd.text()
+		self.emailInfo["smtp_server"] = self.loginsmtp.text()
+		self.emailInfo["pop3_server"] = self.loginpop.text()
+		self.emailInfo["status"] = 0
+		SaveJsonInfo('conf.json', self.emailInfo)
 
-            # server.set_debuglevel(1)
-            server.login(self.email["email"], self.email["pwd"])
 
-        except Exception as e:
-            print(type(e))
-            print(e)
-        self.close()
-    
-    
-    @pyqtSlot()
-    def on_cancel_clicked(self):
-       self.close()
+		self.LoginEmail = LoginEmail()
+		self.LoginEmail.start()
+
+		time.sleep(2)
+		self.emailInfo = GetJsonInfo('conf.json')
+		if self.emailInfo['status'] == 0:
+			alert = QMessageBox.warning(self, '登录失败', u'您的配置信息有误，请重新输入！')
+		else:
+			self.close()
+
+
+	@pyqtSlot()
+	def on_cancel_clicked(self):
+	   self.close()

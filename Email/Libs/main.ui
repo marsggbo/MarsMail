@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1069</width>
-    <height>590</height>
+    <height>587</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -33,7 +33,7 @@
     <normaloff>:/pics/pics/XYZ.ico</normaloff>:/pics/pics/XYZ.ico</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">background-color: rgb(66, 74, 89);</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QWidget" name="widget" native="true">
@@ -77,7 +77,7 @@ QPushButton{border:none;}</string>
       <rect>
        <x>0</x>
        <y>425</y>
-       <width>26</width>
+       <width>29</width>
        <height>171</height>
       </rect>
      </property>
@@ -192,13 +192,16 @@ background-color: rgb(255, 170, 127);}</string>
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>100</y>
+       <y>110</y>
        <width>80</width>
        <height>80</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-image: url(:/souce/souce/登录.png);</string>
+      <string notr="true">#headlogo{
+border-image: url(:/souce/souce/登录.png);
+border-radius:40px;
+}</string>
      </property>
     </widget>
     <widget class="QGroupBox" name="groupBox">
@@ -253,142 +256,40 @@ QPushButton:hover {
      <property name="geometry">
       <rect>
        <x>65</x>
-       <y>200</y>
+       <y>240</y>
        <width>70</width>
        <height>25</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(41, 189, 139);</string>
+      <string notr="true">#mainlogin{
+background-color: rgb(41, 189, 139);
+}
+#mainlogin:hover{
+background-color: rgb(29,171,123);
+}</string>
      </property>
      <property name="text">
       <string>登录</string>
      </property>
     </widget>
-   </widget>
-   <widget class="QWidget" name="menu" native="true">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>0</y>
-      <width>870</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(66, 74, 89);
-border:none;</string>
-    </property>
-    <widget class="QGraphicsView" name="graphicsView">
+    <widget class="QLabel" name="mainUserName">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>15</y>
-       <width>20</width>
+       <x>0</x>
+       <y>210</y>
+       <width>199</width>
        <height>20</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-image: url(:/souce/souce/搜索.png);</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="searchlineEdit">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>16</y>
-       <width>140</width>
-       <height>18</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">#searchlineEdit{background-color:white;}</string>
+      <string notr="true">background-color: rg(b242,242,242);</string>
      </property>
      <property name="text">
       <string/>
      </property>
-     <property name="placeholderText">
-      <string>搜索邮件信息</string>
-     </property>
-    </widget>
-    <widget class="QGroupBox" name="searchrange">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>0</y>
-       <width>26</width>
-       <height>50</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">#searchrange{border:none;}
-QGroupBox:hover{background-color: rgb(255, 255, 127);}
-
-</string>
-     </property>
-     <property name="title">
-      <string/>
-     </property>
-     <widget class="QPushButton" name="pushButton">
-      <property name="geometry">
-       <rect>
-        <x>3</x>
-        <y>15</y>
-        <width>20</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border-image: url(:/souce/souce/下拉 (2).png);</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QPushButton" name="mainclose">
-     <property name="geometry">
-      <rect>
-       <x>830</x>
-       <y>15</y>
-       <width>20</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">#mainclose{
-	background-color:tomato;
-	border-radius:10px;}
-#mainclose:hover{border-image: url(:/souce/souce/关闭1.png);}
-</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="mainmin">
-     <property name="geometry">
-      <rect>
-       <x>800</x>
-       <y>15</y>
-       <width>20</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="toolTip">
-      <string/>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">#mainmin{
-background-color:rgb(255,224,81);
-	border-radius:10px;}
-#mainmin:hover{
-border-image: url(:/souce/souce/最小化.png);
-}
-</string>
-     </property>
-     <property name="text">
-      <string/>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>
@@ -449,11 +350,18 @@ border-image: url(:/souce/souce/最小化.png);
        <height>490</height>
       </rect>
      </property>
-     <property name="gridSize">
-      <size>
-       <width>260</width>
-       <height>80</height>
-      </size>
+     <property name="styleSheet">
+      <string notr="true">#emaillist{background-color: rgb(242,242,242);}
+#emaillist::Item{
+width:260px;
+height:50px;
+}
+#emaillist::Item:hover{
+background-color: rgb(41, 189, 139);
+}</string>
+     </property>
+     <property name="tabKeyNavigation">
+      <bool>true</bool>
      </property>
      <property name="currentRow">
       <number>-1</number>
@@ -488,12 +396,108 @@ border-image: url(:/souce/souce/最小化.png);
        <height>544</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
      <property name="url">
       <url>
        <string>qrc:/souce/index.html</string>
       </url>
      </property>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>15</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/souce/souce/下拉 (2).png);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>227</x>
+      <y>15</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/souce/souce/搜索.png);</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="searchlineEdit">
+    <property name="geometry">
+     <rect>
+      <x>257</x>
+      <y>15</y>
+      <width>140</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#searchlineEdit{background-color:white;}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="placeholderText">
+     <string>搜索邮件信息</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="mainclose">
+    <property name="geometry">
+     <rect>
+      <x>1030</x>
+      <y>15</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#mainclose{
+	background-color:tomato;
+	border-radius:10px;}
+#mainclose:hover{border-image: url(:/souce/souce/关闭1.png);}
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="mainmin">
+    <property name="geometry">
+     <rect>
+      <x>1000</x>
+      <y>15</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string/>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#mainmin{
+background-color:rgb(255,224,81);
+	border-radius:10px;}
+#mainmin:hover{
+border-image: url(:/souce/souce/最小化.png);
+}
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
    </widget>
   </widget>
  </widget>

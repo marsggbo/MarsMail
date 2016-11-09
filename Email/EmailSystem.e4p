@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project EmailSystem -->
-<!-- Saved: 2016-10-22, 18:23:02 -->
+<!-- Saved: 2016-10-22, 21:26:37 -->
 <!-- Copyright (C) 2016 贺鑫, marsggbo@foxmail.com -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -15,20 +15,22 @@
   <Eol index="-1"/>
   <Sources>
     <Source>Libs/Ui_calender.py</Source>
+    <Source>Libs/Ui_contacts.py</Source>
     <Source>Libs/Ui_login.py</Source>
     <Source>Libs/Ui_main.py</Source>
     <Source>Libs/Ui_writemail.py</Source>
     <Source>Libs/__init__.py</Source>
     <Source>Libs/calender.py</Source>
+    <Source>Libs/contacts.py</Source>
     <Source>Libs/login.py</Source>
     <Source>Libs/main.py</Source>
-    <Source>Libs/myPic_rc.py</Source>
     <Source>Libs/pop.py</Source>
     <Source>Libs/smtp.py</Source>
     <Source>Libs/souce_rc.py</Source>
     <Source>Libs/writemail.py</Source>
   </Sources>
   <Forms>
+    <Form>Libs/contacts.ui</Form>
     <Form>Libs/calender.ui</Form>
     <Form>Libs/login.ui</Form>
     <Form>Libs/main.ui</Form>

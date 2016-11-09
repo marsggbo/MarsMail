@@ -60,7 +60,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="myPic.qrc"/>
+  <include location="souce.qrc"/>
  </resources>
  <connections/>
 </ui>

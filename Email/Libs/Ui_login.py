@@ -57,6 +57,8 @@ class Ui_Dialog(object):
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
         self.loginpwd = QtGui.QLineEdit(self.groupBox_2)
         self.loginpwd.setGeometry(QtCore.QRect(180, 13, 190, 25))
+        self.loginpwd.setText(_fromUtf8(""))
+        self.loginpwd.setEchoMode(QtGui.QLineEdit.Password)
         self.loginpwd.setObjectName(_fromUtf8("loginpwd"))
         self.label_2 = QtGui.QLabel(self.groupBox_2)
         self.label_2.setGeometry(QtCore.QRect(130, 13, 50, 25))

@@ -25,14 +25,14 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(1069, 590)
+        MainWindow.resize(1069, 587)
         MainWindow.setMinimumSize(QtCore.QSize(1000, 570))
         MainWindow.setMaximumSize(QtCore.QSize(1069, 590))
         MainWindow.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/XYZ.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
-        MainWindow.setStyleSheet(_fromUtf8(""))
+        MainWindow.setStyleSheet(_fromUtf8("background-color: rgb(66, 74, 89);"))
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName(_fromUtf8("centralWidget"))
         self.widget = QtGui.QWidget(self.centralWidget)
@@ -48,7 +48,7 @@ class Ui_MainWindow(object):
         self.headpic_2.setStyleSheet(_fromUtf8("border-image: url(:/souce/souce/XYZ.jpg);"))
         self.headpic_2.setObjectName(_fromUtf8("headpic_2"))
         self.slidebar = QtGui.QGroupBox(self.widget)
-        self.slidebar.setGeometry(QtCore.QRect(0, 425, 26, 171))
+        self.slidebar.setGeometry(QtCore.QRect(0, 425, 29, 171))
         self.slidebar.setStyleSheet(_fromUtf8("QGroupBox{background-color: rgb(79, 79, 79);}\n"
 "QPushButton{\n"
 "    width:20px;\n"
@@ -92,8 +92,11 @@ class Ui_MainWindow(object):
         self.settings.setIcon(icon4)
         self.settings.setObjectName(_fromUtf8("settings"))
         self.headlogo = QtGui.QGraphicsView(self.widget)
-        self.headlogo.setGeometry(QtCore.QRect(60, 100, 80, 80))
-        self.headlogo.setStyleSheet(_fromUtf8("border-image: url(:/souce/souce/登录.png);"))
+        self.headlogo.setGeometry(QtCore.QRect(60, 110, 80, 80))
+        self.headlogo.setStyleSheet(_fromUtf8("#headlogo{\n"
+"border-image: url(:/souce/souce/登录.png);\n"
+"border-radius:40px;\n"
+"}"))
         self.headlogo.setObjectName(_fromUtf8("headlogo"))
         self.groupBox = QtGui.QGroupBox(self.widget)
         self.groupBox.setGeometry(QtCore.QRect(0, 50, 200, 50))
@@ -111,57 +114,20 @@ class Ui_MainWindow(object):
         self.mainreceiveletter.setGeometry(QtCore.QRect(100, 0, 100, 50))
         self.mainreceiveletter.setObjectName(_fromUtf8("mainreceiveletter"))
         self.mainlogin = QtGui.QPushButton(self.widget)
-        self.mainlogin.setGeometry(QtCore.QRect(65, 200, 70, 25))
-        self.mainlogin.setStyleSheet(_fromUtf8("background-color: rgb(41, 189, 139);"))
-        self.mainlogin.setObjectName(_fromUtf8("mainlogin"))
-        self.menu = QtGui.QWidget(self.centralWidget)
-        self.menu.setGeometry(QtCore.QRect(200, 0, 870, 50))
-        self.menu.setStyleSheet(_fromUtf8("background-color: rgb(66, 74, 89);\n"
-"border:none;"))
-        self.menu.setObjectName(_fromUtf8("menu"))
-        self.graphicsView = QtGui.QGraphicsView(self.menu)
-        self.graphicsView.setGeometry(QtCore.QRect(10, 15, 20, 20))
-        self.graphicsView.setStyleSheet(_fromUtf8("border-image: url(:/souce/souce/搜索.png);"))
-        self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
-        self.searchlineEdit = QtGui.QLineEdit(self.menu)
-        self.searchlineEdit.setGeometry(QtCore.QRect(40, 16, 140, 18))
-        self.searchlineEdit.setStyleSheet(_fromUtf8("#searchlineEdit{background-color:white;}"))
-        self.searchlineEdit.setText(_fromUtf8(""))
-        self.searchlineEdit.setObjectName(_fromUtf8("searchlineEdit"))
-        self.searchrange = QtGui.QGroupBox(self.menu)
-        self.searchrange.setGeometry(QtCore.QRect(200, 0, 26, 50))
-        self.searchrange.setStyleSheet(_fromUtf8("#searchrange{border:none;}\n"
-"QGroupBox:hover{background-color: rgb(255, 255, 127);}\n"
-"\n"
-""))
-        self.searchrange.setTitle(_fromUtf8(""))
-        self.searchrange.setObjectName(_fromUtf8("searchrange"))
-        self.pushButton = QtGui.QPushButton(self.searchrange)
-        self.pushButton.setGeometry(QtCore.QRect(3, 15, 20, 20))
-        self.pushButton.setStyleSheet(_fromUtf8("border-image: url(:/souce/souce/下拉 (2).png);"))
-        self.pushButton.setText(_fromUtf8(""))
-        self.pushButton.setObjectName(_fromUtf8("pushButton"))
-        self.mainclose = QtGui.QPushButton(self.menu)
-        self.mainclose.setGeometry(QtCore.QRect(830, 15, 20, 20))
-        self.mainclose.setStyleSheet(_fromUtf8("#mainclose{\n"
-"    background-color:tomato;\n"
-"    border-radius:10px;}\n"
-"#mainclose:hover{border-image: url(:/souce/souce/关闭1.png);}\n"
-""))
-        self.mainclose.setText(_fromUtf8(""))
-        self.mainclose.setObjectName(_fromUtf8("mainclose"))
-        self.mainmin = QtGui.QPushButton(self.menu)
-        self.mainmin.setGeometry(QtCore.QRect(800, 15, 20, 20))
-        self.mainmin.setToolTip(_fromUtf8(""))
-        self.mainmin.setStyleSheet(_fromUtf8("#mainmin{\n"
-"background-color:rgb(255,224,81);\n"
-"    border-radius:10px;}\n"
-"#mainmin:hover{\n"
-"border-image: url(:/souce/souce/最小化.png);\n"
+        self.mainlogin.setGeometry(QtCore.QRect(65, 240, 70, 25))
+        self.mainlogin.setStyleSheet(_fromUtf8("#mainlogin{\n"
+"background-color: rgb(41, 189, 139);\n"
 "}\n"
-""))
-        self.mainmin.setText(_fromUtf8(""))
-        self.mainmin.setObjectName(_fromUtf8("mainmin"))
+"#mainlogin:hover{\n"
+"background-color: rgb(29,171,123);\n"
+"}"))
+        self.mainlogin.setObjectName(_fromUtf8("mainlogin"))
+        self.mainUserName = QtGui.QLabel(self.widget)
+        self.mainUserName.setGeometry(QtCore.QRect(0, 210, 199, 20))
+        self.mainUserName.setStyleSheet(_fromUtf8("background-color: rg(b242,242,242);"))
+        self.mainUserName.setText(_fromUtf8(""))
+        self.mainUserName.setAlignment(QtCore.Qt.AlignCenter)
+        self.mainUserName.setObjectName(_fromUtf8("mainUserName"))
         self.receivedletter = QtGui.QGroupBox(self.centralWidget)
         self.receivedletter.setGeometry(QtCore.QRect(200, 50, 260, 540))
         self.receivedletter.setStyleSheet(_fromUtf8("#receivedletter{background-color: white;}\n"
@@ -182,7 +148,15 @@ class Ui_MainWindow(object):
         self.moreemail.setObjectName(_fromUtf8("moreemail"))
         self.emaillist = QtGui.QListWidget(self.receivedletter)
         self.emaillist.setGeometry(QtCore.QRect(0, 50, 260, 490))
-        self.emaillist.setGridSize(QtCore.QSize(260, 80))
+        self.emaillist.setStyleSheet(_fromUtf8("#emaillist{background-color: rgb(242,242,242);}\n"
+"#emaillist::Item{\n"
+"width:260px;\n"
+"height:70px;\n"
+"}\n"
+"#emaillist::Item:hover{\n"
+"background-color: rgb(41, 189, 139);\n"
+"}"))
+        self.emaillist.setTabKeyNavigation(True)
         self.emaillist.setObjectName(_fromUtf8("emaillist"))
         self.showemail = QtGui.QGroupBox(self.centralWidget)
         self.showemail.setGeometry(QtCore.QRect(459, 50, 611, 540))
@@ -192,8 +166,44 @@ class Ui_MainWindow(object):
         self.showemail.setObjectName(_fromUtf8("showemail"))
         self.emailShow = QtWebKit.QWebView(self.showemail)
         self.emailShow.setGeometry(QtCore.QRect(0, 0, 611, 544))
+        self.emailShow.setStyleSheet(_fromUtf8("background-color: rgb(255, 255, 255);"))
         self.emailShow.setUrl(QtCore.QUrl(_fromUtf8("qrc:/souce/index.html")))
         self.emailShow.setObjectName(_fromUtf8("emailShow"))
+        self.pushButton = QtGui.QPushButton(self.centralWidget)
+        self.pushButton.setGeometry(QtCore.QRect(420, 15, 20, 20))
+        self.pushButton.setStyleSheet(_fromUtf8("border-image: url(:/souce/souce/下拉 (2).png);"))
+        self.pushButton.setText(_fromUtf8(""))
+        self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.graphicsView = QtGui.QGraphicsView(self.centralWidget)
+        self.graphicsView.setGeometry(QtCore.QRect(227, 15, 20, 20))
+        self.graphicsView.setStyleSheet(_fromUtf8("border-image: url(:/souce/souce/搜索.png);"))
+        self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
+        self.searchlineEdit = QtGui.QLineEdit(self.centralWidget)
+        self.searchlineEdit.setGeometry(QtCore.QRect(257, 15, 140, 18))
+        self.searchlineEdit.setStyleSheet(_fromUtf8("#searchlineEdit{background-color:white;}"))
+        self.searchlineEdit.setText(_fromUtf8(""))
+        self.searchlineEdit.setObjectName(_fromUtf8("searchlineEdit"))
+        self.mainclose = QtGui.QPushButton(self.centralWidget)
+        self.mainclose.setGeometry(QtCore.QRect(1030, 15, 20, 20))
+        self.mainclose.setStyleSheet(_fromUtf8("#mainclose{\n"
+"    background-color:tomato;\n"
+"    border-radius:10px;}\n"
+"#mainclose:hover{border-image: url(:/souce/souce/关闭1.png);}\n"
+""))
+        self.mainclose.setText(_fromUtf8(""))
+        self.mainclose.setObjectName(_fromUtf8("mainclose"))
+        self.mainmin = QtGui.QPushButton(self.centralWidget)
+        self.mainmin.setGeometry(QtCore.QRect(1000, 15, 20, 20))
+        self.mainmin.setToolTip(_fromUtf8(""))
+        self.mainmin.setStyleSheet(_fromUtf8("#mainmin{\n"
+"background-color:rgb(255,224,81);\n"
+"    border-radius:10px;}\n"
+"#mainmin:hover{\n"
+"border-image: url(:/souce/souce/最小化.png);\n"
+"}\n"
+""))
+        self.mainmin.setText(_fromUtf8(""))
+        self.mainmin.setObjectName(_fromUtf8("mainmin"))
         MainWindow.setCentralWidget(self.centralWidget)
 
         self.retranslateUi(MainWindow)
@@ -211,10 +221,10 @@ class Ui_MainWindow(object):
         self.mainwriteletter.setText(_translate("MainWindow", "写信", None))
         self.mainreceiveletter.setText(_translate("MainWindow", "收信", None))
         self.mainlogin.setText(_translate("MainWindow", "登录", None))
-        self.searchlineEdit.setPlaceholderText(_translate("MainWindow", "搜索邮件信息", None))
         self.emailsort.setText(_translate("MainWindow", "排序", None))
         self.moreemail.setText(_translate("MainWindow", "更多", None))
         self.emaillist.setSortingEnabled(False)
+        self.searchlineEdit.setPlaceholderText(_translate("MainWindow", "搜索邮件信息", None))
 
 from PyQt4 import QtWebKit
 import souce_rc

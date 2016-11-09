@@ -8,21 +8,11 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import parseaddr, formataddr, formatdate
+from DealJsonFile import GetJsonInfo, SaveJsonInfo
 
 class SendMail():
 	def __init__(self, parent=None):
-		# super(SendMail, self).__init__(parent)
-		# self.__init__()
-		self.emailInfo = {
-		"email":"1435679023@qq.com",
-		"pwd":"19960229hexinABC",
-		"to_addr":"",
-		"smtp_server":"smtp.qq.com",
-		"subject":"",
-		"html":"",
-		"plain":"",
-		}
-
+		self.emailInfo = GetJsonInfo('conf.json')
 
 	def Send(self):
 		try:

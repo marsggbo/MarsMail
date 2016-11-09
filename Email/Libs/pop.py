@@ -4,21 +4,7 @@ import time, threading
 from email.parser import Parser
 from email.header import decode_header
 from email.utils import parseaddr
-
-email = "1435679023@qq.com"
-password = "19960229hexinABC"
-pop3_server = 'pop.qq.com'
-
-def GetJsonInfo(file):
-	f = open(file,'r',encoding='utf-8')
-	s = json.load(f)
-	f.close()
-	return s
-
-def SaveJsonInfo(file,data):
-	f = open(file,"w",encoding='utf-8')
-	f.write(json.dumps(data))
-	f.close()
+from DealJsonFile import GetJsonInfo, SaveJsonInfo
 
 
 def guess_charset(msg):
@@ -70,10 +56,12 @@ def print_info(msg, indent=0):
 		SaveJsonInfo('contacts.json', my_oringinInfo)
 
 	if (msg.is_multipart()):
+		pass
 		parts = msg.get_payload()
 		for n, part in enumerate(parts):
 			# print('%s--------------------' % ('  ' * indent))
 			print_info(part, indent + 1)
+
 	else:
 		content_type = msg.get_content_type()
 		if content_type=='text/plain' or content_type=='text/html':
@@ -85,33 +73,25 @@ def print_info(msg, indent=0):
 
 			# 保存为文件形式
 			if len(subject) > 30:
-				f = open('../data/%s.html'%subject[:30],'wb')
+				f = open('data/%s.html'%subject[:30],'wb')
+				content = '<meta charset="utf-8">' + content + '<meta charset="utf-8">'
 				f.write(content.encode('utf-8'))
 				f.close()
 			else:
-				f = open('../data/%s.html'%subject ,'wb')
+				f = open('data/%s.html'%subject ,'wb')
+				content = '<meta charset="utf-8">' + content + '<meta charset="utf-8">'
 				f.write(content.encode('utf-8'))
 				f.close()
 
 		else:
 			# print('%sAttachment: %s' % ('  ' * indent, content_type))
-			f = open('../data/Attachment.html','wb')
+			f = open('data/Attachment.html','wb')
 			f.write(content_type.encode('utf-8'))
 			f.close()
 
 class ReceiveMail():
 	def __init__(self, parent=None):
-		# super(SendMail, self).__init__(parent)
-		# self.__init__()
-		self.emailInfo = {
-		"email":"1435679023@qq.com",
-		"pwd":"19960229hexinABC",
-		"to_addr":"",
-		"pop3_server":"pop.qq.com",
-		"subject":"",
-		"html":"",
-		"plain":"",
-		}
+		self.emailInfo = GetJsonInfo('conf.json')
 		self.index = 0
 
 	def GetEmailNum(self):
@@ -153,4 +133,16 @@ class ReceiveMail():
 				# 可以根据邮件索引号直接从服务器删除邮件:
 				# server.dele(i)
 				# 关闭连接:
+		else:
+			for i in range(index,0,-1):
+				msg_content = ''
+				resp, lines, octets = self.server.retr(i)
+
+				# lines存储了邮件的原始文本的每一行,
+				# 可以获得整个邮件的原始文本:
+				msg_content = b'\r\n'.join(lines).decode('utf-8')
+
+				# # 稍后解析出邮件:
+				msg = Parser().parsestr(msg_content)
+				print_info(msg)
 		self.server.quit()

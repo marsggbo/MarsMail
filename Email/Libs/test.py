@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import json
+import json,os
 # #Function:Analyze json script
 # #Json is a script can descript data structure as xml,
 # #for detail, please refer to "http://json.org/json-zh.html".
@@ -26,11 +26,47 @@ def SaveLoginInfo(data):
     f.write(json.dumps(data))
     f.close()
 
+def GetJsonInfo(file):
+    f = open(file,'r',encoding='utf-8')
+    s = json.load(f)
+    # print(s)
+    f.close()
+    return s
+# test = GetJsonInfo('conf.json')
+# print(test)
+# a = GetLoginInfo()
+# print(a)
 # a = GetLoginInfo()
 # print(a)
 # a.pop('test')
 # SaveLoginInfo(a)
 
+# import os
+
+# def iterbrowse(path):
+#     for home, dirs, files in os.walk(path):
+#         for filename in files:
+#             yield os.path.join(home, filename)
+
+# a = iterbrowse('data/')
+# print(a)
+# print(type(a))
+# for fullname in iterbrowse("data/"):
+#     print (fullname.split('data/')[1])
+
+
+# import os
+# files = []
+# # root = "d:" + s + "ll" + s
+# for i in os.listdir('data/'):
+#     if os.path.isfile(os.path.join('data/',i)):
+#         files.append(i)
+# print(files)
+# if 'test.html' in files:
+# 	print('Yep')
+
+# url = 'file:///' + os.path.abspath(os.path.join(os.path.dirname(__file__))) + r'\data\1.html'
+# print(url)
 
 # -*- coding: utf-8 -*-
 # import sys, os
@@ -261,12 +297,72 @@ a = {}
 # print(a)
 
 #
-a = "你怎么会在这了？这里是华中科技大学啊亲啊！！！(⊙o⊙)哦"
-print(len(a))
-if len(a) > 20:
-	b = a[:20]
-	print(len(b))
-	print(b)
-else:
-	print(a)
-print(a)
+# a = "你怎么会在这了？这里是华中科技大学啊亲啊！！！(⊙o⊙)哦"
+# print(len(a))
+# if len(a) > 20:
+# 	b = a[:20]
+# 	print(len(b))
+# 	print(b)
+# else:
+# 	print(a)
+# print(a)
+# b = {}
+# print(type(b))
+# print(b)
+# if b == {}:
+# 	print('啥都么有')
+# for i in b:
+# 	if i:
+# 		print('有东西 '+i+":"+b[i])
+# 	else:
+# 		print('空的')
+
+from PyQt4 import QtCore,QtGui
+from PyQt4.QtCore import *  
+from PyQt4.QtGui import *  
+# from PyQt4.QtWidgets import *
+import time
+'''
+信号传参类型
+pyqtSignal()                                #无参数信号
+pyqtSignal(int)                             # 一个参数(整数)的信号 
+pyqtSignal([int],[str]                     # 一个参数(整数或者字符串)重载版本的信号
+pyqtSignal(int,str)                         #二个参数(整数,字符串)的信号 
+pyqtSignal([int,int],[int,str])           #二个参数([整数,整数]或者[整数,字符串])重载版本
+'''
+class Mythread(QThread):
+    #定义信号,定义参数为str类型 
+    _signal=pyqtSignal(str)   
+    def __init__(self):
+        super(Mythread,self).__init__() 
+    def run(self):  
+        for i in range(2000000):
+            #发出信号
+            self._signal.emit('当前循环值为:%s'%i) 
+            #让程序休眠
+            time.sleep(0.5)   
+if __name__ == '__main__':
+    app = QApplication([])
+    dlg = QDialog()
+    dlg.resize(400, 300)
+    dlg.setWindowTitle("自定义按钮测试")
+    dlgLayout = QVBoxLayout()
+    dlgLayout.setContentsMargins(40, 40, 40, 40)
+    btn=QPushButton('测试按钮')
+    dlgLayout.addWidget(btn)
+    dlgLayout.addStretch(40)
+    dlg.setLayout(dlgLayout)
+    dlg.show()
+    
+    
+    def chuli(s):
+        dlg.setWindowTitle(s)
+        btn.setText(s)
+    #创建线程
+    thread=Mythread()
+    #注册信号处理函数
+    thread._signal.connect(chuli)
+    #启动线程
+    thread.start()
+    dlg.exec_()
+    app.exit()
