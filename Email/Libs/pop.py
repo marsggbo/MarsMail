@@ -3,7 +3,7 @@ import json
 import time, threading
 from email.parser import Parser
 from email.header import decode_header
-from email.utils import parseaddr
+from email.utils import parseaddr, parsedate
 from DealJsonFile import GetJsonInfo, SaveJsonInfo
 
 
@@ -44,6 +44,12 @@ def print_info(msg, indent=0):
 		date = msg.get('Date', '')
 		if date:
 			date = decode_str(date)
+			date = parsedate(date)
+			date = list(date)
+			for i in range(len(date)):
+				if len(str(date[i])) == 1:
+					date[i] = '0' + str(date[i])
+			date = str(date[0]) + '.' + str(date[1]) + '.' + str(date[2]) + ' ' + str(date[3]) + ':' + str(date[4]) + ':' + str(date[5])
 			my_info['date'] = date
 
 		if len(subject)>30:

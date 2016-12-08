@@ -59,7 +59,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.connect(self.emaillist, SIGNAL('itemClicked(QListWidgetItem *)'), self.itemClicked)
 
 		# 搜索列表默认隐藏
-		self.searchList.hide()
 
 		# 登录上次账号
 		try:
@@ -141,6 +140,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	def on_mainSearch_clicked(self):
 		self.contacts = GetJsonInfo('contacts.json')
 		search_text = self.searchlineEdit.text()    # 获取搜索内容
+		self.emaillist.hide()
+		self.sendedList.hide()
+		self.searchList.show()
 		if search_text:
 			# 联系人查找
 			for item in self.contacts:
@@ -183,7 +185,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		for subject in my_contacts:
 			filename = subject + '.html'
 			if filename in files:
-				abstractContent = my_contacts[subject]['name'] +  '\n' + subject + '\n' + my_contacts[subject]['date'].split('+')[0]
+				# abstractContent = my_contacts[subject]['name'] +  '\n' + subject + '\n' + my_contacts[subject]['date'].split('+')[0]
+				abstractContent = my_contacts[subject]['date'] +  '\n' + subject + '\n' + my_contacts[subject]['name'].split('+')[0]
 				self.emaillist.addItem(abstractContent)
 
 	# 接收邮件
@@ -192,6 +195,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		if self.login == 0:
 			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
 		else:
+			self.searchList.hide()
+			self.sendedList.hide()
+			self.emaillist.show()
 			global receiveWay 
 			receiveWay = 0
 			self.ReceiveEmail = ReceiveEmail()
@@ -205,6 +211,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		if self.login == 0:
 			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
 		else:
+			self.searchList.hide()
+			self.sendedList.hide()
+			self.emaillist.show()
 			global page
 			page += 1
 			print(page)
@@ -217,7 +226,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.emaillist.clear()
 			self.addQListWidgetItem()
 
-
+	# 邮件列表排序
 	@pyqtSlot()
 	def on_emailsort_clicked(self):
 		if self.login == 0:
@@ -225,6 +234,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		else:
 			print("排序")
 
+	# 显示联系人界面
 	@pyqtSlot()
 	def on_addressbook_clicked(self):
 		if self.login == 0:
@@ -257,6 +267,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		else:
 			my_writemail  = WriteEmailDialog()
 			my_writemail.exec_()
+    
+    # 已发送邮件箱
+	@pyqtSlot()
+	def on_sendedBox_clicked(self):
+		if self.login == 0:
+			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
+		else:
+			self.emaillist.hide()
+			self.searchList.hide()
+			self.sendedList.show()
+    
+    # 收件箱
+	@pyqtSlot()
+	def on_receivedBox_clicked(self):
+		if self.login == 0:
+			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
+		else:
+			self.searchList.hide()
+			self.sendedList.hide()
+			self.emaillist.show()
 
 	@pyqtSlot()
 	def on_mainclose_clicked(self):
@@ -266,6 +296,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	def on_mainmin_clicked(self):
 		self.showMinimized()
 
+	@pyqtSlot()
+	def on_about_clicked(self):
+		aboutButton = QMessageBox.aboutQt(self,  'AboutQt')
 
 if __name__ == "__main__":
 	import sys
@@ -274,3 +307,4 @@ if __name__ == "__main__":
 	ui = MainWindow()
 	ui.show()
 	sys.exit(app.exec_())
+    

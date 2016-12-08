@@ -43,25 +43,32 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 	def on_send_clicked(self):
 		try:
 			print("send!")
-			receiver = self.receiverEdit.text()
+			receivers = self.receiverEdit.text()
 			subject = self.subjectEdit.text()
-			if receiver and subject:
-				self.email.emailInfo["to_addr"] = receiver
-				self.email.emailInfo["subject"] = subject
-				self.email.emailInfo["plain"] = self.emailContent.toPlainText()
-				my_addText = self.emailContent.toPlainText().split('- 发送自XYZ')[0] # 添加的转发信息
-				if my_addText.strip():
-					self.email.emailInfo["html"] = my_addText + '<br><br>' + self.formatText + self.emailText
+			receivers = receivers.split(',')
+			for receiver in receivers:
+				if receiver and subject:
+					self.email.emailInfo["to_addr"] = receiver
+					self.email.emailInfo["subject"] = subject
+					self.email.emailInfo["plain"] = self.emailContent.toPlainText()
+					if self.isForwad:
+						my_addText = self.emailContent.toPlainText().split('- 发送自XYZ')[0] # 添加的转发信息
+						if my_addText.strip():
+							self.email.emailInfo["html"] = my_addText + '<br><br>' + self.formatText + self.emailText
+						else:
+							self.email.emailInfo['html'] = self.formatText + self.emailText
+					else:
+						self.email.emailInfo["html"] = self.emailContent.toPlainText()
+					self.email.Send()
+					alert = QMessageBox.warning(self, '发送邮件', u'发送成功！')
+					self.close()
 				else:
-					self.email.emailInfo['html'] = self.formatText + self.emailText
-				self.email.Send()
-				alert = QMessageBox.warning(self, '发送邮件', u'发送成功！')
-				self.close()
-			else:
-				alert = QMessageBox.warning(self,'发送邮件提示','请将信息填写完整!')
+					alert = QMessageBox.warning(self,'发送邮件提示','请将信息填写完整!')
+			
 		except Exception as e:
 			print(str(e))
-			alert = QMessageBox.warning(self, '发送失败', u'str(e)！')
+			a = str(e)
+			alert = QMessageBox.warning(self, '发送失败', u'出错啦')
 
 	@pyqtSlot()
 	def on_accessory_clicked(self):
