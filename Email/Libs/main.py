@@ -159,7 +159,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			my_contacts = GetJsonInfo('contacts.json')
 			my_currentItem = self.emaillist.currentItem()
 			my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
-			self.url = 'file:///' + os.path.abspath(os.path.join(os.path.dirname(__file__))) + r'/data/%s.html'%my_text
+			# dir = "data/%s"%self.emailInfo['email']
+			self.url = 'file:///' + os.path.abspath(os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html'%(self.emailInfo['email'],my_text)
 			self.url = self.url.replace('\\','/')
 			print(self.url)
 			self.contName.setText(my_contacts[my_text]['name'])
@@ -174,10 +175,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 	# 将邮件摘要添加至列表
 	def addQListWidgetItem(self):
+		dir = 'data/%s'%self.emailInfo['email']
 		files = []
-		for file in os.listdir('data/'):
+		for file in os.listdir(dir):
 			print(file)
-			if os.path.isfile(os.path.join('data/',file)):
+			if os.path.isfile(os.path.join(dir,file)):
 				files.append(file)
 		print('****************************\n\n')
 		my_contacts = GetJsonInfo('contacts.json')
@@ -267,8 +269,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		else:
 			my_writemail  = WriteEmailDialog()
 			my_writemail.exec_()
-    
-    # 已发送邮件箱
+
+	# 已发送邮件箱
 	@pyqtSlot()
 	def on_sendedBox_clicked(self):
 		if self.login == 0:
@@ -277,8 +279,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.emaillist.hide()
 			self.searchList.hide()
 			self.sendedList.show()
-    
-    # 收件箱
+
+	# 收件箱
 	@pyqtSlot()
 	def on_receivedBox_clicked(self):
 		if self.login == 0:
@@ -307,4 +309,4 @@ if __name__ == "__main__":
 	ui = MainWindow()
 	ui.show()
 	sys.exit(app.exec_())
-    
+
