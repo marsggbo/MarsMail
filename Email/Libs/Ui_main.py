@@ -225,7 +225,7 @@ class Ui_MainWindow(object):
         self.showemail.setTitle(_fromUtf8(""))
         self.showemail.setObjectName(_fromUtf8("showemail"))
         self.emailShow = QtWebKit.QWebView(self.showemail)
-        self.emailShow.setGeometry(QtCore.QRect(0, 83, 611, 460))
+        self.emailShow.setGeometry(QtCore.QRect(0, 82, 611, 461))
         self.emailShow.setStyleSheet(_fromUtf8("background-color: rgb(255, 255, 255);"))
         self.emailShow.setUrl(QtCore.QUrl(_fromUtf8("qrc:/souce/index.html")))
         self.emailShow.setObjectName(_fromUtf8("emailShow"))
@@ -245,54 +245,36 @@ class Ui_MainWindow(object):
         self.contName.setStyleSheet(_fromUtf8(""))
         self.contName.setObjectName(_fromUtf8("contName"))
         self.contEmail = QtGui.QLabel(self.contInfoTop)
-        self.contEmail.setGeometry(QtCore.QRect(290, 20, 231, 20))
+        self.contEmail.setGeometry(QtCore.QRect(340, 20, 251, 20))
         self.contEmail.setStyleSheet(_fromUtf8(""))
         self.contEmail.setObjectName(_fromUtf8("contEmail"))
-        self.mainForward = QtGui.QPushButton(self.contInfoTop)
-        self.mainForward.setGeometry(QtCore.QRect(530, 45, 60, 20))
-        self.mainForward.setStyleSheet(_fromUtf8("#mainForward{\n"
-"    border:none;\n"
-"    font-size:14px;\n"
-"    background-color: rgb(219,219,219);\n"
-"}\n"
-"#mainForward:hover{\n"
-"background-color:rgb(41,189,139);\n"
-"color:white;\n"
-"}"))
-        icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/发送.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.mainForward.setIcon(icon5)
-        self.mainForward.setObjectName(_fromUtf8("mainForward"))
-        self.delEmail = QtGui.QPushButton(self.contInfoTop)
-        self.delEmail.setGeometry(QtCore.QRect(530, 15, 60, 20))
-        self.delEmail.setStyleSheet(_fromUtf8("#delEmail{\n"
-"    border:none;\n"
-"    font-size:14px;\n"
-"    background-color: rgb(219,219,219);\n"
-"}\n"
-"#delEmail:hover{\n"
-"background-color:tomato;\n"
-"color:white;\n"
-"}"))
-        icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/关闭1.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.delEmail.setIcon(icon6)
-        self.delEmail.setObjectName(_fromUtf8("delEmail"))
         self.contEmailTime = QtGui.QLabel(self.contInfoTop)
-        self.contEmailTime.setGeometry(QtCore.QRect(70, 50, 201, 20))
+        self.contEmailTime.setGeometry(QtCore.QRect(70, 50, 231, 20))
         self.contEmailTime.setStyleSheet(_fromUtf8(""))
         self.contEmailTime.setObjectName(_fromUtf8("contEmailTime"))
         self.contEmailSubject = QtGui.QLabel(self.contInfoTop)
-        self.contEmailSubject.setGeometry(QtCore.QRect(290, 50, 231, 20))
+        self.contEmailSubject.setGeometry(QtCore.QRect(340, 50, 251, 20))
         self.contEmailSubject.setStyleSheet(_fromUtf8(""))
         self.contEmailSubject.setObjectName(_fromUtf8("contEmailSubject"))
-        self.pushButton = QtGui.QPushButton(self.centralWidget)
-        self.pushButton.setGeometry(QtCore.QRect(620, 20, 20, 20))
-        self.pushButton.setStyleSheet(_fromUtf8("border-image: url(:/souce/souce/下拉 (2).png);"))
-        self.pushButton.setText(_fromUtf8(""))
-        self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.attachList = QtGui.QListWidget(self.showemail)
+        self.attachList.setGeometry(QtCore.QRect(0, 401, 271, 131))
+        self.attachList.setStyleSheet(_fromUtf8("#attachList{background-color: tomato;\n"
+"}\n"
+"#attachList::Item{\n"
+"height:50px;\n"
+"}\n"
+"#attachList::Item:hover{\n"
+"background-color: rgb(41, 189, 139);\n"
+"}"))
+        self.attachList.setObjectName(_fromUtf8("attachList"))
+        item = QtGui.QListWidgetItem()
+        self.attachList.addItem(item)
+        item = QtGui.QListWidgetItem()
+        self.attachList.addItem(item)
+        item = QtGui.QListWidgetItem()
+        self.attachList.addItem(item)
         self.searchlineEdit = QtGui.QLineEdit(self.centralWidget)
-        self.searchlineEdit.setGeometry(QtCore.QRect(237, 22, 190, 18))
+        self.searchlineEdit.setGeometry(QtCore.QRect(237, 19, 190, 21))
         self.searchlineEdit.setStyleSheet(_fromUtf8("#searchlineEdit{background-color:white;}"))
         self.searchlineEdit.setText(_fromUtf8(""))
         self.searchlineEdit.setObjectName(_fromUtf8("searchlineEdit"))
@@ -327,10 +309,67 @@ class Ui_MainWindow(object):
 "    background-color:rgb(49,126,243);\n"
 "}"))
         self.mainSearch.setText(_fromUtf8(""))
-        icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/搜索框－搜索.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.mainSearch.setIcon(icon7)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/搜索框－搜索.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.mainSearch.setIcon(icon5)
         self.mainSearch.setObjectName(_fromUtf8("mainSearch"))
+        self.mainReply = QtGui.QPushButton(self.centralWidget)
+        self.mainReply.setGeometry(QtCore.QRect(580, 20, 61, 31))
+        self.mainReply.setStyleSheet(_fromUtf8("#mainForward{\n"
+"    border:none;\n"
+"    font-size:14px;\n"
+"    background-color: rgb(219,219,219);\n"
+"}\n"
+"#mainForward:hover{\n"
+"background-color:rgb(41,189,139);\n"
+"color:white;\n"
+"}"))
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/发送.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.mainReply.setIcon(icon6)
+        self.mainReply.setObjectName(_fromUtf8("mainReply"))
+        self.mainForward = QtGui.QPushButton(self.centralWidget)
+        self.mainForward.setGeometry(QtCore.QRect(670, 20, 61, 31))
+        self.mainForward.setStyleSheet(_fromUtf8("#mainForward{\n"
+"    border:none;\n"
+"    font-size:14px;\n"
+"    background-color: rgb(219,219,219);\n"
+"}\n"
+"#mainForward:hover{\n"
+"background-color:rgb(41,189,139);\n"
+"color:white;\n"
+"}"))
+        self.mainForward.setIcon(icon6)
+        self.mainForward.setObjectName(_fromUtf8("mainForward"))
+        self.delEmail = QtGui.QPushButton(self.centralWidget)
+        self.delEmail.setGeometry(QtCore.QRect(800, 20, 61, 31))
+        self.delEmail.setStyleSheet(_fromUtf8("#delEmail{\n"
+"    border:none;\n"
+"    font-size:14px;\n"
+"    background-color: rgb(219,219,219);\n"
+"}\n"
+"#delEmail:hover{\n"
+"background-color:tomato;\n"
+"color:white;\n"
+"}"))
+        icon7 = QtGui.QIcon()
+        icon7.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/关闭1.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.delEmail.setIcon(icon7)
+        self.delEmail.setObjectName(_fromUtf8("delEmail"))
+        self.mainAttach = QtGui.QPushButton(self.centralWidget)
+        self.mainAttach.setGeometry(QtCore.QRect(890, 20, 91, 31))
+        icon8 = QtGui.QIcon()
+        icon8.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/附件.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.mainAttach.setIcon(icon8)
+        self.mainAttach.setObjectName(_fromUtf8("mainAttach"))
+        self.searchMode = QtGui.QComboBox(self.centralWidget)
+        self.searchMode.setGeometry(QtCore.QRect(430, 20, 91, 21))
+        self.searchMode.setObjectName(_fromUtf8("searchMode"))
+        self.searchMode.addItem(_fromUtf8(""))
+        self.searchMode.addItem(_fromUtf8(""))
+        self.searchMode.addItem(_fromUtf8(""))
+        self.searchMode.addItem(_fromUtf8(""))
+        self.searchMode.addItem(_fromUtf8(""))
         MainWindow.setCentralWidget(self.centralWidget)
 
         self.retranslateUi(MainWindow)
@@ -359,11 +398,27 @@ class Ui_MainWindow(object):
         self.moreemail.setText(_translate("MainWindow", "+", None))
         self.contName.setText(_translate("MainWindow", "用户名", None))
         self.contEmail.setText(_translate("MainWindow", "邮  箱", None))
-        self.mainForward.setText(_translate("MainWindow", "转发", None))
-        self.delEmail.setText(_translate("MainWindow", "删除", None))
         self.contEmailTime.setText(_translate("MainWindow", "时  间", None))
         self.contEmailSubject.setText(_translate("MainWindow", "主  题", None))
+        __sortingEnabled = self.attachList.isSortingEnabled()
+        self.attachList.setSortingEnabled(False)
+        item = self.attachList.item(0)
+        item.setText(_translate("MainWindow", "每次看见大客车绝对是.json", None))
+        item = self.attachList.item(1)
+        item.setText(_translate("MainWindow", "hello world", None))
+        item = self.attachList.item(2)
+        item.setText(_translate("MainWindow", "小撒爱上.jpg", None))
+        self.attachList.setSortingEnabled(__sortingEnabled)
         self.searchlineEdit.setPlaceholderText(_translate("MainWindow", "搜索邮件信息", None))
+        self.mainReply.setText(_translate("MainWindow", "回复", None))
+        self.mainForward.setText(_translate("MainWindow", "转发", None))
+        self.delEmail.setText(_translate("MainWindow", "删除", None))
+        self.mainAttach.setText(_translate("MainWindow", "查看附件", None))
+        self.searchMode.setItemText(0, _translate("MainWindow", "请选择", None))
+        self.searchMode.setItemText(1, _translate("MainWindow", "主题", None))
+        self.searchMode.setItemText(2, _translate("MainWindow", "时间", None))
+        self.searchMode.setItemText(3, _translate("MainWindow", "联系人", None))
+        self.searchMode.setItemText(4, _translate("MainWindow", "邮件内容", None))
 
 from PyQt4 import QtWebKit
 import souce_rc

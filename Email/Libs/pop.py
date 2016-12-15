@@ -15,6 +15,7 @@ class ReceiveMail():
 		self.emailInfo = GetJsonInfo('conf.json')
 		self.index = 0
 
+	# 获取邮件数量
 	def GetEmailNum(self):
 		# 建立连接
 		self.server = poplib.POP3_SSL(self.emailInfo["pop3_server"])
@@ -48,9 +49,17 @@ class ReceiveMail():
 				# 获取邮件编码格式
 				for i,item in enumerate(lines):
 					if "charset" in str(item):
-						self.charset = str(item).split('charset')[1].split("=")[1]
-						# print(self.charset)
-						break
+						try:
+							self.charset = str(item).split('charset')[1].split("=")[1]
+							print('邮件编码格式1为：'+self.charset)
+							break
+						except Exception as e:
+							print(str(e))
+							with open('log.txt','rb') as f:
+								f.write(item)
+				if "utf" in self.charset.lower():
+					self.charset = "utf-8"
+					print('邮件编码格式2为：'+self.charset)
 				msg_content = b'\r\n'.join(lines).decode(self.charset)
 
 				# # 稍后解析出邮件:
@@ -70,8 +79,12 @@ class ReceiveMail():
 				# 获取邮件编码格式
 				for i,item in enumerate(lines):
 					if "charset=" in str(item):
-						self.charset = str(item).split('=')[1]
-						print(self.charset)
+						self.charset = str(item).split('charset')[1].split("=")[1]
+						print('邮件编码格式为：'+self.charset)
+						break
+				if "utf" in self.charset.lower():
+					self.charset = "utf-8"
+					print('邮件编码格式2为：'+self.charset)
 				msg_content = b'\r\n'.join(lines).decode(self.charset)
 
 				# # 稍后解析出邮件:
@@ -135,6 +148,9 @@ class ReceiveMail():
 			my_oringinInfo = GetJsonInfo('contacts.json')
 			my_oringinInfo.update(my_emailInfos)
 			SaveJsonInfo('contacts.json', my_oringinInfo)
+			# my_oringinInfo = GetJsonInfo('%s.json')%self.emailInfo['email']
+			# my_oringinInfo.update(my_emailInfos)
+			# SaveJsonInfo('%s.json', my_oringinInfo)%self.emailInfo['email']
 
 		if (msg.is_multipart()):
 			pass
@@ -148,15 +164,14 @@ class ReceiveMail():
 			if content_type == 'text/plain' or content_type == 'text/html':
 				content = msg.get_payload(decode=True)
 				charset = self.guess_charset(msg)
-				print(charset)
+				# print(charset)
 				if charset:
-					content = content.decode(charset)
-				else:
+					print("解码咯，编码为："+charset)
 					try:
 						content = content.decode('utf-8')
 					except Exception as e:
-						print("Error:", e)
-						pass
+						print(str(e))
+						content = content.decode(charset)
 
 				content = '<meta charset="utf-8">' + content + '<meta charset="utf-8">'
 
@@ -195,13 +210,13 @@ class ReceiveMail():
 					dh = decode_header(filename)
 					fname = dh[0][0]
 
-					print(fname)
-					print(type(fname))
+					# print(fname)
+					# print(type(fname))
 
 					charset = chardet.detect(fname)['encoding']
 					fname = fname.decode(charset)
-					print(fname)
-					print(type(fname))
+					# print(fname)
+					# print(type(fname))
 					# fname = fname.replace('/', '_')
 
 					data = msg.get_payload(decode=True)
@@ -215,13 +230,5 @@ class ReceiveMail():
 						sonDir = sonDir + "/%s" % fname
 						with open(sonDir, 'wb') as f:
 							f.write(data)
-
-					# try:
-					# 	with open(fname, 'wb') as f:
-					# 		f.write(data)
-					# except:
-					# 	data_name = str(fname).replace('/', '_')  # 附件数据
-					# 	with open(data_name, 'wb') as f:
-					# 		f.write(data)
 				else:
 					print("附件没名字？？")
