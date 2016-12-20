@@ -7,7 +7,11 @@ import smtplib
 from PyQt4 import QtCore,  QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-import time, os,sys
+import time, os,sys,threading
+from email.parser import Parser
+from email.header import decode_header
+from email.utils import parseaddr, parsedate
+from email.parser import BytesParser
 
 from Ui_main import Ui_MainWindow
 from calender import calenderDialog
@@ -16,12 +20,13 @@ from login import Login
 from pop import ReceiveMail
 from contacts import contacts
 from DealJsonFile import GetJsonInfo, SaveJsonInfo
+from locker import encrypt, decrypt
 from search import Search
 
-global page
-global reveiveWay
-page = 0
-receiveWay = 0	# 0表示接收最新6封邮件，1表示接收更多邮件
+# global page
+# global reveiveWay
+# page = 0
+# receiveWay = 0	# 0表示接收最新6封邮件，1表示接收更多邮件
 
 class ReceiveEmail(QtCore.QThread):
 	def __init__(self, parent=None):
@@ -52,8 +57,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		# 邮件数量
 		self.index = 0
 		self.page = 0
+		self.receiveWay = 0
 		# 判断是否已经的登录邮箱,若已经登录才能进行后续操作
 		self.login = 0
+
+		# 判断是否接受到新的一封邮件
+		# self.isReceived = 0
+
+		#
 
 		# 登录上次账号
 		try:
@@ -62,7 +73,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			server = smtplib.SMTP_SSL(self.emailInfo["smtp_server"], 465)
 			server.set_debuglevel(1)
 			print('\n***************************************\n\n')
-			server.login(self.emailInfo["email"], self.emailInfo["pwd"])
+			password = decrypt(self.emailInfo["pwd"])
+			server.login(self.emailInfo["email"], password)
 			self.emailInfo["status"] = 1
 			SaveJsonInfo('conf.json', self.emailInfo)
 
@@ -71,6 +83,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.mainUserName.setText(self.emailInfo['email'])
 			self.mainlogin.setText('切换账号')
 			self.login = 1
+
+			# 获取当前文件的绝对路径
+			abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/')
+			dir = "%s/data/%s/"%(abDir,self.emailInfo['email'])
+			# print(dir)
+			self.receiveJsonName = dir + "receive.json"
+			# print(self.receiveJsonName)
+			self.sendJsonName = dir + "send.json"
+			self.deleteJsonName = dir + "delete.json"
+			self.draftJsonName = dir + "draft.json"
 
 		except Exception as e:
 			print(e)
@@ -92,9 +114,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 		# 绑定searchList
 		self.connect(self.searchList, SIGNAL('itemClicked(QListWidgetItem *)'), self.searchItemClicked)
-
-
-
 
 	# 无边框设计
 	def mousePressEvent(self, event):
@@ -180,14 +199,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		isDel = QMessageBox.information(self, '删除邮件', u'确定要删除该封邮件？', 'Yes', 'Cancel')
 		if  self.item_enable_delete :
 			if not isDel:
+				# 获取主题名
 				my_subject = self.contEmailSubject.text()
-				self.contacts = GetJsonInfo('contacts.json')
+				self.receive = GetJsonInfo(self.receiveJsonName)
+				self.delete = GetJsonInfo(self.deleteJsonName)
+
+				# 将删除邮件存至delete.json文件中
+				self.delete[my_subject] = self.receive[my_subject]
+				# 将邮件从receive.json中去除
+				self.receive.pop(my_subject)
+
 				self.contEmail.setText('')
 				self.contEmailTime.setText('')
 				self.contEmailSubject.setText('')
 				self.contName.setText('')
 				self.emailShow.setUrl(QtCore.QUrl("qrc:/souce/index.html"))
-				self.contacts.pop(my_subject)
+
 				self.emaillist.takeItem(self.emaillist.currentRow())
 				self.item_enable_delete = False
 				self.mainForward.hide()
@@ -203,7 +230,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			keyword = self.searchlineEdit.text()    # 获取搜索关键字
 			if keyword:
 				self.userInfo = GetJsonInfo('conf.json')
-				self.contacts = GetJsonInfo('contacts.json')
+				self.receive = GetJsonInfo(self.receiveJsonName)
 				self.emaillist.hide()
 				self.sendedList.hide()
 				self.searchList.show()
@@ -215,21 +242,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 					files = test.getResult()
 				print("2", files)
 				self.searchList.clear()
-				self.addQList(files,'searchList')
+				if len(files) > 0:
+					self.addQList(files,'searchList')
+				else:
+					self.addQList(['搜索结果为空'],'searchList')
 				print("耗时啥都不用2：", time.time() - begin)
 			else:
 				my_alert = QMessageBox.warning(self, '搜索失败', u'搜索内容不能为空！')
-
-
-	# 将信息插入到列表
-	def addQList(self,files,way):
-		for subject in files:
-			abstractContent = files[subject]['date'] + '\n' + subject + '\n' + files[subject]['name']
-			if way == 'searchList':
-				self.searchList.addItem(abstractContent)
-			elif way == 'sendedList':
-				self.sendedList.addItem(abstractContent)
-
 
 
 	# 选择搜索模式
@@ -267,15 +286,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	@pyqtSlot()
 	def searchItemClicked(self):
 		try:
-			my_contacts = GetJsonInfo('contacts.json')
+			my_receive = GetJsonInfo(self.receiveJsonName)
 			my_currentItem = self.searchList.currentItem()
 			my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
 			self.url = 'file:///' + os.path.abspath(os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html'%(self.emailInfo['email'],my_text)
 			self.url = self.url.replace('\\','/')
 			print(self.url)
-			self.contName.setText(my_contacts[my_text]['name'])
-			self.contEmail.setText(my_contacts[my_text]['fromAddr'])
-			self.contEmailTime.setText(my_contacts[my_text]['date'])
+			self.contName.setText(my_receive[my_text]['name'])
+			self.contEmail.setText(my_receive[my_text]['fromAddr'])
+			self.contEmailTime.setText(my_receive[my_text]['date'])
 			self.contEmailSubject.setText(my_text)
 			self.mainForward.show()
 			self.delEmail.show()
@@ -293,16 +312,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	def emailItemClicked(self):
 		try:
 			self.item_enable_delete = True  # 点击一个元素，可删除
-			my_contacts = GetJsonInfo('contacts.json')
+			my_receive = GetJsonInfo(self.receiveJsonName)
 			my_currentItem = self.emaillist.currentItem()
 			my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
 			# dir = "data/%s"%self.emailInfo['email']
 			self.url = 'file:///' + os.path.abspath(os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html'%(self.emailInfo['email'],my_text)
 			self.url = self.url.replace('\\','/')
 			print(self.url)
-			self.contName.setText(my_contacts[my_text]['name'])
-			self.contEmail.setText(my_contacts[my_text]['fromAddr']) 
-			self.contEmailTime.setText(my_contacts[my_text]['date'])
+			self.contName.setText(my_receive[my_text]['name'])
+			self.contEmail.setText(my_receive[my_text]['fromAddr']) 
+			self.contEmailTime.setText(my_receive[my_text]['date'])
 			self.contEmailSubject.setText(my_text)
 			self.mainForward.show()
 			self.delEmail.show()
@@ -314,23 +333,61 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			print(str(e))
 
 	# 将邮件摘要添加至收件箱列表
-	def addQListWidgetItem(self):
-		dir = 'data/%s'%self.emailInfo['email']
-		files = []
-		for file in os.listdir(dir):
-			print(file)
-			if os.path.isfile(os.path.join(dir,file)):
-				files.append(file)
-		print('****************************\n\n')
-		my_contacts = GetJsonInfo('contacts.json')
+	# def addQListWidgetItem(self):
+	# 	abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/')
+	# 	dir = "%s/data/%s"%(abDir,self.emailInfo['email'])
+	# 	print(dir)
+	#
+	# 	files = []
+	# 	for file in os.listdir(dir):
+	# 		print(file)
+	# 		if os.path.isfile(os.path.join(dir,file)):
+	# 			files.append(file)
+	# 	print('****************************\n\n')
+	# 	my_receive = GetJsonInfo(self.receiveJsonName)
+	#
+	# 	for subject in my_receive:
+	# 		filename = subject + '.html'
+	# 		if filename in files:
+	# 			abstractContent = my_receive[subject]['date'] +  '\n' + subject + '\n' + my_receive[subject]['name']
+	# 			self.emaillist.addItem(abstractContent)
 
-		for subject in my_contacts:
-			filename = subject + '.html'
-			if filename in files:
-				abstractContent = my_contacts[subject]['date'] +  '\n' + subject + '\n' + my_contacts[subject]['name']
+
+	# 将信息插入到列表
+	def addQList(self,files,way):
+		for subject in files:
+			abstractContent = files[subject]['date'] + '\n' + subject + '\n' + files[subject]['name']
+			if way == 'searchList':
+				self.searchList.addItem(abstractContent)
+			elif way == 'sendedList':
+				self.sendedList.addItem(abstractContent)
+			elif way == 'emaillist':
 				self.emaillist.addItem(abstractContent)
 
 	# 接收邮件
+	def runReceive(self):
+		myPop = ReceiveMail()
+		self.popServer = myPop.connect()
+		self.emailNum = myPop.GetEmailNum()
+		# 开始解析邮件
+		for i in range(self.emailNum,0,-1):
+			resp, lines, octets = self.popServer.retr(i)
+			msg_content = b'\r\n'.join(lines)
+
+			# # 稍后解析出邮件:
+			msg = BytesParser().parsebytes(msg_content)
+			try:
+				# 解析邮件基本信息
+				currentEmailInfo = myPop.parseEmailInfo(msg)
+				# 解析邮件内容
+				myPop.parseEmailContent(msg)
+				self.addQList(currentEmailInfo,'emaillist')
+			except Exception as e:
+				print(str(e))
+
+		myPop.quit()
+
+	# 接收最新邮件
 	@pyqtSlot()
 	def on_mainreceiveletter_clicked(self):
 		if self.login == 0:
@@ -339,34 +396,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.searchList.hide()
 			self.sendedList.hide()
 			self.emaillist.show()
-			global receiveWay 
-			receiveWay = 0
-			self.ReceiveEmail = ReceiveEmail()
-			self.ReceiveEmail.start()
-			# time.sleep(3)
-			self.emaillist.clear()
-			self.addQListWidgetItem()
 
-	# 接收更多邮件
-	@pyqtSlot()
-	def on_moreemail_clicked(self):
-		if self.login == 0:
-			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
-		else:
-			self.searchList.hide()
-			self.sendedList.hide()
-			self.emaillist.show()
-			global page
-			page += 1
-			print(page)
-
-			global receiveWay
-			receiveWay = 1
-			self.ReceiveEmail = ReceiveEmail()
-			self.ReceiveEmail.start()
-			time.sleep(3)
-			self.emaillist.clear()
-			self.addQListWidgetItem()
+			self.receiveWay = 0
+			p = threading.Thread(target=self.runReceive)
+			p.start()
 
 	# 邮件列表排序
 	@pyqtSlot()
@@ -398,6 +431,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.emaillist.clear()
 			self.login = 1
 			self.show()
+			# 获取当前文件的绝对路径
+			abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/')
+			dir = "%s/data/%s/"%(abDir,self.emailInfo['email'])
+			# print(dir)
+			self.receiveJsonName = dir + "receive.json"
+			# print(self.receiveJsonName)
+			self.sendJsonName = dir + "send.json"
+			self.deleteJsonName = dir + "delete.json"
+			self.draftJsonName = dir + "draft.json"
 
 	# 日历
 	@pyqtSlot()

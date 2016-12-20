@@ -8,6 +8,7 @@ from email.header import decode_header
 from email.utils import parseaddr, parsedate
 from email.parser import BytesParser
 from DealJsonFile import GetJsonInfo, SaveJsonInfo
+from locker import encrypt, decrypt
 import os
 import chardet
 
@@ -16,17 +17,34 @@ import chardet
 class ReceiveMail():
 	def __init__(self, parent=None):
 		self.emailInfo = GetJsonInfo('conf.json')
+		# 密码解码
+		self.password = decrypt(self.emailInfo["pwd"])
+
+		# 邮件数量
 		self.index = 0
+
+		# 线程锁
+		self.isLock = 0
+
+	# 建立连接
+	def connect(self):
+		self.server = poplib.POP3_SSL(self.emailInfo["pop3_server"])
+
+		# 身份认证:
+		self.server.user(self.emailInfo["email"])
+		self.server.pass_(self.password)
+		return self.server
+
+	# 关闭连接
+	def quit(self):
+		self.server.quit()
+
+	# 删除邮件
+	def delete(self,i):
+		self.server.dele(i)
 
 	# 获取邮件数量
 	def GetEmailNum(self):
-		# 建立连接
-		self.server = poplib.POP3_SSL(self.emailInfo["pop3_server"])
-		print(type(self.server))
-		# 身份认证:
-		self.server.user(self.emailInfo["email"])
-		self.server.pass_(self.emailInfo["pwd"])
-
 		# list()返回所有邮件的编号:
 		# resp: 状态码
 		# mails：邮件
@@ -34,107 +52,120 @@ class ReceiveMail():
 		resp, mails, octets = self.server.list()
 
 		# 获取邮件数量, 注意索引号从1开始:
-		self.index = len(mails)
-		return self.index
+		self.emailNum = len(mails)
+		return self.emailNum
 
-	def Receive(self,index):
-		self.server = poplib.POP3_SSL(self.emailInfo["pop3_server"])
-		# 身份认证:
-		self.server.user(self.emailInfo["email"])
-		self.server.pass_(self.emailInfo["pwd"])
-		if index > 6:
-			for i in range(index,index-6,-1):
-				msg_content = ''
-				resp, lines, octets = self.server.retr(i)
-				msg_content = b'\r\n'.join(lines)
 
-				# # 稍后解析出邮件:
-				msg = BytesParser().parsebytes(msg_content)
-				self.print_info(msg)
+	# 接收邮件
+	# def Receive(self,index):
+		# 循环解析邮件
+		# for i in range(index,0,-1):
+		# 	resp, lines, octets = self.server.retr(i)
+		# 	msg_content = b'\r\n'.join(lines)
 
+			# # 稍后解析出邮件:
+			# msg = BytesParser().parsebytes(msg_content)
+			# try:
+			# 	# 解析邮件基本信息
+			# 	self.parseEmailInfo(msg)
+			# 	self.isLock = 1
+			# 	# 解析邮件内容
+			# 	self.parseEmailContent(msg)
+			# 	with open('lock.txt','wb') as f:
+			# 		f.write(b'1')
+			# except Exception as e:
+			# 	print(str(e))
+			# 可以根据邮件索引号直接从服务器删除邮件:
+			# server.dele(i)
+			# 关闭连接:
+		# self.server.quit()
+
+		# if index > 6:
+		# 	for i in range(index,index-6,-1):
+		# 		msg_content = ''
+		# 		resp, lines, octets = self.server.retr(i)
+		# 		msg_content = b'\r\n'.join(lines)
+		#
+		# 		# # 稍后解析出邮件:
+		# 		msg = BytesParser().parsebytes(msg_content)
+		# 		try:
+		# 			self.print_info(msg)
+		# 		except Exception as e:
+		# 			print(str(e))
 				# 可以根据邮件索引号直接从服务器删除邮件:
 				# server.dele(i)
 				# 关闭连接:
+		# else:
+		# 	for i in range(index,0,-1):
+		# 		msg_content = ''
+		# 		resp, lines, octets = self.server.retr(i)
+		#
+		# 		# lines存储了邮件的原始文本的每一行,
+		# 		# 可以获得整个邮件的原始文本:
+		# 		msg_content = b'\r\n'.join(lines)
+		#
+		# 		# 稍后解析出邮件:
+		# 		msg = BytesParser().parsebytes(msg_content)
+		# 		try:
+		# 			self.print_info(msg)
+		# 		except Exception as e:
+		# 			print(str(e))
+
+	# # 获取线程锁
+	# def getLock(self):
+	# 	return self.isLock
+
+	# 解析邮件基本信息
+	def parseEmailInfo(self,msg):
+		global subject
+		my_info = {}
+		my_emailInfos = {}
+
+		subject = msg.get('Subject', '')
+		if subject:
+			subject = self.decode_str(subject)
+			my_info['subject'] = subject
+
+		fromAddr = msg.get('From', '')
+		if fromAddr:
+			hdr, addr = parseaddr(fromAddr)
+			name = self.decode_str(hdr)
+			my_info["name"] = name
+			my_info["fromAddr"] = addr
+
+		date = msg.get('Date', '')
+		if date:
+			date = self.decode_str(date)
+			date = parsedate(date)
+			date = list(date)
+			for i in range(len(date)):
+				if len(str(date[i])) == 1:
+					date[i] = '0' + str(date[i])
+			date = str(date[0]) + '.' + str(date[1]) + '.' + str(date[2]) + ' ' + str(date[3]) + ':' + str(
+				date[4]) + ':' + str(date[5])
+			my_info['date'] = date
+
+		if len(subject) > 30:
+			my_emailInfos[subject[:30]] = my_info
 		else:
-			for i in range(index,0,-1):
-				msg_content = ''
-				resp, lines, octets = self.server.retr(i)
+			my_emailInfos[subject] = my_info
 
-				# lines存储了邮件的原始文本的每一行,
-				# 可以获得整个邮件的原始文本:
-				msg_content = b'\r\n'.join(lines)
+		dir = '/data/%s/receive.json' % (self.emailInfo['email'])
+		# 获取当前文件的绝对路径
+		abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\', '/')
+		dir = ("%s/%s") % (abDir, dir)
 
-				# 稍后解析出邮件:
-				msg = BytesParser().parsebytes(msg_content)
-				self.print_info(msg)
-		self.server.quit()
+		my_oringinInfo = GetJsonInfo(dir)
+		my_oringinInfo.update(my_emailInfos)
+		SaveJsonInfo(dir, my_oringinInfo)
+		return my_emailInfos
 
-
-	def guess_charset(self,msg):
-		charset = msg.get_charset()
-		if charset is None:
-			content_type = msg.get('Content-Type', '').lower()
-			pos = content_type.find('charset=')
-			if pos >= 0:
-				charset = content_type[pos + 8:].strip()
-		return charset
-
-
-	def decode_str(self,s):
-		value, charset = decode_header(s)[0]
-		if charset:
-			value = value.decode(charset)
-		return value
-
-
-	def print_info(self,msg, indent=0):
-		if indent == 0:
-			global subject
-			my_info = {}
-			my_emailInfos = {}
-
-			subject = msg.get('Subject', '')
-			if subject:
-				subject = self.decode_str(subject)
-				my_info['subject'] = subject
-
-			fromAddr = msg.get('From', '')
-			if fromAddr:
-				hdr, addr = parseaddr(fromAddr)
-				name = self.decode_str(hdr)
-				my_info["name"] = name
-				my_info["fromAddr"] = addr
-
-			date = msg.get('Date', '')
-			if date:
-				date = self.decode_str(date)
-				date = parsedate(date)
-				date = list(date)
-				for i in range(len(date)):
-					if len(str(date[i])) == 1:
-						date[i] = '0' + str(date[i])
-				date = str(date[0]) + '.' + str(date[1]) + '.' + str(date[2]) + ' ' + str(date[3]) + ':' + str(
-					date[4]) + ':' + str(date[5])
-				my_info['date'] = date
-
-			if len(subject) > 30:
-				my_emailInfos[subject[:30]] = my_info
-			else:
-				my_emailInfos[subject] = my_info
-
-			my_oringinInfo = GetJsonInfo('contacts.json')
-			my_oringinInfo.update(my_emailInfos)
-			SaveJsonInfo('contacts.json', my_oringinInfo)
-			# my_oringinInfo = GetJsonInfo('%s.json')%self.emailInfo['email']
-			# my_oringinInfo.update(my_emailInfos)
-			# SaveJsonInfo('%s.json', my_oringinInfo)%self.emailInfo['email']
-
+	# 解析邮件内容
+	def parseEmailContent(self,msg):
 		if (msg.is_multipart()):
-			pass
 			parts = msg.get_payload()
 			for n, part in enumerate(parts):
-				# print('%s--------------------' % ('  ' * indent))
-				self.print_info(part, indent + 1)
+				self.parseEmailContent(part)
 
 		else:
 			content_type = msg.get_content_type()
@@ -144,13 +175,13 @@ class ReceiveMail():
 				charset = self.guess_charset(msg)
 				# print(charset)
 				if charset:
-					print("解码咯，编码为："+charset)
+					# print("解码咯，编码为："+charset)
 					try:
 						content = content.decode('utf-8')
 					except Exception as e:
 						print(str(e))
 						content = content.decode(charset)
-						print('解码成功')
+						# print('解码成功')
 
 				content = '<meta charset="utf-8">' + content + '<meta charset="utf-8">'
 
@@ -182,24 +213,23 @@ class ReceiveMail():
 					emailname = subject
 				# 若含有附件,则以邮件名创建附件文件夹
 				sonDir = dir + "/%s"%emailname
-				print('有附件啦')
 				filename = msg.get_filename()
 				if filename:
 					# h = email.Header.Header(filename)
 					dh = decode_header(filename)
 					fname = dh[0][0]
 					charset = dh[0][1]
-					print(type(fname))
-					print(fname)
+					# print(type(fname))
+					# print(fname)
 					try:
 						fname = fname.decode(charset)
 						print(type(fname))
-						print(fname)
+						print('有附件啦1',fname)
 					except Exception as e:
 						print(str(e))
 						fname = dh[0][0]
 						print(type(fname))
-						print(fname)
+						print('有附件啦2',fname)
 					data = msg.get_payload(decode=True)
 
 					if not os.path.exists(sonDir):
@@ -214,3 +244,22 @@ class ReceiveMail():
 							f.write(data)
 				else:
 					print("附件没名字？？")
+
+
+	# 获取邮件编码
+	def guess_charset(self, msg):
+		charset = msg.get_charset()
+		if charset is None:
+			content_type = msg.get('Content-Type', '').lower()
+			pos = content_type.find('charset=')
+			if pos >= 0:
+				charset = content_type[pos + 8:].strip()
+		return charset
+
+
+	# 邮件解码
+	def decode_str(self, s):
+		value, charset = decode_header(s)[0]
+		if charset:
+			value = value.decode(charset)
+		return value

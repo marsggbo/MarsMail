@@ -8,6 +8,11 @@ class Search():
 
 	def run(self,userInfo=None,mode=None,keyword=None):
 		self.userInfo = userInfo
+		dir = '/data/%s'%(self.userInfo['email'])
+		# 获取当前文件的绝对路径
+		abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/')
+		dir = abDir + dir
+		self.receiveJsonName = dir + '/receive.json'
 		print(userInfo)
 		print(mode)
 		print(keyword)
@@ -37,7 +42,7 @@ class Search():
 	# 搜索主题
 	def searchSubject(self,subject):
 		dir = 'data/%s'%(self.userInfo['email'])
-		contacts = GetJsonInfo('contacts.json')
+		contacts = GetJsonInfo(self.receiveJsonName)
 		files = {}
 		subject = subject.lower()
 		if os.path.exists(dir):
@@ -53,8 +58,8 @@ class Search():
 	def searchEmailContent(self,content):
 		content = re.compile(content)
 		dir = 'data/%s'%(self.userInfo['email'])
-		contacts = GetJsonInfo('contacts.json')
-		abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/') + "/%s"%dir
+		contacts = GetJsonInfo(self.receiveJsonName)
+		abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/') + dir
 		files = {}
 		if os.path.exists(dir):
 			for file in os.listdir(dir):
@@ -68,7 +73,7 @@ class Search():
 
 	# 搜索邮件地址
 	def searchEmailAddr(self,email):
-		contacts = GetJsonInfo('contacts.json')
+		contacts = GetJsonInfo(self.receiveJsonName)
 		files = {}
 		temp = email.lower()
 		for item in contacts:
@@ -78,7 +83,7 @@ class Search():
 
 	# 搜索联系人
 	def searchName(self,name):
-		contacts = GetJsonInfo('contacts.json')
+		contacts = GetJsonInfo(self.receiveJsonName)
 		files = {}
 		temp = name.lower()
 		for item in contacts:
@@ -88,7 +93,7 @@ class Search():
 
 	# 搜索时间
 	def searchDate(self,date):
-		contacts = GetJsonInfo('contacts.json')
+		contacts = GetJsonInfo(self.receiveJsonName)
 		files = {}
 		temp = date.lower()
 		for item in contacts:

@@ -9,6 +9,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import parseaddr, formataddr, formatdate
 from DealJsonFile import GetJsonInfo, SaveJsonInfo
+from locker import encrypt, decrypt
 
 class SendMail():
 	def __init__(self, parent=None):
@@ -37,7 +38,8 @@ class SendMail():
 			server = smtplib.SMTP_SSL(self.emailInfo["smtp_server"],465)
 
 			server.set_debuglevel(1)
-			server.login(self.emailInfo["email"],self.emailInfo["pwd"])
+			password = decrypt(self.emailInfo['pwd'])
+			server.login(self.emailInfo["email"],password)
 			server.sendmail(self.emailInfo["email"],self.emailInfo["to_addr"],msg.as_string())
 			server.quit()
 

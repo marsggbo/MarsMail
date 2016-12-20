@@ -12,7 +12,9 @@ from PyQt4.QtGui import *
 
 from Ui_login import Ui_Dialog
 from DealJsonFile import GetJsonInfo, SaveJsonInfo
+from locker import encrypt, decrypt
 import time,  os
+import base64
 
 class Login(QDialog, Ui_Dialog):
 	def __init__(self, parent=None):
@@ -22,13 +24,14 @@ class Login(QDialog, Ui_Dialog):
 		self.emailInfo = GetJsonInfo('conf.json')
 
 		# 初始化
-		if self.emailInfo["email"] and self.emailInfo["pwd"]:
+		if self.emailInfo["email"] and self.emailInfo["pwd"] :
 			email = self.emailInfo["email"]
-			pwd = self.emailInfo["pwd"]
+			pwd = decrypt(self.emailInfo['pwd'])
 			self.loginmail.setText(email)
 			self.loginpwd.setText(pwd)
 			self.loginsmtp.setText(self.emailInfo['smtp_server'])
 			self.loginpop.setText(self.emailInfo['pop3_server'])
+			# self.run()
 
 
 	# 无边框设计
@@ -58,9 +61,22 @@ class Login(QDialog, Ui_Dialog):
 			dir = '/data/%s'%(self.emailInfo['email'])
 			# 获取当前文件的绝对路径
 			abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/')
-			dir = ("%s/%s")%(abDir,dir)
+			dir = abDir + dir
 			if not os.path.exists(dir):
 				os.mkdir(dir)
+				# 创建用户邮件信息记录文件
+				files = ['receive','send','delete','draft']
+				for file in files:
+					file = "%s/%s.json"%(dir,file)
+					initData = {
+							'subject':{
+								'subject':'',
+								'date':'',
+								'name':'',
+								'fromAddr':''
+							}
+					}
+					SaveJsonInfo(file,initData)
 				print("文件夹创建成功:%s"%dir)
 
 			self.close()
@@ -68,7 +84,10 @@ class Login(QDialog, Ui_Dialog):
 	def run(self):
 		# 获取登录信息
 		self.emailInfo["email"] = self.loginmail.text()
-		self.emailInfo["pwd"] = self.loginpwd.text()
+		# 密码加密
+		password = self.loginpwd.text()
+		self.emailInfo["pwd"] = encrypt(password)
+
 		smtp_server = self.loginsmtp.text()
 		pop3_server = self.loginpop.text()
 		if smtp_server and pop3_server:
@@ -93,13 +112,18 @@ class Login(QDialog, Ui_Dialog):
 			SaveJsonInfo('conf.json', self.emailInfo)
 			self.loginsmtp.setText(smtp_server)
 			self.loginpop.setText(pop3_server)
+
+		# 开始登陆
 		try:
 			start = time.time()
 			self.emailInfo = GetJsonInfo('conf.json')
 			server = smtplib.SMTP_SSL(smtp_server, 465)
 			server.set_debuglevel(1)
 			print('\n***************************************\n\n')
-			server.login(self.emailInfo["email"], self.emailInfo["pwd"])
+
+			# 密码解密
+			password = decrypt(self.emailInfo['pwd'])
+			server.login(self.emailInfo["email"], password)
 			self.emailInfo["status"] = 1
 			SaveJsonInfo('conf.json', self.emailInfo)
 			end = time.time()
