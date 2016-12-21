@@ -90,11 +90,15 @@ class Login(QDialog, Ui_Dialog):
 
 		smtp_server = self.loginsmtp.text()
 		pop3_server = self.loginpop.text()
+
+		# 使用上次的服务器地址
 		if smtp_server and pop3_server:
 			self.emailInfo["smtp_server"] = smtp_server
 			self.emailInfo["pop3_server"] = pop3_server
 			self.emailInfo["status"] = 0
 			SaveJsonInfo('conf.json', self.emailInfo)
+
+		# 若服务器地址为空，则自动获取
 		else:
 			server = self.loginmail.text().split('@')[1].split('.com')[0]
 			if server == 'foxmail':

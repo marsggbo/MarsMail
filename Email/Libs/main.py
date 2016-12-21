@@ -8,9 +8,6 @@ from PyQt4 import QtCore,  QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import time, os,sys,threading
-from email.parser import Parser
-from email.header import decode_header
-from email.utils import parseaddr, parsedate
 from email.parser import BytesParser
 
 from Ui_main import Ui_MainWindow
@@ -20,35 +17,10 @@ from login import Login
 from pop import ReceiveMail
 from contacts import contacts
 from DealJsonFile import GetJsonInfo, SaveJsonInfo
-from locker import encrypt, decrypt
+from locker import  decrypt
 from search import Search
 
-# global page
-# global reveiveWay
-# page = 0
-# receiveWay = 0	# 0表示接收最新6封邮件，1表示接收更多邮件
-
-class ReceiveEmail(QtCore.QThread):
-	def __init__(self, parent=None):
-		super(ReceiveEmail,self).__init__(parent)
-		self.emailInfo = {}
-		self.index = ReceiveMail().GetEmailNum()
-
-	def run(self):
-		global page
-		global receiveWay
-		if receiveWay == 1:
-			if self.index > 6:
-				my_index = self.index - page*6
-				print(my_index)
-			else:
-				my_index = self.index
-		elif receiveWay == 0:
-			my_index = self.index
-
-		my_pop3 = ReceiveMail().Receive(my_index)
-
-
+# 主界面类
 class MainWindow(QMainWindow, Ui_MainWindow):
 	def __init__(self, parent=None):
 		super(MainWindow, self).__init__(parent)
@@ -61,10 +33,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		# 判断是否已经的登录邮箱,若已经登录才能进行后续操作
 		self.login = 0
 
-		# 判断是否接受到新的一封邮件
-		# self.isReceived = 0
-
-		#
+		# 已接收邮件记录变量
+		self.isReceived = {}
 
 		# 登录上次账号
 		try:
@@ -81,18 +51,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			end = time.time()
 			print('耗时：' + str(end - start))
 			self.mainUserName.setText(self.emailInfo['email'])
-			self.mainlogin.setText('切换账号')
+			self.mainlogin.setText('切换')
 			self.login = 1
 
 			# 获取当前文件的绝对路径
 			abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/')
 			dir = "%s/data/%s/"%(abDir,self.emailInfo['email'])
-			# print(dir)
 			self.receiveJsonName = dir + "receive.json"
-			# print(self.receiveJsonName)
 			self.sendJsonName = dir + "send.json"
 			self.deleteJsonName = dir + "delete.json"
 			self.draftJsonName = dir + "draft.json"
+			p1 = threading.Thread(target=self.addQList(GetJsonInfo(self.receiveJsonName), 'emaillist'))
+			p1.start()
 
 		except Exception as e:
 			print(e)
@@ -105,6 +75,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.delEmail.hide()
 		self.mainReply.hide()
 		self.mainAttach.hide()
+		self.bufferGif.hide()
 
 		# 绑定emailList
 		self.connect(self.emaillist, SIGNAL('itemClicked(QListWidgetItem *)'), self.emailItemClicked)
@@ -143,7 +114,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				'email':my_email,
 				'time':my_time
 			}
-			my_url = 'data/' + self.url.split('data/')[1]
+			abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\', '/')
+			dir = "%s/data/%s/" % (abDir, self.emailInfo['email'])
+			my_url = dir + my_subject + '.html'
 
 			my_mainForward  = WriteEmailDialog(isForwad=True, ForwardInfo=my_forwardInfo,url=my_url)
 			my_mainForward.exec_()
@@ -161,7 +134,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			'email':my_email,
 			'time':my_time
 		}
-		my_url = 'data/' + self.url.split('data/')[1]
+
+		abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\', '/')
+		dir = "%s/data/%s/" % (abDir, self.emailInfo['email'])
+		my_url = dir + my_subject + '.html'
+		# my_url = 'data/' + self.url.split('data/')[1]
 		reply_addr = self.contEmail.text()
 		reply_subject = "Reply:" + self.contEmailSubject.text()
 		my_replyInfo = {
@@ -245,7 +222,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				if len(files) > 0:
 					self.addQList(files,'searchList')
 				else:
-					self.addQList(['搜索结果为空'],'searchList')
+					self.addQList({"搜索结果为空":{"date":"","subject":"搜索结果为空","name":""}},'searchList')
 				print("耗时啥都不用2：", time.time() - begin)
 			else:
 				my_alert = QMessageBox.warning(self, '搜索失败', u'搜索内容不能为空！')
@@ -289,9 +266,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			my_receive = GetJsonInfo(self.receiveJsonName)
 			my_currentItem = self.searchList.currentItem()
 			my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
-			self.url = 'file:///' + os.path.abspath(os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html'%(self.emailInfo['email'],my_text)
-			self.url = self.url.replace('\\','/')
-			print(self.url)
+
+			url = 'file:///' + os.path.abspath(os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html'%(self.emailInfo['email'],my_text)
+			url = url.replace('\\','/')
+			print(url)
+
 			self.contName.setText(my_receive[my_text]['name'])
 			self.contEmail.setText(my_receive[my_text]['fromAddr'])
 			self.contEmailTime.setText(my_receive[my_text]['date'])
@@ -300,7 +279,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.delEmail.show()
 			self.mainReply.show()
 			self.mainAttach.show()
-			self.emailShow.setUrl(QtCore.QUrl(self.url))
+			self.emailShow.setUrl(QtCore.QUrl(url))
 			self.attachList.hide()
 		except Exception as e:
 			print(str(e))
@@ -316,9 +295,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			my_currentItem = self.emaillist.currentItem()
 			my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
 			# dir = "data/%s"%self.emailInfo['email']
-			self.url = 'file:///' + os.path.abspath(os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html'%(self.emailInfo['email'],my_text)
-			self.url = self.url.replace('\\','/')
-			print(self.url)
+			url = 'file:///' + os.path.abspath(os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html'%(self.emailInfo['email'],my_text)
+			url = url.replace('\\','/')
+			print(url)
 			self.contName.setText(my_receive[my_text]['name'])
 			self.contEmail.setText(my_receive[my_text]['fromAddr']) 
 			self.contEmailTime.setText(my_receive[my_text]['date'])
@@ -327,31 +306,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.delEmail.show()
 			self.mainReply.show()
 			self.mainAttach.show()
-			self.emailShow.setUrl(QtCore.QUrl(self.url))
+			self.emailShow.setUrl(QtCore.QUrl(url))
 			self.attachList.hide()
 		except Exception as e:
 			print(str(e))
-
-	# 将邮件摘要添加至收件箱列表
-	# def addQListWidgetItem(self):
-	# 	abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/')
-	# 	dir = "%s/data/%s"%(abDir,self.emailInfo['email'])
-	# 	print(dir)
-	#
-	# 	files = []
-	# 	for file in os.listdir(dir):
-	# 		print(file)
-	# 		if os.path.isfile(os.path.join(dir,file)):
-	# 			files.append(file)
-	# 	print('****************************\n\n')
-	# 	my_receive = GetJsonInfo(self.receiveJsonName)
-	#
-	# 	for subject in my_receive:
-	# 		filename = subject + '.html'
-	# 		if filename in files:
-	# 			abstractContent = my_receive[subject]['date'] +  '\n' + subject + '\n' + my_receive[subject]['name']
-	# 			self.emaillist.addItem(abstractContent)
-
 
 	# 将信息插入到列表
 	def addQList(self,files,way):
@@ -379,9 +337,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			try:
 				# 解析邮件基本信息
 				currentEmailInfo = myPop.parseEmailInfo(msg)
-				# 解析邮件内容
-				myPop.parseEmailContent(msg)
-				self.addQList(currentEmailInfo,'emaillist')
+				for item in currentEmailInfo:
+					if item not in self.isReceived:
+						self.isReceived.update(currentEmailInfo)
+						# 解析邮件内容
+						myPop.parseEmailContent(msg)
+						self.addQList(currentEmailInfo,'emaillist')
 			except Exception as e:
 				print(str(e))
 
@@ -401,13 +362,38 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			p = threading.Thread(target=self.runReceive)
 			p.start()
 
-	# 邮件列表排序
-	@pyqtSlot()
-	def on_emailsort_clicked(self):
-		if self.login == 0:
-			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
-		else:
-			print("排序")
+			self.bufferGif.show()
+			movie = QMovie("qrc:/souce/缓冲1.gif")
+			self.bufferGif.setMovie(movie)
+			movie.start()
+			time.sleep(2)
+			self.bufferGif.hide()
+
+	# 选择邮件列表排序对象
+	@pyqtSlot(str)
+	def on_itemSortMode_currentIndexChanged(self, p0):
+		mode = self.itemSortMode.currentText()
+		print(mode)
+		if mode == '按时间排序':
+			print("时间")
+		elif mode == "按主题排序":
+			print("主题")
+		elif mode == "按联系人排序":
+			print("联系人")
+
+	# 选择邮件列表排列顺序
+	@pyqtSlot(str)
+	def on_itemSortOrder_currentIndexChanged(self,p0):
+		order = self.itemSortOrder.currentText()
+		if order == "升序":
+			self.emaillist.sortItems(Qt.AscendingOrder)
+			self.searchList.sortItems(Qt.AscendingOrder)
+			self.sendedList.sortItems(Qt.AscendingOrder)
+		elif order == "降序":
+			self.emaillist.sortItems(Qt.DescendingOrder)
+			self.searchList.sortItems(Qt.DescendingOrder)
+			self.sendedList.sortItems(Qt.DescendingOrder)
+
 
 	# 显示联系人界面
 	@pyqtSlot()
@@ -434,12 +420,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			# 获取当前文件的绝对路径
 			abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/')
 			dir = "%s/data/%s/"%(abDir,self.emailInfo['email'])
-			# print(dir)
 			self.receiveJsonName = dir + "receive.json"
-			# print(self.receiveJsonName)
 			self.sendJsonName = dir + "send.json"
 			self.deleteJsonName = dir + "delete.json"
 			self.draftJsonName = dir + "draft.json"
+			p1 = threading.Thread(target=self.addQList(GetJsonInfo(self.receiveJsonName), 'emaillist'))
+			p1.start()
+
 
 	# 日历
 	@pyqtSlot()

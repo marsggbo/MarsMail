@@ -78,9 +78,9 @@ QPushButton{border:none;}</string>
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>425</y>
-       <width>29</width>
-       <height>171</height>
+       <y>555</y>
+       <width>201</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -96,8 +96,8 @@ QPushButton:hover {
      <widget class="QPushButton" name="about">
       <property name="geometry">
        <rect>
-        <x>2</x>
-        <y>19</y>
+        <x>20</x>
+        <y>0</y>
         <width>25</width>
         <height>25</height>
        </rect>
@@ -119,15 +119,15 @@ background-color: rgb(255, 170, 127);}</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset>
-        <normaloff>:/souce/souce/邮箱 (1).png</normaloff>:/souce/souce/邮箱 (1).png</iconset>
+       <iconset resource="souce.qrc">
+        <normaloff>:/souce/souce/联系我们.png</normaloff>:/souce/souce/联系我们.png</iconset>
       </property>
      </widget>
      <widget class="QPushButton" name="addressbook">
       <property name="geometry">
        <rect>
-        <x>2</x>
-        <y>56</y>
+        <x>70</x>
+        <y>0</y>
         <width>25</width>
         <height>25</height>
        </rect>
@@ -152,8 +152,8 @@ background-color: rgb(255, 170, 127);}</string>
      <widget class="QPushButton" name="calender">
       <property name="geometry">
        <rect>
-        <x>2</x>
-        <y>93</y>
+        <x>120</x>
+        <y>0</y>
         <width>25</width>
         <height>25</height>
        </rect>
@@ -172,8 +172,8 @@ background-color: rgb(255, 170, 127);}</string>
      <widget class="QPushButton" name="settings">
       <property name="geometry">
        <rect>
-        <x>2</x>
-        <y>130</y>
+        <x>160</x>
+        <y>0</y>
         <width>25</width>
         <height>25</height>
        </rect>
@@ -272,7 +272,7 @@ QPushButton:hover {
      <property name="geometry">
       <rect>
        <x>80</x>
-       <y>230</y>
+       <y>240</y>
        <width>41</width>
        <height>41</height>
       </rect>
@@ -280,11 +280,11 @@ QPushButton:hover {
      <property name="styleSheet">
       <string notr="true">#mainlogin{
 background-color: rgb(41, 189, 139);
+border-radius:20px;
 
 }
 #mainlogin:hover{
-background-color: rgb(29,171,123);
-border-radius:20px;
+	background-color: rgb(38, 234, 166);
 }</string>
      </property>
      <property name="text">
@@ -295,13 +295,21 @@ border-radius:20px;
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>210</y>
+       <y>199</y>
        <width>199</width>
-       <height>20</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rg(b242,242,242);</string>
+      <string notr="true">#mainUserName{
+font: 87 14px &quot;Arial Black&quot;;
+text-decoration: underline;
+color:tomato;
+}
+#mainUserName:hover{
+background-color: rgb(85,220,129);
+color:white;
+}</string>
      </property>
      <property name="text">
       <string/>
@@ -314,7 +322,7 @@ border-radius:20px;
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>340</y>
+       <y>410</y>
        <width>201</width>
        <height>31</height>
       </rect>
@@ -333,7 +341,7 @@ background-color: rgb(123,25,36);
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>300</y>
+       <y>370</y>
        <width>201</width>
        <height>31</height>
       </rect>
@@ -346,6 +354,60 @@ background-color: rgb(123,25,36);
      </property>
      <property name="text">
       <string>收件箱</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="bufferGif">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>100</y>
+       <width>51</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>加载中</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="deleteBox">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>450</y>
+       <width>201</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#deleteBox{background-color: rgb(85, 255, 127);}
+#deleteBox:hover{
+background-color: rgb(123,25,36);
+}</string>
+     </property>
+     <property name="text">
+      <string>已删除</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="draftBox">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>490</y>
+       <width>201</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#draftBox{background-color: rgb(85, 255, 127);}
+#draftBox:hover{
+background-color: rgb(123,25,36);
+}</string>
+     </property>
+     <property name="text">
+      <string>草稿箱</string>
      </property>
     </widget>
    </widget>
@@ -371,19 +433,6 @@ background-color: rgb(123,25,36);
     <property name="title">
      <string/>
     </property>
-    <widget class="QPushButton" name="emailsort">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>132</width>
-       <height>50</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>主题排序</string>
-     </property>
-    </widget>
     <widget class="QListWidget" name="emaillist">
      <property name="geometry">
       <rect>
@@ -471,19 +520,6 @@ background-color: rgb(41, 189, 139);
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="emailsort_2">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>0</y>
-       <width>132</width>
-       <height>50</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>发信人排序</string>
-     </property>
-    </widget>
     <widget class="QPushButton" name="moreemail">
      <property name="geometry">
       <rect>
@@ -509,12 +545,63 @@ background-color:rgb(123,25,65);
       <string>+</string>
      </property>
     </widget>
-    <zorder>emailsort</zorder>
+    <widget class="QComboBox" name="itemSortMode">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>131</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <item>
+      <property name="text">
+       <string>按时间排序</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>按主题排序</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>按联系人排序</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="itemSortOrder">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>0</y>
+       <width>131</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>升序</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>降序</string>
+      </property>
+     </item>
+    </widget>
     <zorder>sendedList</zorder>
     <zorder>searchList</zorder>
     <zorder>emaillist</zorder>
-    <zorder>emailsort_2</zorder>
     <zorder>moreemail</zorder>
+    <zorder>itemSortMode</zorder>
+    <zorder>itemSortOrder</zorder>
    </widget>
    <widget class="QGroupBox" name="showemail">
     <property name="geometry">
@@ -660,20 +747,27 @@ font: 14px &quot;微软雅黑&quot;;</string>
       <string notr="true">#attachList{background-color: tomato;
 }
 #attachList::Item{
-height:50px;
+height:25px;
+width:100px;
 }
 #attachList::Item:hover{
 background-color: rgb(41, 189, 139);
 }</string>
      </property>
+     <property name="flow">
+      <enum>QListView::LeftToRight</enum>
+     </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
      <item>
       <property name="text">
-       <string>每次看见大客车绝对是.json</string>
+       <string>hello world</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>hello world</string>
+       <string>每次看见大客车绝对是.json</string>
       </property>
      </item>
      <item>

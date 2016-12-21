@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>720</width>
+    <width>718</width>
     <height>560</height>
    </rect>
   </property>
@@ -30,11 +30,10 @@
    </property>
    <property name="styleSheet">
     <string notr="true">QGroupBox{background-color: rgb(244, 244, 244);}
-#send{border:none;background-color: rgb(244, 244, 244);}
-#accessory{border:none;background-color: rgb(244, 244, 244);}
+#send,#save,#accessory{border:none;background-color: rgb(244, 244, 244);}
 #send:hover{background-color: rgb(219,219,219);}
 #accessory:hover{background-color: rgb(219,219,219);}
-</string>
+#save:hover{background-color: rgb(219,219,219);}</string>
    </property>
    <property name="title">
     <string/>
@@ -79,14 +78,34 @@
       <normaloff>:/souce/souce/附件.png</normaloff>:/souce/souce/附件.png</iconset>
     </property>
    </widget>
+   <widget class="QPushButton" name="save">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>15</y>
+      <width>81</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>存入草稿</string>
+    </property>
+    <property name="icon">
+     <iconset resource="souce.qrc">
+      <normaloff>:/souce/souce/保存.png</normaloff>:/souce/souce/保存.png</iconset>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>50</y>
+     <y>49</y>
      <width>720</width>
-     <height>150</height>
+     <height>91</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -99,7 +118,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>90</y>
+      <y>60</y>
       <width>60</width>
       <height>15</height>
      </rect>
@@ -112,7 +131,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>90</y>
+      <y>60</y>
       <width>271</width>
       <height>20</height>
      </rect>
@@ -122,7 +141,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>40</y>
+      <y>10</y>
       <width>60</width>
       <height>15</height>
      </rect>
@@ -135,7 +154,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>40</y>
+      <y>10</y>
       <width>271</width>
       <height>20</height>
      </rect>
@@ -146,73 +165,39 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>220</y>
+     <y>199</y>
      <width>720</width>
-     <height>340</height>
+     <height>361</height>
     </rect>
    </property>
    <property name="plainText">
     <string/>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox_2">
+  <widget class="QWebView" name="richEmailEdit">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>200</y>
-     <width>720</width>
-     <height>20</height>
+     <y>140</y>
+     <width>721</width>
+     <height>411</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(244, 244, 244);</string>
+   <property name="url">
+    <url>
+     <string>file:///C:/Users/14356/Desktop/EmailSystem_搜索_转发_回复_12.15/Email/Libs/kindeditor-4.1.7/examples/default.html</string>
+    </url>
    </property>
-   <property name="title">
-    <string/>
-   </property>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>0</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>样式编辑</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>0</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>样式编辑</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_3">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>0</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>样式编辑</string>
-    </property>
-   </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKitWidgets/QWebView</header>
+  </customwidget>
+ </customwidgets>
  <resources>
-  <include location="souce.qrc"/>
   <include location="souce.qrc"/>
  </resources>
  <connections/>

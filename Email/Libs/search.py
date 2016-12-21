@@ -8,11 +8,12 @@ class Search():
 
 	def run(self,userInfo=None,mode=None,keyword=None):
 		self.userInfo = userInfo
-		dir = '/data/%s'%(self.userInfo['email'])
+		self.dir = '/data/%s'%(self.userInfo['email'])
 		# 获取当前文件的绝对路径
 		abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/')
-		dir = abDir + dir
-		self.receiveJsonName = dir + '/receive.json'
+		self.dir = abDir + self.dir
+		print(self.dir)
+		self.receiveJsonName = self.dir + '/receive.json'
 		print(userInfo)
 		print(mode)
 		print(keyword)
@@ -30,7 +31,7 @@ class Search():
 			self.islock = False  # 解锁
 		elif mode == '邮件内容':
 			print('邮件内容搜索')
-			self.result = self.searchSubject(keyword)
+			self.result = self.searchEmailContent(keyword)
 			self.islock = False  # 解锁
 
 	# 返回结果
@@ -56,19 +57,20 @@ class Search():
 
 	# 搜索邮件内容
 	def searchEmailContent(self,content):
-		content = re.compile(content)
-		dir = 'data/%s'%(self.userInfo['email'])
+		# content = re.compile(content)
 		contacts = GetJsonInfo(self.receiveJsonName)
-		abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/') + dir
 		files = {}
-		if os.path.exists(dir):
-			for file in os.listdir(dir):
+		if os.path.exists(self.dir):
+			for file in os.listdir(self.dir):
 				if file[-4:] == 'html':
-					fileDir = "%s/%s"%(abDir,file)
+					fileDir = "%s/%s"%(self.dir,file)
 					with open(fileDir,'rb') as f:
 						emailContent = f.read().decode('utf-8')
-						if len(content.findall(emailContent))>0:
-							files[file] = contacts[file]
+						# if len(content.findall(emailContent))>0:
+						if content in emailContent:
+							subject = file.replace('.html','')
+							files[subject] = contacts[subject]
+
 		return files
 
 	# 搜索邮件地址
