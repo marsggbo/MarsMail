@@ -4,9 +4,14 @@
 Module implementing WriteEmailDialog.
 """
 
-from PyQt4 import QtCore
+from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import pyqtSlot
 from PyQt4.QtGui import QDialog,QMessageBox
+
+from email.mime.base import MIMEBase
+from email.header import Header
+from email import encoders
+from email.encoders import encode_base64
 
 from Ui_writemail import Ui_WriteEmailDialog
 from smtp import SendMail
@@ -183,6 +188,16 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 			date = str(date[0]) + '.' + str(date[1]) + '.' + str(date[2]) + ' ' + str(date[3]) + ':' + str(date[4]) + ':' + str(date[5])
 			return date
 
-	@pyqtSlot()
-	def on_accessory_clicked(self):
-		print("Fujian")
+
+	# @pyqtSlot()
+	# def on_accessory_clicked(self):
+	# 	options = QtGui.QFileDialog.Options()
+	# 	fileName = QtGui.QFileDialog.getOpenFileName(parent = self, caption = "please select your files", filter = "All Files (*);;Text Files (*.txt)", options = options)
+	# 	if fileName:
+	# 		with open(fileName, 'rb') as f:
+	# 			msg_attach = MIMEBase('application', 'octet-stream', filename = fileName)
+	# 			msg_attach.set_payload(f.read())
+	# 			encoders.encode_base64(msg_attach)
+	# 			f.close()
+	# 			msg_attach.add_header('Content-Disposition', 'attachment', filename = fileName)
+	# 			self.email.msg.attach(msg_attach)

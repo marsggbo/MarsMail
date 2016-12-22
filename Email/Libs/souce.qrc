@@ -1,8 +1,14 @@
 <RCC>
   <qresource prefix="souce">
+    <file>souce/还原.png</file>
+    <file>souce/关于 (2).png</file>
     <file>souce/保存.png</file>
-    <file>kindeditor-4.1.7/examples/default.html</file>
     <file>souce/联系我们.png</file>
+    <file>souce/草稿箱.png</file>
+    <file>souce/发件箱.png</file>
+    <file>souce/垃圾箱.png</file>
+    <file>souce/收件箱.png</file>
+    <file>souce/关于.png</file>
     <file>souce/缓冲1.gif</file>
     <file>souce/缓冲2.gif</file>
     <file>souce/收起.png</file>

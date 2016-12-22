@@ -86,6 +86,12 @@ class Ui_WriteEmailDialog(object):
 
         self.retranslateUi(WriteEmailDialog)
         QtCore.QMetaObject.connectSlotsByName(WriteEmailDialog)
+        WriteEmailDialog.setTabOrder(self.receiverEdit, self.subjectEdit)
+        WriteEmailDialog.setTabOrder(self.subjectEdit, self.send)
+        WriteEmailDialog.setTabOrder(self.send, self.accessory)
+        WriteEmailDialog.setTabOrder(self.accessory, self.save)
+        WriteEmailDialog.setTabOrder(self.save, self.richEmailEdit)
+        WriteEmailDialog.setTabOrder(self.richEmailEdit, self.emailContent)
 
     def retranslateUi(self, WriteEmailDialog):
         WriteEmailDialog.setWindowTitle(_translate("WriteEmailDialog", "Dialog", None))

@@ -197,6 +197,15 @@
    <header>QtWebKitWidgets/QWebView</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>receiverEdit</tabstop>
+  <tabstop>subjectEdit</tabstop>
+  <tabstop>send</tabstop>
+  <tabstop>accessory</tabstop>
+  <tabstop>save</tabstop>
+  <tabstop>richEmailEdit</tabstop>
+  <tabstop>emailContent</tabstop>
+ </tabstops>
  <resources>
   <include location="souce.qrc"/>
  </resources>

@@ -1,7 +1,6 @@
 #coding=utf-8
 import poplib
-import json
-import time, threading
+import time
 import email
 from email.parser import Parser
 from email.header import decode_header
@@ -10,7 +9,6 @@ from email.parser import BytesParser
 from DealJsonFile import GetJsonInfo, SaveJsonInfo
 from locker import encrypt, decrypt
 import os
-import chardet
 
 
 
@@ -54,66 +52,6 @@ class ReceiveMail():
 		# 获取邮件数量, 注意索引号从1开始:
 		self.emailNum = len(mails)
 		return self.emailNum
-
-
-	# 接收邮件
-	# def Receive(self,index):
-		# 循环解析邮件
-		# for i in range(index,0,-1):
-		# 	resp, lines, octets = self.server.retr(i)
-		# 	msg_content = b'\r\n'.join(lines)
-
-			# # 稍后解析出邮件:
-			# msg = BytesParser().parsebytes(msg_content)
-			# try:
-			# 	# 解析邮件基本信息
-			# 	self.parseEmailInfo(msg)
-			# 	self.isLock = 1
-			# 	# 解析邮件内容
-			# 	self.parseEmailContent(msg)
-			# 	with open('lock.txt','wb') as f:
-			# 		f.write(b'1')
-			# except Exception as e:
-			# 	print(str(e))
-			# 可以根据邮件索引号直接从服务器删除邮件:
-			# server.dele(i)
-			# 关闭连接:
-		# self.server.quit()
-
-		# if index > 6:
-		# 	for i in range(index,index-6,-1):
-		# 		msg_content = ''
-		# 		resp, lines, octets = self.server.retr(i)
-		# 		msg_content = b'\r\n'.join(lines)
-		#
-		# 		# # 稍后解析出邮件:
-		# 		msg = BytesParser().parsebytes(msg_content)
-		# 		try:
-		# 			self.print_info(msg)
-		# 		except Exception as e:
-		# 			print(str(e))
-				# 可以根据邮件索引号直接从服务器删除邮件:
-				# server.dele(i)
-				# 关闭连接:
-		# else:
-		# 	for i in range(index,0,-1):
-		# 		msg_content = ''
-		# 		resp, lines, octets = self.server.retr(i)
-		#
-		# 		# lines存储了邮件的原始文本的每一行,
-		# 		# 可以获得整个邮件的原始文本:
-		# 		msg_content = b'\r\n'.join(lines)
-		#
-		# 		# 稍后解析出邮件:
-		# 		msg = BytesParser().parsebytes(msg_content)
-		# 		try:
-		# 			self.print_info(msg)
-		# 		except Exception as e:
-		# 			print(str(e))
-
-	# # 获取线程锁
-	# def getLock(self):
-	# 	return self.isLock
 
 	# 解析邮件基本信息
 	def parseEmailInfo(self,msg):
@@ -211,7 +149,7 @@ class ReceiveMail():
 					emailname = subject[:30]
 				else:
 					emailname = subject
-				# 若含有附件,则以邮件名创建附件文件夹
+				# 获取附件名，若有附件则以邮件名创建附件文件夹
 				sonDir = dir + "/%s"%emailname
 				filename = msg.get_filename()
 				if filename:
@@ -219,16 +157,13 @@ class ReceiveMail():
 					dh = decode_header(filename)
 					fname = dh[0][0]
 					charset = dh[0][1]
-					# print(type(fname))
-					# print(fname)
+
 					try:
 						fname = fname.decode(charset)
-						print(type(fname))
 						print('有附件啦1',fname)
 					except Exception as e:
 						print(str(e))
 						fname = dh[0][0]
-						print(type(fname))
 						print('有附件啦2',fname)
 					data = msg.get_payload(decode=True)
 

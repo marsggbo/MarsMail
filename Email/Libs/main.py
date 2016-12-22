@@ -33,8 +33,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		# 判断是否已经的登录邮箱,若已经登录才能进行后续操作
 		self.login = 0
 
+		# 下面变量用于记录已经添加到列表中的值，从而避免重复添加
 		# 已接收邮件记录变量
 		self.isReceived = {}
+		# 已删除邮件记录变量
+		self.isDeleted = {}
+		# 草稿箱记录变量
+		self.isDraft = {}
+		# 已发送邮件记录变量
+		self.isSent = {}
 
 		# 登录上次账号
 		try:
@@ -85,6 +92,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 		# 绑定searchList
 		self.connect(self.searchList, SIGNAL('itemClicked(QListWidgetItem *)'), self.searchItemClicked)
+
+		# 绑定deleteList
+		self.connect(self.deleteList, SIGNAL('itemClicked(QListWidgetItem *)'), self.deleteItemClicked)
+
+		# 绑定draftList
+		self.connect(self.draftList, SIGNAL('itemClicked(QListWidgetItem *)'), self.draftItemClicked)
+
+		# 绑定sentList
+		self.connect(self.sentList, SIGNAL('itemClicked(QListWidgetItem *)'), self.sentItemClicked)
 
 	# 无边框设计
 	def mousePressEvent(self, event):
@@ -182,9 +198,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				self.delete = GetJsonInfo(self.deleteJsonName)
 
 				# 将删除邮件存至delete.json文件中
-				self.delete[my_subject] = self.receive[my_subject]
+				temp = {
+					my_subject:self.receive[my_subject]
+				}
+				print(temp)
+				self.delete.update(temp)
+
 				# 将邮件从receive.json中去除
 				self.receive.pop(my_subject)
+
+				# 数据回写
+				SaveJsonInfo(self.receiveJsonName,self.receive)
+				SaveJsonInfo(self.deleteJsonName,self.delete)
 
 				self.contEmail.setText('')
 				self.contEmailTime.setText('')
@@ -196,6 +221,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				self.item_enable_delete = False
 				self.mainForward.hide()
 				self.delEmail.hide()
+				self.addQList(self.delete,'deleteList')
 
 
 	# 查询邮件
@@ -209,7 +235,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				self.userInfo = GetJsonInfo('conf.json')
 				self.receive = GetJsonInfo(self.receiveJsonName)
 				self.emaillist.hide()
-				self.sendedList.hide()
+				self.sentList.hide()
 				self.searchList.show()
 				begin = time.time()
 				test = Search()
@@ -259,10 +285,98 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		except Exception as e:
 			my_alert = QMessageBox.warning(self, '操作失败', u'此邮件丢失')
 
+	# 垃圾箱列表点击触发显示邮件
+	@pyqtSlot()
+	def deleteItemClicked(self):
+		try:
+			self.item_enable_delete = True  # 点击一个元素，可删除
+			my_delete = GetJsonInfo(self.deleteJsonName)
+			my_currentItem = self.deleteList.currentItem()
+			my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
+
+			url = 'file:///' + os.path.abspath(
+				os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html' % (
+			self.emailInfo['email'], my_text)
+			url = url.replace('\\', '/')
+			print(url)
+
+			self.contName.setText(my_delete[my_text]['name'])
+			self.contEmail.setText(my_delete[my_text]['fromAddr'])
+			self.contEmailTime.setText(my_delete[my_text]['date'])
+			self.contEmailSubject.setText(my_text)
+			self.mainForward.hide()
+			self.delEmail.hide()
+			self.mainReply.hide()
+			self.mainAttach.show()
+			self.attachList.hide()
+			self.emailShow.setUrl(QtCore.QUrl(url))
+		except Exception as e:
+			print(str(e))
+		print("delete")
+
+	# 发件箱列表点击触发显示邮件
+	@pyqtSlot()
+	def sentItemClicked(self):
+		try:
+			self.item_enable_delete = True  # 点击一个元素，可删除
+			my_sent = GetJsonInfo(self.sendJsonName)
+			my_currentItem = self.sentList.currentItem()
+			my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
+
+			url = 'file:///' + os.path.abspath(
+				os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html' % (
+			self.emailInfo['email'], my_text)
+			url = url.replace('\\', '/')
+			print(url)
+
+			self.contName.setText(my_sent[my_text]['name'])
+			self.contEmail.setText(my_sent[my_text]['fromAddr'])
+			self.contEmailTime.setText(my_sent[my_text]['date'])
+			self.contEmailSubject.setText(my_text)
+			self.mainForward.hide()
+			self.delEmail.hide()
+			self.mainReply.hide()
+			self.mainAttach.show()
+			self.emailShow.setUrl(QtCore.QUrl(url))
+			self.attachList.hide()
+		except Exception as e:
+			print(str(e))
+		print("sent")
+
+	# 草稿箱列表点击触发显示邮件
+	@pyqtSlot()
+	def draftItemClicked(self):
+		try:
+			self.item_enable_delete = True  # 点击一个元素，可删除
+			my_draft = GetJsonInfo(self.draftJsonName)
+			my_currentItem = self.draftList.currentItem()
+			my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
+
+			url = 'file:///' + os.path.abspath(
+				os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html' % (
+			self.emailInfo['email'], my_text)
+			url = url.replace('\\', '/')
+			print(url)
+
+			self.contName.setText(my_draft[my_text]['name'])
+			self.contEmail.setText(my_draft[my_text]['fromAddr'])
+			self.contEmailTime.setText(my_draft[my_text]['date'])
+			self.contEmailSubject.setText(my_text)
+			self.mainForward.hide()
+			self.delEmail.hide()
+			self.mainReply.hide()
+			self.mainAttach.show()
+			self.emailShow.setUrl(QtCore.QUrl(url))
+			self.attachList.hide()
+		except Exception as e:
+			print(str(e))
+		print("sent")
+
 	# 搜索列表点击触发显示邮件
 	@pyqtSlot()
 	def searchItemClicked(self):
 		try:
+			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_receive = GetJsonInfo(self.receiveJsonName)
 			my_currentItem = self.searchList.currentItem()
 			my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
@@ -313,31 +427,52 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 	# 将信息插入到列表
 	def addQList(self,files,way):
-		for subject in files:
-			abstractContent = files[subject]['date'] + '\n' + subject + '\n' + files[subject]['name']
-			if way == 'searchList':
+		if way == 'searchList':
+			for subject in files:
+				abstractContent = files[subject]['date'] + '\n' + subject + '\n' + files[subject]['name']
 				self.searchList.addItem(abstractContent)
-			elif way == 'sendedList':
-				self.sendedList.addItem(abstractContent)
-			elif way == 'emaillist':
-				self.emaillist.addItem(abstractContent)
+		elif way == 'sentList':
+			for subject in files:
+				if subject not in self.isSent:
+					self.isSent.update({subject:files[subject]})
+					abstractContent = files[subject]['date'] + '\n' + subject + '\n' + files[subject]['name']
+					self.sentList.addItem(abstractContent)
+		elif way == 'emaillist':
+			for subject in files:
+				if subject not in self.isReceived:
+					self.isReceived.update({subject:files[subject]})
+					abstractContent = files[subject]['date'] + '\n' + subject + '\n' + files[subject]['name']
+					self.emaillist.addItem(abstractContent)
+		elif way == 'deleteList':
+			for subject in files:
+				if subject not in self.isDeleted:
+					self.isDeleted.update({subject:files[subject]})
+					abstractContent = files[subject]['date'] + '\n' + subject + '\n' + files[subject]['name']
+					self.deleteList.addItem(abstractContent)
+		elif way == 'draftList':
+			for subject in files:
+				if subject not in self.isDraft:
+					self.isDraft.update({subject:files[subject]})
+					abstractContent = files[subject]['date'] + '\n' + subject + '\n' + files[subject]['name']
+					self.draftList.addItem(abstractContent)
 
 	# 接收邮件
 	def runReceive(self):
 		myPop = ReceiveMail()
 		self.popServer = myPop.connect()
 		self.emailNum = myPop.GetEmailNum()
-		# 开始解析邮件
+		# 循环解析邮件
 		for i in range(self.emailNum,0,-1):
 			resp, lines, octets = self.popServer.retr(i)
 			msg_content = b'\r\n'.join(lines)
 
-			# # 稍后解析出邮件:
+			# 稍后解析出邮件:
 			msg = BytesParser().parsebytes(msg_content)
 			try:
 				# 解析邮件基本信息
 				currentEmailInfo = myPop.parseEmailInfo(msg)
 				for item in currentEmailInfo:
+					# 判断邮件是否已经添加到列表
 					if item not in self.isReceived:
 						self.isReceived.update(currentEmailInfo)
 						# 解析邮件内容
@@ -355,7 +490,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
 		else:
 			self.searchList.hide()
-			self.sendedList.hide()
+			self.sentList.hide()
 			self.emaillist.show()
 
 			self.receiveWay = 0
@@ -381,18 +516,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		elif mode == "按联系人排序":
 			print("联系人")
 
-	# 选择邮件列表排列顺序
+	# 邮件列表排列顺序
 	@pyqtSlot(str)
 	def on_itemSortOrder_currentIndexChanged(self,p0):
 		order = self.itemSortOrder.currentText()
 		if order == "升序":
 			self.emaillist.sortItems(Qt.AscendingOrder)
 			self.searchList.sortItems(Qt.AscendingOrder)
-			self.sendedList.sortItems(Qt.AscendingOrder)
+			self.sentList.sortItems(Qt.AscendingOrder)
 		elif order == "降序":
 			self.emaillist.sortItems(Qt.DescendingOrder)
 			self.searchList.sortItems(Qt.DescendingOrder)
-			self.sendedList.sortItems(Qt.DescendingOrder)
+			self.sentList.sortItems(Qt.DescendingOrder)
 
 
 	# 显示联系人界面
@@ -443,24 +578,58 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			my_writemail  = WriteEmailDialog()
 			my_writemail.exec_()
 
-	# 已发送邮件箱
+	# 已发送邮件箱显示按钮
 	@pyqtSlot()
-	def on_sendedBox_clicked(self):
+	def on_sentBox_clicked(self):
 		if self.login == 0:
 			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
 		else:
 			self.emaillist.hide()
 			self.searchList.hide()
-			self.sendedList.show()
+			self.deleteList.hide()
+			self.draftList.hide()
+			sendJson = GetJsonInfo(self.sendJsonName)
+			self.addQList(sendJson,'sentList')
+			self.sentList.show()
 
-	# 收件箱
+	# 垃圾箱显示按钮
+	@pyqtSlot()
+	def on_deleteBox_clicked(self):
+		if self.login == 0:
+			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
+		else:
+			self.emaillist.hide()
+			self.searchList.hide()
+			self.draftList.hide()
+			self.sentList.hide()
+			deleteJson = GetJsonInfo(self.deleteJsonName)
+			self.addQList(deleteJson,'deleteList')
+			self.deleteList.show()
+
+	# 草稿箱显示按钮
+	@pyqtSlot()
+	def on_draftBox_clicked(self):
+		if self.login == 0:
+			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
+		else:
+			self.emaillist.hide()
+			self.searchList.hide()
+			self.sentList.hide()
+			self.deleteList.hide()
+			draftJson = GetJsonInfo(self.draftJsonName)
+			self.addQList(draftJson,'draftList')
+			self.draftList.show()
+
+	# 收件箱显示按钮
 	@pyqtSlot()
 	def on_receivedBox_clicked(self):
 		if self.login == 0:
 			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
 		else:
 			self.searchList.hide()
-			self.sendedList.hide()
+			self.sentList.hide()
+			self.deleteList.hide()
+			self.draftList.hide()
 			self.emaillist.show()
 
 	# 关闭
