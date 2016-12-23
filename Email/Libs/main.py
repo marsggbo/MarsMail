@@ -47,29 +47,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		try:
 			start = time.time()
 			self.emailInfo = GetJsonInfo('conf.json')
-			server = smtplib.SMTP_SSL(self.emailInfo["smtp_server"], 465)
-			server.set_debuglevel(1)
-			print('\n***************************************\n\n')
-			password = decrypt(self.emailInfo["pwd"])
-			server.login(self.emailInfo["email"], password)
-			self.emailInfo["status"] = 1
-			SaveJsonInfo('conf.json', self.emailInfo)
-
-			end = time.time()
-			print('耗时：' + str(end - start))
-			self.mainUserName.setText(self.emailInfo['email'])
-			self.mainlogin.setText('切换')
-			self.login = 1
-
 			# 获取当前文件的绝对路径
 			abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/')
 			dir = "%s/data/%s/"%(abDir,self.emailInfo['email'])
-			self.receiveJsonName = dir + "receive.json"
-			self.sendJsonName = dir + "send.json"
-			self.deleteJsonName = dir + "delete.json"
-			self.draftJsonName = dir + "draft.json"
-			p1 = threading.Thread(target=self.addQList(GetJsonInfo(self.receiveJsonName), 'emaillist'))
-			p1.start()
+			if os.path.exists(dir):
+				# server = smtplib.SMTP_SSL(self.emailInfo["smtp_server"], 465)
+				# server.set_debuglevel(1)
+				# print('\n***************************************\n\n')
+				# password = decrypt(self.emailInfo["pwd"])
+				# server.login(self.emailInfo["email"], password)
+				self.emailInfo["status"] = 1
+				SaveJsonInfo('conf.json', self.emailInfo)
+
+				end = time.time()
+				print('耗时：' + str(end - start))
+				self.mainUserName.setText(self.emailInfo['email'])
+				self.mainlogin.setText('切换')
+				self.login = 1
+
+				self.receiveJsonName = dir + "receive.json"
+				self.sendJsonName = dir + "send.json"
+				self.deleteJsonName = dir + "delete.json"
+				self.draftJsonName = dir + "draft.json"
+				self.addQList(GetJsonInfo(self.receiveJsonName), 'emaillist')
+				# p1 = threading.Thread(target=self.addQList(GetJsonInfo(self.receiveJsonName), 'emaillist'))
+				# p1.start()
 
 		except Exception as e:
 			print(e)
@@ -120,6 +122,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		if self.login == 0:
 			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
 		else:
+			# 富文本编辑器html文件路径
+			abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\', '/')
+			self.richEditDir = r'''%s\kindeditor-4.1.7\examples\default.html''' % abDir
+			self.richEditDir = self.richEditDir.replace('\\', '/')
+			# 获取原编辑器页面html内容
+			with open(self.richEditDir, 'rb') as f:
+				self.originHtml = f.read()
+
 			my_subject = self.contEmailSubject.text()
 			my_name = self.contName.text()
 			my_email = self.contEmail.text()
@@ -137,32 +147,50 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			my_mainForward  = WriteEmailDialog(isForwad=True, ForwardInfo=my_forwardInfo,url=my_url)
 			my_mainForward.exec_()
 
+			# 还原编辑器文件
+			with open(self.richEditDir, 'wb') as f:
+				f.write(self.originHtml)
+
 	# 回复邮件
 	@pyqtSlot()
 	def on_mainReply_clicked(self):
-		my_subject = self.contEmailSubject.text()
-		my_name = self.contName.text()
-		my_email = self.contEmail.text()
-		my_time = self.contEmailTime.text()
-		my_forwardInfo = {
-			'subject':my_subject,
-			'name':my_name,
-			'email':my_email,
-			'time':my_time
-		}
+		if self.login == 0:
+			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
+		else:
+			my_subject = self.contEmailSubject.text()
+			my_name = self.contName.text()
+			my_email = self.contEmail.text()
+			my_time = self.contEmailTime.text()
+			my_forwardInfo = {
+				'subject':my_subject,
+				'name':my_name,
+				'email':my_email,
+				'time':my_time
+			}
 
-		abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\', '/')
-		dir = "%s/data/%s/" % (abDir, self.emailInfo['email'])
-		my_url = dir + my_subject + '.html'
-		# my_url = 'data/' + self.url.split('data/')[1]
-		reply_addr = self.contEmail.text()
-		reply_subject = "Reply:" + self.contEmailSubject.text()
-		my_replyInfo = {
-			"reply_addr": reply_addr,
-			"reply_subject": reply_subject
-		}
-		my_reply= WriteEmailDialog(isForwad=True, ForwardInfo=my_forwardInfo,url=my_url,isReply=True,replyInfo=my_replyInfo)
-		my_reply.exec_()
+			abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\', '/')
+			dir = "%s/data/%s/" % (abDir, self.emailInfo['email'])
+			my_url = dir + my_subject + '.html'
+			# my_url = 'data/' + self.url.split('data/')[1]
+			reply_addr = self.contEmail.text()
+			reply_subject = "Reply:" + self.contEmailSubject.text()
+			my_replyInfo = {
+				"reply_addr": reply_addr,
+				"reply_subject": reply_subject
+			}
+
+			self.richEditDir = r'''%s\kindeditor-4.1.7\examples\default.html''' % abDir
+			self.richEditDir = self.richEditDir.replace('\\', '/')
+			# 获取原编辑器页面html内容
+			with open(self.richEditDir, 'rb') as f:
+				self.originHtml = f.read()
+
+			my_reply= WriteEmailDialog(isForwad=False, ForwardInfo=my_forwardInfo,url=my_url,isReply=True,replyInfo=my_replyInfo)
+			my_reply.exec_()
+
+			# 还原编辑器文件
+			with open(self.richEditDir, 'wb') as f:
+				f.write(self.originHtml)
 
 	# 查看附件
 	@pyqtSlot()
@@ -292,7 +320,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_delete = GetJsonInfo(self.deleteJsonName)
 			my_currentItem = self.deleteList.currentItem()
-			my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
+			# my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
+			my_text = my_currentItem.text().split('主题：')[1].split('\n')[0]
 
 			url = 'file:///' + os.path.abspath(
 				os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html' % (
@@ -321,7 +350,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_sent = GetJsonInfo(self.sendJsonName)
 			my_currentItem = self.sentList.currentItem()
-			my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
+			# my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
+			my_text = my_currentItem.text().split('主题：')[1].split('\n')[0]
 
 			url = 'file:///' + os.path.abspath(
 				os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html' % (
@@ -350,7 +380,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_draft = GetJsonInfo(self.draftJsonName)
 			my_currentItem = self.draftList.currentItem()
-			my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
+			# my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
+			my_text = my_currentItem.text().split('主题：')[1].split('\n')[0]
 
 			url = 'file:///' + os.path.abspath(
 				os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html' % (
@@ -379,7 +410,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_receive = GetJsonInfo(self.receiveJsonName)
 			my_currentItem = self.searchList.currentItem()
-			my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
+			# my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
+			my_text = my_currentItem.text().split('主题：')[1].split('\n')[0]
 
 			url = 'file:///' + os.path.abspath(os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html'%(self.emailInfo['email'],my_text)
 			url = url.replace('\\','/')
@@ -407,7 +439,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_receive = GetJsonInfo(self.receiveJsonName)
 			my_currentItem = self.emaillist.currentItem()
-			my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
+			# my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
+			my_text = my_currentItem.text().split('主题：')[1].split('\n')[0]
 			# dir = "data/%s"%self.emailInfo['email']
 			url = 'file:///' + os.path.abspath(os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html'%(self.emailInfo['email'],my_text)
 			url = url.replace('\\','/')
@@ -426,35 +459,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			print(str(e))
 
 	# 将信息插入到列表
+	# files是存储了邮件摘要信息的字典
+	# way则表示要进行操作的列表名
+	# 使用getattr()大量缩减了代码量。
 	def addQList(self,files,way):
-		if way == 'searchList':
-			for subject in files:
-				abstractContent = files[subject]['date'] + '\n' + subject + '\n' + files[subject]['name']
-				self.searchList.addItem(abstractContent)
-		elif way == 'sentList':
-			for subject in files:
-				if subject not in self.isSent:
-					self.isSent.update({subject:files[subject]})
-					abstractContent = files[subject]['date'] + '\n' + subject + '\n' + files[subject]['name']
-					self.sentList.addItem(abstractContent)
-		elif way == 'emaillist':
-			for subject in files:
-				if subject not in self.isReceived:
-					self.isReceived.update({subject:files[subject]})
-					abstractContent = files[subject]['date'] + '\n' + subject + '\n' + files[subject]['name']
-					self.emaillist.addItem(abstractContent)
-		elif way == 'deleteList':
-			for subject in files:
-				if subject not in self.isDeleted:
-					self.isDeleted.update({subject:files[subject]})
-					abstractContent = files[subject]['date'] + '\n' + subject + '\n' + files[subject]['name']
-					self.deleteList.addItem(abstractContent)
+		isAddList = ''
+		if way == 'emaillist':
+			isAddList = 'isReceived'
 		elif way == 'draftList':
-			for subject in files:
-				if subject not in self.isDraft:
-					self.isDraft.update({subject:files[subject]})
-					abstractContent = files[subject]['date'] + '\n' + subject + '\n' + files[subject]['name']
-					self.draftList.addItem(abstractContent)
+			isAddList = 'isDraft'
+		elif way == 'deleteList':
+			isAddList = 'isDeleted'
+		elif way == 'sentList':
+			isAddList = 'isSent'
+		for subject in files:
+			if subject != '' and subject not in getattr(self,isAddList):
+				getattr(self, isAddList).update({subject:files[subject]})
+				abstractContent = '时间：'+ files[subject]['date'] + '\n主题：' + subject + '\n联系人：' + files[subject]['name']
+				getattr(self,way).addItem(abstractContent)
 
 	# 接收邮件
 	def runReceive(self):
@@ -509,12 +531,52 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	def on_itemSortMode_currentIndexChanged(self, p0):
 		mode = self.itemSortMode.currentText()
 		print(mode)
+		self.emaillist.clear()
+		self.deleteList.clear()
+		self.draftList.clear()
+		self.sentList.clear()
+
+		p = threading.Thread(target=self.reBuildList(mode))
+		p.start()
+
+	# 重构列表
+	def reBuildList(self,mode):
+		receiveBox = self.changeItemValue(self.isReceived,mode)
+		deleteBox = self.changeItemValue(self.isDeleted,mode)
+		draftBox = self.changeItemValue(self.isDraft,mode)
+		sentBox = self.changeItemValue(self.isSent,mode)
+
+		for a in receiveBox:
+			self.emaillist.addItem(a)
+		for b in deleteBox:
+			self.deleteList.addItem(b)
+		for c in draftBox:
+			self.draftList.addItem(c)
+		for d in sentBox:
+			self.sentList.addItem(d)
+
+	# 修改列表项的值
+	def changeItemValue(self, files, mode):
+		box = []
 		if mode == '按时间排序':
-			print("时间")
+			for subject in files:
+				if subject != '':
+					abstractContent = '时间：' + files[subject]['date'] + '\n主题：' + subject + '\n联系人：' + \
+					                  files[subject]['name']
+					box.append(abstractContent)
 		elif mode == "按主题排序":
-			print("主题")
+			for subject in files:
+				if subject != '':
+					abstractContent = '主题：' + subject + '\n时间：' + files[subject]['date'] + '\n联系人：' + \
+					                  files[subject]['name']
+					box.append(abstractContent)
 		elif mode == "按联系人排序":
-			print("联系人")
+			for subject in files:
+				if subject != '':
+					abstractContent = '联系人：' + files[subject]['name'] + '\n主题：' + subject + '\n时间：' + \
+					                  files[subject]['date']
+					box.append(abstractContent)
+		return box
 
 	# 邮件列表排列顺序
 	@pyqtSlot(str)
@@ -559,8 +621,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.sendJsonName = dir + "send.json"
 			self.deleteJsonName = dir + "delete.json"
 			self.draftJsonName = dir + "draft.json"
+			self.isReceived = {}
+			self.isDeleted = {}
+			self.isDraft = {}
+			self.isSent = {}
 			p1 = threading.Thread(target=self.addQList(GetJsonInfo(self.receiveJsonName), 'emaillist'))
 			p1.start()
+
 
 
 	# 日历

@@ -50,28 +50,22 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 		self.richEditDir = r'''%s\kindeditor-4.1.7\examples\default.html'''%abDir
 		self.richEditDir = self.richEditDir.replace('\\','/')
 
-		# self.info = info  # info是要转发的用户信息，用元组表示
+		# 获取原编辑器页面html内容
+		with open(self.richEditDir,'rb') as f:
+			self.originHtml = f.read()
+
 		# 转发
 		if self.isForwad:
-			# 获取原编辑器页面html内容
-			with open(self.richEditDir,'rb') as f:
-				originHtml = f.read()
-
 			self.emailText = GetEmailText(url)
 			self.formatText = '''\n\n\n\n- 发送自XYZ邮箱 -\n-------- 转发的邮件 --------\n发件人: "%s" %s\n日期: %s\n主题: %s\n'''%(ForwardInfo['email'],ForwardInfo['name'],ForwardInfo['time'],ForwardInfo['subject'])
-			polishHtml = originHtml.decode('utf-8')
-			polishHtml = polishHtml.replace("请输入邮件信息", self.formatText)
+			polishHtml = self.originHtml.decode('utf-8')
+			polishHtml = polishHtml.replace("请输入邮件信息", self.formatText.replace("\n",'<br>'))
 
 
 			# 将转发信息插入到编辑器中
 			with open(self.richEditDir,'wb') as f:
-				polishHtml = polishHtml.replace("\n",'<br>')
 				f.write(polishHtml.encode('utf-8'))
 			self.richEmailEdit.setUrl(QtCore.QUrl("file:///" + self.richEditDir))
-
-			# 还原编辑器文件
-			with open(self.richEditDir,'wb') as f:
-				f.write(originHtml)
 
 			# 将转发信息格式化
 			str1 = self.formatText.split('-\n')
@@ -80,25 +74,18 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 			self.formatText = '<div>%s<br>%s<br>%s<br>%s<br>%s<br><div></div><div style="clear:both;"></div>'% str3
 
 		# 回复
-		if self.isReply:
-			with open(self.richEditDir,'rb') as f:
-				originHtml = f.read()
+		elif self.isReply:
 			self.emailText = GetEmailText(url)
 			self.formatText = '''\n\n\n\n- 发送自XYZ邮箱 -\n-------- 转发的邮件 --------\n发件人: "%s" %s\n日期: %s\n主题: %s\n''' % (
 				ForwardInfo['email'], ForwardInfo['name'], ForwardInfo['time'], ForwardInfo['subject'])
 
-			polishHtml = originHtml.decode('utf-8')
-			polishHtml = polishHtml.replace("请输入邮件信息", self.formatText)
+			polishHtml = self.originHtml.decode('utf-8')
+			polishHtml = polishHtml.replace("请输入邮件信息", self.formatText.replace("\n",'<br>'))
 
 			# 将转发信息插入到编辑器中
 			with open(self.richEditDir, 'wb') as f:
-				polishHtml = polishHtml.replace("\n",'<br>')
 				f.write(polishHtml.encode('utf-8'))
 			self.richEmailEdit.setUrl(QtCore.QUrl("file:///" + self.richEditDir))
-
-			# 还原编辑器文件
-			with open(self.richEditDir, 'wb') as f:
-				f.write(originHtml)
 
 			# 将转发信息格式化
 			str1 = self.formatText.split('-\n')
@@ -107,6 +94,9 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 			self.formatText = '<div>%s<br>%s<br>%s<br>%s<br>%s<br><div></div><div style="clear:both;"></div>' % str3
 			self.receiverEdit.setText(replyInfo['reply_addr'])
 			self.subjectEdit.setText(replyInfo['reply_subject'])
+
+		else:
+			self.richEmailEdit.setUrl(QtCore.QUrl("file:///" + self.richEditDir))
 
 	@pyqtSlot()
 	def on_send_clicked(self):
@@ -138,6 +128,10 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 				else:
 					alert = QMessageBox.warning(self,'发送邮件提示','请将信息填写完整!')
 			
+			# 还原编辑器文件
+			with open(self.richEditDir, 'wb') as f:
+				f.write(self.originHtml)
+
 		except Exception as e:
 			print(str(e))
 			a = str(e)

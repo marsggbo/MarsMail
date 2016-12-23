@@ -68,7 +68,10 @@ class ReceiveMail():
 		if fromAddr:
 			hdr, addr = parseaddr(fromAddr)
 			name = self.decode_str(hdr)
-			my_info["name"] = name
+			if name:
+				my_info["name"] = name
+			else:
+				my_info["name"] = addr
 			my_info["fromAddr"] = addr
 
 		date = msg.get('Date', '')

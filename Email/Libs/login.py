@@ -68,15 +68,15 @@ class Login(QDialog, Ui_Dialog):
 				files = ['receive','send','delete','draft']
 				for file in files:
 					file = "%s/%s.json"%(dir,file)
-					initData = {
-							'subject':{
-								'subject':'',
-								'date':'',
-								'name':'',
-								'fromAddr':''
-							}
-					}
-					SaveJsonInfo(file,initData)
+					# initData = {
+					# 		'subject':{
+					# 			'subject':'',
+					# 			'date':'',
+					# 			'name':'',
+					# 			'fromAddr':''
+					# 		}
+					# }
+					SaveJsonInfo(file,{})
 				print("文件夹创建成功:%s"%dir)
 
 			self.close()
