@@ -81,7 +81,7 @@ class Ui_WriteEmailDialog(object):
         self.emailContent.setObjectName(_fromUtf8("emailContent"))
         self.richEmailEdit = QtWebKit.QWebView(WriteEmailDialog)
         self.richEmailEdit.setGeometry(QtCore.QRect(0, 140, 721, 411))
-        # self.richEmailEdit.setUrl(QtCore.QUrl(_fromUtf8("file:///C:/Users/14356/Desktop/EmailSystem_搜索_转发_回复_12.15/Email/Libs/kindeditor-4.1.7/examples/default.html")))
+        self.richEmailEdit.setUrl(QtCore.QUrl(_fromUtf8("file:///C:/Users/14356/Desktop/EmailSystem_搜索_转发_回复_12.15/Email/Libs/kindeditor-4.1.7/examples/default.html")))
         self.richEmailEdit.setObjectName(_fromUtf8("richEmailEdit"))
 
         self.retranslateUi(WriteEmailDialog)

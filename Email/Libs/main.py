@@ -84,6 +84,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.delEmail.hide()
 		self.mainReply.hide()
 		self.mainAttach.hide()
+		self.restoreEmail.hide()
 		self.bufferGif.hide()
 
 		# 绑定emailList
@@ -231,9 +232,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				}
 				print(temp)
 				self.delete.update(temp)
+				# self.isDeleted.update(temp)
 
 				# 将邮件从receive.json中去除
 				self.receive.pop(my_subject)
+				self.isReceived.pop(my_subject)
 
 				# 数据回写
 				SaveJsonInfo(self.receiveJsonName,self.receive)
@@ -251,6 +254,45 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				self.delEmail.hide()
 				self.addQList(self.delete,'deleteList')
 
+	# 恢复已删除邮件
+	@pyqtSlot()
+	def on_restoreEmail_clicked(self):
+		# Yes:0 Cancel:1
+		isRestore = QMessageBox.information(self, '恢复邮件', u'确定要恢复该封邮件？', 'Yes', 'Cancel')
+		if not isRestore:
+			# 获取主题名
+			my_subject = self.contEmailSubject.text()
+			self.receive = GetJsonInfo(self.receiveJsonName)
+			self.delete = GetJsonInfo(self.deleteJsonName)
+
+			temp = {
+				my_subject: self.delete[my_subject]
+			}
+			print(temp)
+			# 将删除邮件恢复至receive.json文件中
+			self.receive.update(temp)
+			# self.isReceived.update(temp)
+
+			# 将邮件从delete.json中去除
+			self.delete.pop(my_subject)
+			self.isDeleted.pop(my_subject)
+
+			# 数据回写
+			SaveJsonInfo(self.receiveJsonName, self.receive)
+			SaveJsonInfo(self.deleteJsonName, self.delete)
+
+			self.deleteList.takeItem(self.deleteList.currentRow())
+			self.addQList(self.receive, 'emaillist')
+
+			self.contEmail.setText('')
+			self.contEmailTime.setText('')
+			self.contEmailSubject.setText('')
+			self.contName.setText('')
+			self.emailShow.setUrl(QtCore.QUrl("qrc:/souce/index.html"))
+
+
+			self.mainForward.hide()
+			self.delEmail.hide()
 
 	# 查询邮件
 	@pyqtSlot()
@@ -264,6 +306,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				self.receive = GetJsonInfo(self.receiveJsonName)
 				self.emaillist.hide()
 				self.sentList.hide()
+				self.deleteList.hide()
+				self.draftList.hide()
 				self.searchList.show()
 				begin = time.time()
 				test = Search()
@@ -422,7 +466,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.contEmailTime.setText(my_receive[my_text]['date'])
 			self.contEmailSubject.setText(my_text)
 			self.mainForward.show()
-			self.delEmail.show()
+			self.delEmail.hide()
 			self.mainReply.show()
 			self.mainAttach.show()
 			self.emailShow.setUrl(QtCore.QUrl(url))
@@ -464,19 +508,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	# 使用getattr()大量缩减了代码量。
 	def addQList(self,files,way):
 		isAddList = ''
-		if way == 'emaillist':
-			isAddList = 'isReceived'
-		elif way == 'draftList':
-			isAddList = 'isDraft'
-		elif way == 'deleteList':
-			isAddList = 'isDeleted'
-		elif way == 'sentList':
-			isAddList = 'isSent'
-		for subject in files:
-			if subject != '' and subject not in getattr(self,isAddList):
-				getattr(self, isAddList).update({subject:files[subject]})
-				abstractContent = '时间：'+ files[subject]['date'] + '\n主题：' + subject + '\n联系人：' + files[subject]['name']
-				getattr(self,way).addItem(abstractContent)
+		if way == 'searchList':
+			for subject in files:
+				if subject != '':
+					abstractContent = '时间：'+ files[subject]['date'] + '\n主题：' + subject + '\n联系人：' + files[subject]['name']
+					getattr(self,way).addItem(abstractContent)
+		else:
+			if way == 'emaillist':
+				isAddList = 'isReceived'
+			elif way == 'draftList':
+				isAddList = 'isDraft'
+			elif way == 'deleteList':
+				isAddList = 'isDeleted'
+			elif way == 'sentList':
+				isAddList = 'isSent'
+			for subject in files:
+				if subject != '' and subject not in getattr(self,isAddList):
+					getattr(self, isAddList).update({subject:files[subject]})
+					abstractContent = '时间：'+ files[subject]['date'] + '\n主题：' + subject + '\n联系人：' + files[subject]['name']
+					getattr(self,way).addItem(abstractContent)
 
 	# 接收邮件
 	def runReceive(self):
@@ -496,7 +546,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				for item in currentEmailInfo:
 					# 判断邮件是否已经添加到列表
 					if item not in self.isReceived:
-						self.isReceived.update(currentEmailInfo)
+						# self.isReceived.update(currentEmailInfo)
 						# 解析邮件内容
 						myPop.parseEmailContent(msg)
 						self.addQList(currentEmailInfo,'emaillist')
@@ -519,12 +569,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			p = threading.Thread(target=self.runReceive)
 			p.start()
 
-			self.bufferGif.show()
-			movie = QMovie("qrc:/souce/缓冲1.gif")
-			self.bufferGif.setMovie(movie)
-			movie.start()
-			time.sleep(2)
-			self.bufferGif.hide()
+			# self.bufferGif.show()
+			# movie = QMovie("qrc:/souce/缓冲1.gif")
+			# self.bufferGif.setMovie(movie)
+			# movie.start()
+			# time.sleep(2)
+			# self.bufferGif.hide()
 
 	# 选择邮件列表排序对象
 	@pyqtSlot(str)
@@ -610,7 +660,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.emailInfo = GetJsonInfo('conf.json')
 		if self.emailInfo['status'] == 1:
 			self.mainUserName.setText(self.emailInfo['email'])
-			self.mainlogin.setText('切换账号')
+			self.mainlogin.setText('切换')
 			self.emaillist.clear()
 			self.login = 1
 			self.show()
@@ -625,8 +675,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.isDeleted = {}
 			self.isDraft = {}
 			self.isSent = {}
-			p1 = threading.Thread(target=self.addQList(GetJsonInfo(self.receiveJsonName), 'emaillist'))
-			p1.start()
+			self.addQList(GetJsonInfo(self.receiveJsonName), 'emaillist')
+			# p1 = threading.Thread(target=)
+			# p1.start()
 
 
 
@@ -655,6 +706,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.searchList.hide()
 			self.deleteList.hide()
 			self.draftList.hide()
+			self.restoreEmail.hide()
+			self.delEmail.hide()
 			sendJson = GetJsonInfo(self.sendJsonName)
 			self.addQList(sendJson,'sentList')
 			self.sentList.show()
@@ -669,6 +722,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.searchList.hide()
 			self.draftList.hide()
 			self.sentList.hide()
+			self.delEmail.hide()
+			self.restoreEmail.show()
 			deleteJson = GetJsonInfo(self.deleteJsonName)
 			self.addQList(deleteJson,'deleteList')
 			self.deleteList.show()
@@ -683,6 +738,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.searchList.hide()
 			self.sentList.hide()
 			self.deleteList.hide()
+			self.delEmail.hide()
+			self.restoreEmail.hide()
 			draftJson = GetJsonInfo(self.draftJsonName)
 			self.addQList(draftJson,'draftList')
 			self.draftList.show()
@@ -697,6 +754,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.sentList.hide()
 			self.deleteList.hide()
 			self.draftList.hide()
+			self.restoreEmail.hide()
 			self.emaillist.show()
 
 	# 关闭
