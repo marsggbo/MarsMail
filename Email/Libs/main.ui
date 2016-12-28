@@ -35,6 +35,19 @@
   <property name="styleSheet">
    <string notr="true">*{
 font: 14px &quot;Microsoft YaHei UI&quot;;
+}
+QComboBox{
+border:none;
+}
+QListWidget{
+background-color: rgb(242,242,242);border:none;
+}
+QListWidget::Item{
+width:260px;
+height:80px;
+}
+QListWidget::Item:hover{
+background-color: rgb(41, 189, 139);
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -276,9 +289,9 @@ border-radius:20px;
     <widget class="QLabel" name="mainUserName">
      <property name="geometry">
       <rect>
-       <x>-10</x>
-       <y>199</y>
-       <width>211</width>
+       <x>0</x>
+       <y>200</y>
+       <width>201</width>
        <height>31</height>
       </rect>
      </property>
@@ -412,14 +425,7 @@ border-right:4px solid tomato;
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">#emaillist{background-color: rgb(242,242,242);}
-#emaillist::Item{
-width:260px;
-height:80px;
-}
-#emaillist::Item:hover{
-background-color: rgb(41, 189, 139);
-}</string>
+      <string notr="true"/>
      </property>
      <property name="tabKeyNavigation">
       <bool>true</bool>
@@ -529,6 +535,9 @@ background-color: rgb(41, 189, 139);
        <height>51</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <item>
       <property name="text">
        <string>升序</string>
@@ -598,6 +607,25 @@ background-color: rgb(41, 189, 139);
       <bool>true</bool>
      </property>
     </widget>
+    <widget class="QWebView" name="mainLoading">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>480</y>
+       <width>50</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:none;
+border-radius:25px;</string>
+     </property>
+     <property name="url">
+      <url>
+       <string>file:///C:/Users/14356/Desktop/XYZMail/Libs/loading.html</string>
+      </url>
+     </property>
+    </widget>
     <zorder>sentList</zorder>
     <zorder>searchList</zorder>
     <zorder>itemSortMode</zorder>
@@ -605,6 +633,8 @@ background-color: rgb(41, 189, 139);
     <zorder>deleteList</zorder>
     <zorder>draftList</zorder>
     <zorder>emaillist</zorder>
+    <zorder>widget</zorder>
+    <zorder>mainLoading</zorder>
    </widget>
    <widget class="QGroupBox" name="showemail">
     <property name="geometry">
@@ -650,7 +680,7 @@ background-color: rgb(41, 189, 139);
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);
+      <string notr="true">background-color: rgb(242,242,242);
 font: 14px &quot;微软雅黑&quot;;
 border:none;</string>
      </property>
@@ -831,6 +861,12 @@ background-color: rgb(41, 189, 139);
      <property name="styleSheet">
       <string notr="true">#emailBtnBox{
 border:none;
+}
+QPushButton{
+border:none;
+}
+QPushButton:hover{
+background-color: rgb(232,232,232);
 }</string>
      </property>
      <property name="title">
@@ -839,22 +875,14 @@ border:none;
      <widget class="QPushButton" name="mainReply">
       <property name="geometry">
        <rect>
-        <x>1</x>
+        <x>0</x>
         <y>0</y>
-        <width>81</width>
+        <width>80</width>
         <height>51</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">#mainReply{
-	border:none;
-	font-size:14px;
-	background-color: rgb(219,219,219);
-}
-#mainReply:hover{
-background-color:rgb(41,189,139);
-color:white;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>回复</string>
@@ -867,22 +895,14 @@ color:white;
      <widget class="QPushButton" name="mainForward">
       <property name="geometry">
        <rect>
-        <x>120</x>
+        <x>78</x>
         <y>0</y>
         <width>80</width>
         <height>51</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">#mainForward{
-	border:none;
-	font-size:14px;
-	background-color: rgb(219,219,219);
-}
-#mainForward:hover{
-background-color:rgb(41,189,139);
-color:white;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>转发</string>
@@ -895,22 +915,14 @@ color:white;
      <widget class="QPushButton" name="delEmail">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>245</x>
         <y>0</y>
         <width>80</width>
         <height>51</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">#delEmail{
-	border:none;
-	font-size:14px;
-	background-color: rgb(219,219,219);
-}
-#delEmail:hover{
-background-color:tomato;
-color:white;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>删除</string>
@@ -923,22 +935,14 @@ color:white;
      <widget class="QPushButton" name="restoreEmail">
       <property name="geometry">
        <rect>
-        <x>380</x>
+        <x>323</x>
         <y>0</y>
         <width>80</width>
         <height>51</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">#restoreEmail{
-	border:none;
-	font-size:14px;
-	background-color: rgb(219,219,219);
-}
-#restoreEmail:hover{
-background-color:tomato;
-color:white;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>还原</string>
@@ -951,22 +955,14 @@ color:white;
      <widget class="QPushButton" name="mainAttach">
       <property name="geometry">
        <rect>
-        <x>520</x>
+        <x>156</x>
         <y>0</y>
         <width>91</width>
         <height>51</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">#mainAttach{
-	border:none;
-	font-size:14px;
-	background-color: rgb(219,219,219);
-}
-#mainAttach:hover{
-background-color:tomato;
-color:white;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>查看附件</string>
@@ -984,11 +980,18 @@ color:white;
       <x>237</x>
       <y>9</y>
       <width>221</width>
-      <height>31</height>
+      <height>30</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">#searchlineEdit{background-color:white;}</string>
+     <string notr="true">#searchlineEdit{
+background-color:rgb(242,242,242);
+border:2px solid rgb(41,189,139);
+border-radius:15px;
+}
+#searchlineEdit:hover{
+background-color:white;
+}</string>
     </property>
     <property name="text">
      <string/>
@@ -1047,17 +1050,17 @@ border-image: url(:/souce/souce/最小化.png);
      <rect>
       <x>201</x>
       <y>10</y>
-      <width>31</width>
-      <height>31</height>
+      <width>30</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">#mainSearch{
 	border:none;
-	border-radius:12px;
+	border-radius:15px;
 }
 #mainSearch:hover{
-	background-color:rgb(49,126,243);
+	background-color:rgb(41,189,139);
 }</string>
     </property>
     <property name="text">
@@ -1103,6 +1106,28 @@ border-image: url(:/souce/souce/最小化.png);
      </property>
     </item>
    </widget>
+   <widget class="QWidget" name="widget_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>0</y>
+      <width>871</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(242, 242, 242);</string>
+    </property>
+   </widget>
+   <zorder>widget_2</zorder>
+   <zorder>widget</zorder>
+   <zorder>receivedletter</zorder>
+   <zorder>showemail</zorder>
+   <zorder>searchlineEdit</zorder>
+   <zorder>mainclose</zorder>
+   <zorder>mainmin</zorder>
+   <zorder>mainSearch</zorder>
+   <zorder>searchMode</zorder>
   </widget>
  </widget>
  <customwidgets>

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\14356\Desktop\XYZMail\Email\Libs\calender.ui'
+# Form implementation generated from reading ui file 'C:\Users\14356\Desktop\XYZMail\Libs\calender.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #

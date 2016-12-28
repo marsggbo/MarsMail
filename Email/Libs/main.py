@@ -82,6 +82,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.mainReply.hide()
 		self.mainAttach.hide()
 		self.restoreEmail.hide()
+		self.mainLoading.hide()
 
 		# 绑定emailList
 		self.connect(self.emaillist, SIGNAL('itemClicked(QListWidgetItem *)'), self.emailItemClicked)
@@ -392,9 +393,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.contEmail.setText(my_delete[my_text]['fromAddr'])
 			self.contEmailTime.setText(my_delete[my_text]['date'])
 			self.contEmailSubject.setText(my_text)
-			self.mainForward.hide()
+			self.mainForward.show()
 			self.delEmail.hide()
-			self.mainReply.hide()
+			self.mainReply.show()
 			self.mainAttach.show()
 			self.attachList.hide()
 			self.emailShow.setUrl(QtCore.QUrl(url))
@@ -424,9 +425,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.contEmail.setText(my_sent[my_text]['fromAddr'])
 			self.contEmailTime.setText(my_sent[my_text]['date'])
 			self.contEmailSubject.setText(my_text)
-			self.mainForward.hide()
+			self.mainForward.show()
 			self.delEmail.hide()
-			self.mainReply.hide()
+			self.mainReply.show()
 			self.mainAttach.show()
 			self.emailShow.setUrl(QtCore.QUrl(url))
 			self.attachList.hide()
@@ -456,9 +457,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.contEmail.setText(my_draft[my_text]['fromAddr'])
 			self.contEmailTime.setText(my_draft[my_text]['date'])
 			self.contEmailSubject.setText(my_text)
-			self.mainForward.hide()
+			self.mainForward.show()
 			self.delEmail.hide()
-			self.mainReply.hide()
+			self.mainReply.show()
 			self.mainAttach.show()
 			self.emailShow.setUrl(QtCore.QUrl(url))
 			self.attachList.hide()
@@ -580,6 +581,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				print(str(e))
 
 		myPop.quit()
+		self.mainLoading.hide()
 
 	# 接收最新邮件
 	@pyqtSlot()
@@ -590,17 +592,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.searchList.hide()
 			self.sentList.hide()
 			self.emaillist.show()
+			self.mainLoading.show()
 
 			self.receiveWay = 0
 			p = threading.Thread(target=self.runReceive)
 			p.start()
-
-			# self.bufferGif.show()
-			# movie = QMovie("qrc:/souce/缓冲1.gif")
-			# self.bufferGif.setMovie(movie)
-			# movie.start()
-			# time.sleep(2)
-			# self.bufferGif.hide()
 
 	# 选择邮件列表排序对象
 	@pyqtSlot(str)
@@ -702,10 +698,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.isDraft = {}
 			self.isSent = {}
 			self.addQList(GetJsonInfo(self.receiveJsonName), 'emaillist')
-			# p1 = threading.Thread(target=)
-			# p1.start()
-
-
 
 	# 日历
 	@pyqtSlot()
