@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\14356\Desktop\EmailSystem_搜索_转发_回复_12.15\Email\Libs\writemail.ui'
+# Form implementation generated from reading ui file 'C:\Users\14356\Desktop\XYZMail\Email\Libs\writemail.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -75,6 +75,28 @@ class Ui_WriteEmailDialog(object):
         self.receiverEdit = QtGui.QLineEdit(self.groupBox)
         self.receiverEdit.setGeometry(QtCore.QRect(100, 10, 271, 20))
         self.receiverEdit.setObjectName(_fromUtf8("receiverEdit"))
+        self.attachShowBox = QtGui.QGroupBox(self.groupBox)
+        self.attachShowBox.setGeometry(QtCore.QRect(400, 0, 321, 91))
+        self.attachShowBox.setStyleSheet(_fromUtf8("#attachShowBox{\n"
+"border:none;\n"
+"}"))
+        self.attachShowBox.setTitle(_fromUtf8(""))
+        self.attachShowBox.setObjectName(_fromUtf8("attachShowBox"))
+        self.label = QtGui.QLabel(self.attachShowBox)
+        self.label.setGeometry(QtCore.QRect(0, 0, 61, 31))
+        self.label.setStyleSheet(_fromUtf8("color:tomato;"))
+        self.label.setObjectName(_fromUtf8("label"))
+        self.attachList = QtGui.QListWidget(self.attachShowBox)
+        self.attachList.setGeometry(QtCore.QRect(63, 0, 255, 90))
+        self.attachList.setStyleSheet(_fromUtf8("#attachList{\n"
+"}\n"
+"#attachList::Item{\n"
+"height:30px;\n"
+"}\n"
+"#attachList::Item:hover{\n"
+"background-color: rgb(41, 189, 139);\n"
+"}"))
+        self.attachList.setObjectName(_fromUtf8("attachList"))
         self.emailContent = QtGui.QPlainTextEdit(WriteEmailDialog)
         self.emailContent.setGeometry(QtCore.QRect(0, 199, 720, 361))
         self.emailContent.setPlainText(_fromUtf8(""))
@@ -100,6 +122,7 @@ class Ui_WriteEmailDialog(object):
         self.save.setText(_translate("WriteEmailDialog", "存入草稿", None))
         self.subject.setText(_translate("WriteEmailDialog", "主 题:", None))
         self.receiver.setText(_translate("WriteEmailDialog", "收件人:", None))
+        self.label.setText(_translate("WriteEmailDialog", "已添加附件", None))
 
 from PyQt4 import QtWebKit
 import souce_rc

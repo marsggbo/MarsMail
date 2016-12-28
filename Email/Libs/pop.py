@@ -62,7 +62,12 @@ class ReceiveMail():
 		subject = msg.get('Subject', '')
 		if subject:
 			subject = self.decode_str(subject)
+			# 对主题做处理
+			specialChar = ['\\', '/', ':', '|', '>', '<', '*', '"']
+			for x in specialChar:
+				subject = subject.replace(x, '_')
 			my_info['subject'] = subject
+
 
 		fromAddr = msg.get('From', '')
 		if fromAddr:
@@ -110,19 +115,15 @@ class ReceiveMail():
 
 		else:
 			content_type = msg.get_content_type()
-			# if content_type == 'text/plain' or content_type == 'text/html':
 			if content_type == 'text/html':
 				content = msg.get_payload(decode=True)
 				charset = self.guess_charset(msg)
-				# print(charset)
 				if charset:
-					# print("解码咯，编码为："+charset)
 					try:
 						content = content.decode('utf-8')
 					except Exception as e:
 						print(str(e))
 						content = content.decode(charset)
-						# print('解码成功')
 
 				content = '<meta charset="utf-8">' + content + '<meta charset="utf-8">'
 
@@ -152,6 +153,12 @@ class ReceiveMail():
 					emailname = subject[:30]
 				else:
 					emailname = subject
+
+				# 对附件夹路径名做处理
+				specialChar = ['\\', '/', ':', '|', '>', '<', '*', '"']
+				for x in specialChar:
+					emailname = emailname.replace(x, '_')
+
 				# 获取附件名，若有附件则以邮件名创建附件文件夹
 				sonDir = dir + "/%s"%emailname
 				filename = msg.get_filename()
@@ -169,6 +176,11 @@ class ReceiveMail():
 						fname = dh[0][0]
 						print('有附件啦2',fname)
 					data = msg.get_payload(decode=True)
+
+					# 对附件夹路径名做处理
+					specialChar = ['\\', '/', ':', '|', '>', '<', '*', '"']
+					for x in specialChar:
+						fname = fname.replace(x, '_')
 
 					if not os.path.exists(sonDir):
 						os.makedirs(sonDir)

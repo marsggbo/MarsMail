@@ -51,11 +51,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/')
 			dir = "%s/data/%s/"%(abDir,self.emailInfo['email'])
 			if os.path.exists(dir):
-				# server = smtplib.SMTP_SSL(self.emailInfo["smtp_server"], 465)
-				# server.set_debuglevel(1)
-				# print('\n***************************************\n\n')
-				# password = decrypt(self.emailInfo["pwd"])
-				# server.login(self.emailInfo["email"], password)
 				self.emailInfo["status"] = 1
 				SaveJsonInfo('conf.json', self.emailInfo)
 
@@ -69,9 +64,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				self.sendJsonName = dir + "send.json"
 				self.deleteJsonName = dir + "delete.json"
 				self.draftJsonName = dir + "draft.json"
+				num = self.generateNum(self.emailInfo['email'])
+				self.headlogo.setStyleSheet("border-image: url(:/avatar/Avatars/%d.jpg);"%num)
 				self.addQList(GetJsonInfo(self.receiveJsonName), 'emaillist')
-				# p1 = threading.Thread(target=self.addQList(GetJsonInfo(self.receiveJsonName), 'emaillist'))
-				# p1.start()
 
 		except Exception as e:
 			print(e)
@@ -85,7 +80,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.mainReply.hide()
 		self.mainAttach.hide()
 		self.restoreEmail.hide()
-		self.bufferGif.hide()
 
 		# 绑定emailList
 		self.connect(self.emaillist, SIGNAL('itemClicked(QListWidgetItem *)'), self.emailItemClicked)
@@ -117,6 +111,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.move(event.globalPos() - self.dragPosition)
 			event.accept()
 
+	# 伪随机数
+	def generateNum(self, string):
+		try:
+			num = ord(string[0])
+			num = int(num % 30)
+			print(num)
+			return num
+		except Exception as e:
+			print(str(e))
+			return 1
 	# 转发
 	@pyqtSlot()
 	def on_mainForward_clicked(self):
@@ -364,7 +368,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_delete = GetJsonInfo(self.deleteJsonName)
 			my_currentItem = self.deleteList.currentItem()
-			# my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
 			my_text = my_currentItem.text().split('主题：')[1].split('\n')[0]
 
 			url = 'file:///' + os.path.abspath(
@@ -372,6 +375,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.emailInfo['email'], my_text)
 			url = url.replace('\\', '/')
 			print(url)
+
+			num = self.generateNum(my_currentItem.text().split('联系人：')[1])
+			self.contLogo.setStyleSheet("border-image: url(:/avatar/Avatars/%d.jpg);" % num)
 
 			self.contName.setText(my_delete[my_text]['name'])
 			self.contEmail.setText(my_delete[my_text]['fromAddr'])
@@ -394,14 +400,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_sent = GetJsonInfo(self.sendJsonName)
 			my_currentItem = self.sentList.currentItem()
-			# my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
 			my_text = my_currentItem.text().split('主题：')[1].split('\n')[0]
 
 			url = 'file:///' + os.path.abspath(
-				os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html' % (
+				os.path.join(os.path.dirname(__file__))) + r'/data/%s/send/%s.html' % (
 			self.emailInfo['email'], my_text)
 			url = url.replace('\\', '/')
 			print(url)
+			num = self.generateNum(my_currentItem.text().split('联系人：')[1])
+			self.contLogo.setStyleSheet("border-image: url(:/avatar/Avatars/%d.jpg);" % num)
 
 			self.contName.setText(my_sent[my_text]['name'])
 			self.contEmail.setText(my_sent[my_text]['fromAddr'])
@@ -424,14 +431,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_draft = GetJsonInfo(self.draftJsonName)
 			my_currentItem = self.draftList.currentItem()
-			# my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
 			my_text = my_currentItem.text().split('主题：')[1].split('\n')[0]
 
 			url = 'file:///' + os.path.abspath(
-				os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html' % (
+				os.path.join(os.path.dirname(__file__))) + r'/data/%s/draft/%s.html' % (
 			self.emailInfo['email'], my_text)
 			url = url.replace('\\', '/')
 			print(url)
+			num = self.generateNum(my_currentItem.text().split('联系人：')[1])
+			self.contLogo.setStyleSheet("border-image: url(:/avatar/Avatars/%d.jpg);" % num)
 
 			self.contName.setText(my_draft[my_text]['name'])
 			self.contEmail.setText(my_draft[my_text]['fromAddr'])
@@ -454,12 +462,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_receive = GetJsonInfo(self.receiveJsonName)
 			my_currentItem = self.searchList.currentItem()
-			# my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
 			my_text = my_currentItem.text().split('主题：')[1].split('\n')[0]
 
 			url = 'file:///' + os.path.abspath(os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html'%(self.emailInfo['email'],my_text)
 			url = url.replace('\\','/')
 			print(url)
+			
+			num = self.generateNum(my_currentItem.text().split('联系人：')[1])
+			self.contLogo.setStyleSheet("border-image: url(:/avatar/Avatars/%d.jpg);" % num)
 
 			self.contName.setText(my_receive[my_text]['name'])
 			self.contEmail.setText(my_receive[my_text]['fromAddr'])
@@ -483,12 +493,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_receive = GetJsonInfo(self.receiveJsonName)
 			my_currentItem = self.emaillist.currentItem()
-			# my_text = my_currentItem.text().split('\n')[1].split('\n')[0]
 			my_text = my_currentItem.text().split('主题：')[1].split('\n')[0]
-			# dir = "data/%s"%self.emailInfo['email']
+			
 			url = 'file:///' + os.path.abspath(os.path.join(os.path.dirname(__file__))) + r'/data/%s/%s.html'%(self.emailInfo['email'],my_text)
 			url = url.replace('\\','/')
 			print(url)
+
+			num = self.generateNum(my_currentItem.text().split('联系人：')[1])
+			self.contLogo.setStyleSheet("border-image: url(:/avatar/Avatars/%d.jpg);" % num)
+
 			self.contName.setText(my_receive[my_text]['name'])
 			self.contEmail.setText(my_receive[my_text]['fromAddr']) 
 			self.contEmailTime.setText(my_receive[my_text]['date'])

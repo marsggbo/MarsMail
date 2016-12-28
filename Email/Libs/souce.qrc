@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="souce">
+    <file>souce/同步.png</file>
     <file>souce/还原.png</file>
     <file>souce/关于 (2).png</file>
     <file>souce/保存.png</file>

@@ -65,18 +65,13 @@ class Login(QDialog, Ui_Dialog):
 			if not os.path.exists(dir):
 				os.mkdir(dir)
 				# 创建用户邮件信息记录文件
-				files = ['receive','send','delete','draft']
+				files = ['receive','send','delete','draft','contacts']
 				for file in files:
 					file = "%s/%s.json"%(dir,file)
-					# initData = {
-					# 		'subject':{
-					# 			'subject':'',
-					# 			'date':'',
-					# 			'name':'',
-					# 			'fromAddr':''
-					# 		}
-					# }
 					SaveJsonInfo(file,{})
+				os.mkdir(dir+'/receive')
+				os.mkdir(dir+'/send')
+				os.mkdir(dir+'/draft')
 				print("文件夹创建成功:%s"%dir)
 
 			self.close()
@@ -155,12 +150,4 @@ class Login(QDialog, Ui_Dialog):
 	def on_settingHide_clicked(self):
 		self.resize(500,300)
 
-if __name__ == '__main__':
-	
-	dir = 'data/%s'%("110@qq.com")
-	# 获取当前文件的绝对路径
-	abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/')
-	dir = ("%s/%s")%(abDir,dir)
-	if not os.path.exists(dir):
-		os.mkdir(dir)
-		print("文件夹创建成功:%s"%dir)
+

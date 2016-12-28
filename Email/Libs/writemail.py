@@ -34,6 +34,9 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 		self.email = SendMail()
 		self.isForwad = isForwad
 		self.isReply = isReply
+		self.fileName = []
+
+		self.attachShowBox.hide()
 
 
 		self.page = self.richEmailEdit.page()
@@ -104,14 +107,21 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 			print("send!")
 			receivers = self.receiverEdit.text()
 			subject = self.subjectEdit.text()
+			# 对附件夹路径名做处理
+			specialChar = ['\\', '/', ':', '|', '>', '<', '*', '"']
+			for x in specialChar:
+				subject = subject.replace(x, '_')
+
+			# 获取邮件内容
+			emailHtml = self.GetEmailHtml()
+			emailHtml = '<meta charset="utf-8">' + emailHtml + '<meta charset="utf-8">'
+
 			receivers = receivers.split(',')
 			for receiver in receivers:
 				if receiver and subject:
 					self.email.emailInfo["to_addr"] = receiver
 					self.email.emailInfo["subject"] = subject
 					self.email.emailInfo["plain"] = self.emailContent.toPlainText()
-
-					emailHtml = self.GetEmailHtml()
 
 					if self.isForwad:
 						my_addText = emailHtml.split('- 发送自XYZ')[0] # 添加的转发信息
@@ -124,10 +134,36 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 
 					self.email.Send()
 					alert = QMessageBox.warning(self, '发送邮件', u'发送成功！')
+
 					self.close()
 				else:
 					alert = QMessageBox.warning(self,'发送邮件提示','请将信息填写完整!')
-			
+
+			sent = GetJsonInfo(self.sendJsonName)
+			temp = {}
+			date = self.parseDate(time.ctime())
+			for receiver in receivers:
+				temp[subject] = {"name": receiver, "fromAddr": receiver, "subject": subject, "date": date}
+				sent.update(temp)
+			SaveJsonInfo(self.sendJsonName, sent)
+
+			# 将已发邮件存至指定目录
+			# C:/Users/14356/Desktop/XYZMail/Email/Libs/data/110@qq.com/
+			sendDir = self.dir + 'send/' + subject
+			with open('%s.html' % sendDir, 'wb') as f:
+				f.write(emailHtml.encode('utf-8'))
+
+			# 若有附件，则将附件也保存到对应路径
+			if len(self.fileName):
+				for file in self.fileName:
+					with open(file, 'rb') as f1:
+						attachData = f1.read()
+						attachDir = '%s/%s' % (sendDir, file.split('/')[-1])
+						if not os.path.exists(sendDir):
+							os.mkdir(sendDir)
+						with open(attachDir, 'wb') as f2:
+							f2.write(attachData)
+
 			# 还原编辑器文件
 			with open(self.richEditDir, 'wb') as f:
 				f.write(self.originHtml)
@@ -142,16 +178,39 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 	def on_save_clicked(self):
 		self.frame.evaluateJavaScript('''document.getElementById('emailHtml').innerHTML = editor.html();''')
 		html = self.frame.toHtml()
+		subject = self.subjectEdit.text()
+
+		# 对附件夹路径名做处理
+		specialChar = ['\\', '/', ':', '|', '>', '<', '*', '"']
+		for x in specialChar:
+			subject = subject.replace(x, '_')
+
 		emailName = self.dir + self.subjectEdit.text()
 		emailHtml = html.split('<textarea name="emailHtml" id="emailHtml" cols="30" rows="10">')[1].split("</textarea>")[0]
 		emailHtml = emailHtml.replace('&lt;', '<').replace('&gt;', '>')
-		with open('%s.html'%emailName,'wb') as f:
+		emailHtml = '<meta charset="utf-8">' + emailHtml + '<meta charset="utf-8">'
+
+		# 生成草稿文件路径
+		draftDir = self.dir + 'draft/' + subject
+
+		# 将草稿邮件存至指定目录
+		with open('%s.html'%draftDir,'wb') as f:
 			f.write(emailHtml.encode('utf-8'))
+
+		# 若有附件，则将附件也保存到对应路径
+		if len(self.fileName):
+			for file in self.fileName:
+				with open(file,'rb') as f1:
+					attachData = f1.read()
+					attachDir = '%s/%s'%(draftDir,file.split('/')[-1])
+					if not os.path.exists(draftDir):
+						os.mkdir(draftDir)
+					with open(attachDir,'wb') as f2:
+						f2.write(attachData)
 
 		draft = GetJsonInfo(self.draftJsonName)
 		temp = {}
 		receivers = self.receiverEdit.text()
-		subject = self.subjectEdit.text()
 		receivers = receivers.split(',')
 		date = self.parseDate(time.ctime())
 		for receiver in receivers:
@@ -160,6 +219,9 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 		SaveJsonInfo(self.draftJsonName,draft)
 		alert = QMessageBox.warning(self, '保存草稿', u'保存成功')
 
+		# 还原编辑器文件
+		with open(self.richEditDir, 'wb') as f:
+			f.write(self.originHtml)
 
 	def GetEmailHtml(self):
 		self.frame.evaluateJavaScript('''document.getElementById('emailHtml').innerHTML = editor.html();''')
@@ -182,16 +244,38 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 			date = str(date[0]) + '.' + str(date[1]) + '.' + str(date[2]) + ' ' + str(date[3]) + ':' + str(date[4]) + ':' + str(date[5])
 			return date
 
+	# 添加附件
+	@pyqtSlot()
+	def on_accessory_clicked(self):
+		try:
+			options = QtGui.QFileDialog.Options()
+			fileName = QtGui.QFileDialog.getOpenFileName(parent = self,
+						caption = "please select your files",
+						filter = "All Files (*)",
+						options = options).replace('\\', '/')
+			if fileName:
+				with open(fileName, 'rb') as f:
+					msg_attach = MIMEBase('application', 'octet-stream', filename = fileName)
+					msg_attach.set_payload(f.read())
+					encoders.encode_base64(msg_attach)
 
-	# @pyqtSlot()
-	# def on_accessory_clicked(self):
-	# 	options = QtGui.QFileDialog.Options()
-	# 	fileName = QtGui.QFileDialog.getOpenFileName(parent = self, caption = "please select your files", filter = "All Files (*);;Text Files (*.txt)", options = options)
-	# 	if fileName:
-	# 		with open(fileName, 'rb') as f:
-	# 			msg_attach = MIMEBase('application', 'octet-stream', filename = fileName)
-	# 			msg_attach.set_payload(f.read())
-	# 			encoders.encode_base64(msg_attach)
-	# 			f.close()
-	# 			msg_attach.add_header('Content-Disposition', 'attachment', filename = fileName)
-	# 			self.email.msg.attach(msg_attach)
+					msg_attach.add_header('Content-Disposition', 'attachment', filename = fileName.split('/')[-1])
+					self.email.msg.attach(msg_attach)
+
+					# 将要发送的附件复制到对应邮件附件文件夹中
+					# 首先要正确填写主题和收件人
+					subject = self.subjectEdit.text()
+
+					# 对附件夹路径名做处理
+					specialChar = ['\\', '/', ':', '|', '>', '<', '*', '"']
+					for x in specialChar:
+						subject = subject.replace(x, '_')
+
+					self.fileName.append(fileName)
+
+				self.attachShowBox.show()
+				self.attachList.addItem(fileName.split('/')[-1])
+
+		except Exception as e:
+			alert = QMessageBox.warning(self, '添加附件', u'添加附件失败'+str(e))
+
