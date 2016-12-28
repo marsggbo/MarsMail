@@ -43,6 +43,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		# 已发送邮件记录变量
 		self.isSent = {}
 
+		self.currentFolder = 'receive'
+
 		# 登录上次账号
 		try:
 			start = time.time()
@@ -121,6 +123,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		except Exception as e:
 			print(str(e))
 			return 1
+
 	# 转发
 	@pyqtSlot()
 	def on_mainForward_clicked(self):
@@ -202,7 +205,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	def on_mainAttach_clicked(self):
 		if self.mainAttach.text() == '查看附件':
 			my_subject = self.contEmailSubject.text()
-			dir = 'data/%s/%s' % (self.emailInfo['email'], my_subject)
+			if self.currentFolder == 'receive':
+				dir = 'data/%s/%s' % (self.emailInfo['email'], my_subject)
+				print(dir)
+			else:
+				dir = 'data/%s/%s/%s' %(self.emailInfo['email'], self.currentFolder,my_subject)
+				print(dir)
 			if os.path.exists(dir):
 				self.attachList.clear()
 				for file in os.listdir(dir):
@@ -346,7 +354,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		elif self.Mode == '邮件内容':
 			self.searchlineEdit.setPlaceholderText('请输入要搜索的邮件内容')
 
-	# 查看附件
+	# 附件列表点击事件
 	@pyqtSlot()
 	def attachItemClicked(self):
 		dir = 'data/%s/%s'%(self.emailInfo['email'],self.contEmailSubject.text())
@@ -365,6 +373,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	@pyqtSlot()
 	def deleteItemClicked(self):
 		try:
+			self.currentFolder = 'receive'
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_delete = GetJsonInfo(self.deleteJsonName)
 			my_currentItem = self.deleteList.currentItem()
@@ -397,6 +406,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	@pyqtSlot()
 	def sentItemClicked(self):
 		try:
+			self.currentFolder = 'send'
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_sent = GetJsonInfo(self.sendJsonName)
 			my_currentItem = self.sentList.currentItem()
@@ -428,6 +438,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	@pyqtSlot()
 	def draftItemClicked(self):
 		try:
+			self.currentFolder = 'draft'
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_draft = GetJsonInfo(self.draftJsonName)
 			my_currentItem = self.draftList.currentItem()
@@ -459,6 +470,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	@pyqtSlot()
 	def searchItemClicked(self):
 		try:
+			self.currentFolder = 'receive'
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_receive = GetJsonInfo(self.receiveJsonName)
 			my_currentItem = self.searchList.currentItem()
@@ -490,6 +502,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	@pyqtSlot()
 	def emailItemClicked(self):
 		try:
+			self.currentFolder = 'receive'
 			self.item_enable_delete = True  # 点击一个元素，可删除
 			my_receive = GetJsonInfo(self.receiveJsonName)
 			my_currentItem = self.emaillist.currentItem()

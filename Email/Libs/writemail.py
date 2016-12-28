@@ -64,6 +64,22 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 			polishHtml = self.originHtml.decode('utf-8')
 			polishHtml = polishHtml.replace("请输入邮件信息", self.formatText.replace("\n",'<br>'))
 
+			# "%s/data/%s/csd_gvd" % (abDir, self.emailInfo['email'])
+			# 转发附件
+			attachDir = self.dir + ForwardInfo['subject']
+			if os.path.exists(attachDir):
+				self.attachShowBox.show()
+				for fileName in os.listdir(attachDir):
+					with open(attachDir+'/'+fileName, 'rb') as f:
+						self.fileName.append(attachDir+'/'+fileName)
+						msg_attach = MIMEBase('application', 'octet-stream', filename = fileName)
+						msg_attach.set_payload(f.read())
+						encoders.encode_base64(msg_attach)
+
+						msg_attach.add_header('Content-Disposition', 'attachment', filename = fileName)
+						self.email.msg.attach(msg_attach)
+						self.attachList.addItem(fileName)
+
 
 			# 将转发信息插入到编辑器中
 			with open(self.richEditDir,'wb') as f:
@@ -85,7 +101,22 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 			polishHtml = self.originHtml.decode('utf-8')
 			polishHtml = polishHtml.replace("请输入邮件信息", self.formatText.replace("\n",'<br>'))
 
-			# 将转发信息插入到编辑器中
+			# 转发附件
+			attachDir = self.dir + ForwardInfo['subject']
+			if os.path.exists(attachDir):
+				self.attachShowBox.show()
+				for fileName in os.listdir(attachDir):
+					with open(attachDir+'/'+fileName, 'rb') as f:
+						self.fileName.append(attachDir+'/'+fileName)
+						msg_attach = MIMEBase('application', 'octet-stream', filename = fileName)
+						msg_attach.set_payload(f.read())
+						encoders.encode_base64(msg_attach)
+
+						msg_attach.add_header('Content-Disposition', 'attachment', filename = fileName)
+						self.email.msg.attach(msg_attach)
+						self.attachList.addItem(fileName)
+
+			# 将原信息插入到编辑器中
 			with open(self.richEditDir, 'wb') as f:
 				f.write(polishHtml.encode('utf-8'))
 			self.richEmailEdit.setUrl(QtCore.QUrl("file:///" + self.richEditDir))
