@@ -47,9 +47,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		# 已发送邮件记录变量
 		self.isSent = {}
 
-		# 判断转发或者回复邮件地址,默认是收件箱地址
-		# self.writeEmailDir = 'receive'
-
 		# 指示当前邮件文件夹类型
 		self.currentFolder = 'receive'
 
@@ -76,6 +73,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				self.draftJsonName = dir + "draft.json"
 				num = self.generateNum(self.emailInfo['email'])
 				self.headlogo.setStyleSheet("border-image: url(:/avatar/Avatars/%d.jpg);"%num)
+				# t = threading.Thread(target=self.intervalRec(5))
+				# t.start()
 				self.addQList(GetJsonInfo(self.receiveJsonName), 'emaillist')
 
 		except Exception as e:
@@ -571,6 +570,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 					abstractContent = '时间：'+ files[subject]['date'] + '\n主题：' + subject + '\n联系人：' + files[subject]['name']
 					getattr(self,way).addItem(abstractContent)
 
+	# 定时接收邮件
+	def intervalRec(self,interval):
+		while True:
+			try:
+				self.runReceive()
+				time.sleep(interval)
+			except Exception as e:
+				print(str(e))
+
 	# 接收邮件
 	def runReceive(self):
 		myPop = ReceiveMail()
@@ -578,6 +586,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.emailNum = myPop.GetEmailNum()
 		# 循环解析邮件
 		for i in range(self.emailNum,0,-1):
+			self.mainLoading.show()
 			resp, lines, octets = self.popServer.retr(i)
 			msg_content = b'\r\n'.join(lines)
 
@@ -599,7 +608,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		myPop.quit()
 		self.mainLoading.hide()
 
-	# 接收最新邮件
+	# 接收最新邮件按钮
 	@pyqtSlot()
 	def on_mainreceiveletter_clicked(self):
 		if self.login == 0:
@@ -608,7 +617,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.searchList.hide()
 			self.sentList.hide()
 			self.emaillist.show()
-			self.mainLoading.show()
 
 			self.receiveWay = 0
 			p = threading.Thread(target=self.runReceive)

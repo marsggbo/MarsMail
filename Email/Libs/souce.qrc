@@ -1,5 +1,11 @@
 <RCC>
   <qresource prefix="souce">
+    <file>souce/收件箱1png.png</file>
+    <file>souce/发件箱1.png</file>
+    <file>souce/草稿箱1.png</file>
+    <file>souce/垃圾箱1.png</file>
+    <file>souce/下拉1.png</file>
+    <file>souce/下拉.png</file>
     <file>souce/同步.png</file>
     <file>souce/还原.png</file>
     <file>souce/关于 (2).png</file>
