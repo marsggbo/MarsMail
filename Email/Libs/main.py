@@ -26,6 +26,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		super(MainWindow, self).__init__(parent)
 		self.setupUi(self)
 		self.setWindowFlags(Qt.FramelessWindowHint | Qt.Dialog)
+
+		# 导入qss样式表
+		# wait
+
 		# 邮件数量
 		self.index = 0
 		self.page = 0
@@ -43,6 +47,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		# 已发送邮件记录变量
 		self.isSent = {}
 
+		# 判断转发或者回复邮件地址,默认是收件箱地址
+		# self.writeEmailDir = 'receive'
+
+		# 指示当前邮件文件夹类型
 		self.currentFolder = 'receive'
 
 		# 登录上次账号
@@ -149,8 +157,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				'email':my_email,
 				'time':my_time
 			}
-			abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\', '/')
-			dir = "%s/data/%s/" % (abDir, self.emailInfo['email'])
+			if self.currentFolder == 'receive':
+				dir = "%s/data/%s/" % (abDir, self.emailInfo['email'])
+			else:
+				dir = "%s/data/%s/%s/" % (abDir, self.emailInfo['email'],self.currentFolder)
 			my_url = dir + my_subject + '.html'
 
 			my_mainForward  = WriteEmailDialog(isForwad=True, ForwardInfo=my_forwardInfo,url=my_url)
@@ -178,9 +188,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			}
 
 			abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\', '/')
-			dir = "%s/data/%s/" % (abDir, self.emailInfo['email'])
+
+			if self.currentFolder == 'receive':
+				dir = "%s/data/%s/" % (abDir, self.emailInfo['email'])
+			else:
+				dir = "%s/data/%s/%s/" % (abDir, self.emailInfo['email'],self.currentFolder)
+
 			my_url = dir + my_subject + '.html'
-			# my_url = 'data/' + self.url.split('data/')[1]
+
 			reply_addr = self.contEmail.text()
 			reply_subject = "Reply:" + self.contEmailSubject.text()
 			my_replyInfo = {
@@ -376,6 +391,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		try:
 			self.currentFolder = 'receive'
 			self.item_enable_delete = True  # 点击一个元素，可删除
+			self.restoreEmail.show()
 			my_delete = GetJsonInfo(self.deleteJsonName)
 			my_currentItem = self.deleteList.currentItem()
 			my_text = my_currentItem.text().split('主题：')[1].split('\n')[0]
@@ -634,19 +650,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			for subject in files:
 				if subject != '':
 					abstractContent = '时间：' + files[subject]['date'] + '\n主题：' + subject + '\n联系人：' + \
-					                  files[subject]['name']
+									  files[subject]['name']
 					box.append(abstractContent)
 		elif mode == "按主题排序":
 			for subject in files:
 				if subject != '':
 					abstractContent = '主题：' + subject + '\n时间：' + files[subject]['date'] + '\n联系人：' + \
-					                  files[subject]['name']
+									  files[subject]['name']
 					box.append(abstractContent)
 		elif mode == "按联系人排序":
 			for subject in files:
 				if subject != '':
 					abstractContent = '联系人：' + files[subject]['name'] + '\n主题：' + subject + '\n时间：' + \
-					                  files[subject]['date']
+									  files[subject]['date']
 					box.append(abstractContent)
 		return box
 
@@ -741,7 +757,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.draftList.hide()
 			self.sentList.hide()
 			self.delEmail.hide()
-			self.restoreEmail.show()
+			self.restoreEmail.hide()
 			deleteJson = GetJsonInfo(self.deleteJsonName)
 			self.addQList(deleteJson,'deleteList')
 			self.deleteList.show()
@@ -797,3 +813,4 @@ if __name__ == "__main__":
 	ui = MainWindow()
 	ui.show()
 	sys.exit(app.exec_())
+

@@ -109,7 +109,7 @@ QPushButton:hover {
      <widget class="QPushButton" name="about">
       <property name="geometry">
        <rect>
-        <x>150</x>
+        <x>120</x>
         <y>2</y>
         <width>25</width>
         <height>25</height>
@@ -142,7 +142,7 @@ background-color: rgb(255, 170, 127);}</string>
      <widget class="QPushButton" name="addressbook">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>10</x>
         <y>2</y>
         <width>25</width>
         <height>25</height>
@@ -168,7 +168,7 @@ background-color: rgb(255, 170, 127);}</string>
      <widget class="QPushButton" name="calender">
       <property name="geometry">
        <rect>
-        <x>90</x>
+        <x>70</x>
         <y>2</y>
         <width>25</width>
         <height>25</height>
@@ -183,6 +183,39 @@ background-color: rgb(255, 170, 127);}</string>
       <property name="icon">
        <iconset resource="souce.qrc">
         <normaloff>:/souce/souce/日历.png</normaloff>:/souce/souce/日历.png</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="time">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>2</y>
+        <width>25</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="mouseTracking">
+       <bool>false</bool>
+      </property>
+      <property name="toolTip">
+       <string>关于</string>
+      </property>
+      <property name="whatsThis">
+       <string>关于</string>
+      </property>
+      <property name="accessibleName">
+       <string/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#sliderbar1:hover{
+background-color: rgb(255, 170, 127);}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="souce.qrc">
+        <normaloff>:/souce/souce/关于 (2).png</normaloff>:/souce/souce/关于 (2).png</iconset>
       </property>
      </widget>
     </widget>
@@ -633,7 +666,6 @@ border-radius:25px;</string>
     <zorder>deleteList</zorder>
     <zorder>draftList</zorder>
     <zorder>emaillist</zorder>
-    <zorder>widget</zorder>
     <zorder>mainLoading</zorder>
    </widget>
    <widget class="QGroupBox" name="showemail">
@@ -935,7 +967,7 @@ background-color: rgb(232,232,232);
      <widget class="QPushButton" name="restoreEmail">
       <property name="geometry">
        <rect>
-        <x>323</x>
+        <x>245</x>
         <y>0</y>
         <width>80</width>
         <height>51</height>
