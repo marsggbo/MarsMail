@@ -60,7 +60,7 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 		# 转发
 		if self.isForwad:
 			self.emailText = GetEmailText(url)
-			self.formatText = '''\n\n\n\n- 发送自XYZ邮箱 -\n-------- 转发的邮件 --------\n发件人: "%s" %s\n日期: %s\n主题: %s\n'''%(ForwardInfo['email'],ForwardInfo['name'],ForwardInfo['time'],ForwardInfo['subject'])
+			self.formatText = '''\n\n\n\n- 发送自M@RS Mail邮箱 -\n-------- 转发的邮件 --------\n发件人: "%s" %s\n日期: %s\n主题: %s\n'''%(ForwardInfo['email'],ForwardInfo['name'],ForwardInfo['time'],ForwardInfo['subject'])
 			polishHtml = self.originHtml.decode('utf-8')
 			polishHtml = polishHtml.replace("请输入邮件信息", self.formatText.replace("\n",'<br>'))
 
@@ -95,7 +95,7 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 		# 回复
 		elif self.isReply:
 			self.emailText = GetEmailText(url)
-			self.formatText = '''\n\n\n\n- 发送自XYZ邮箱 -\n-------- 转发的邮件 --------\n发件人: "%s" %s\n日期: %s\n主题: %s\n''' % (
+			self.formatText = '''\n\n\n\n- 发送自M@RS Mail邮箱 -\n-------- 转发的邮件 --------\n发件人: "%s" %s\n日期: %s\n主题: %s\n''' % (
 				ForwardInfo['email'], ForwardInfo['name'], ForwardInfo['time'], ForwardInfo['subject'])
 
 			polishHtml = self.originHtml.decode('utf-8')
@@ -155,7 +155,7 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 					self.email.emailInfo["plain"] = self.emailContent.toPlainText()
 
 					if self.isForwad:
-						my_addText = emailHtml.split('- 发送自XYZ')[0] # 添加的转发信息
+						my_addText = emailHtml.split('- 发送自M@RS Mail')[0] # 添加的转发信息
 						if my_addText.strip():
 							self.email.emailInfo["html"] = my_addText + '<br><br>' + self.formatText + self.emailText
 						else:
