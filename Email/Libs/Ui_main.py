@@ -142,7 +142,7 @@ class Ui_MainWindow(object):
 "}"))
         self.slidebar.setObjectName(_fromUtf8("slidebar"))
         self.about = QtGui.QPushButton(self.slidebar)
-        self.about.setGeometry(QtCore.QRect(105, 0, 40, 40))
+        self.about.setGeometry(QtCore.QRect(140, 0, 40, 40))
         self.about.setMouseTracking(False)
         self.about.setAccessibleName(_fromUtf8(""))
         self.about.setStyleSheet(_fromUtf8("#sliderbar1:hover{\n"
@@ -153,7 +153,7 @@ class Ui_MainWindow(object):
         self.about.setIcon(icon1)
         self.about.setObjectName(_fromUtf8("about"))
         self.addressbook = QtGui.QPushButton(self.slidebar)
-        self.addressbook.setGeometry(QtCore.QRect(0, 0, 40, 40))
+        self.addressbook.setGeometry(QtCore.QRect(20, 0, 40, 40))
         self.addressbook.setStyleSheet(_fromUtf8("leftbar QPushButtom{background-color:gray;}"))
         self.addressbook.setText(_fromUtf8(""))
         icon2 = QtGui.QIcon()
@@ -161,25 +161,16 @@ class Ui_MainWindow(object):
         self.addressbook.setIcon(icon2)
         self.addressbook.setObjectName(_fromUtf8("addressbook"))
         self.calender = QtGui.QPushButton(self.slidebar)
-        self.calender.setGeometry(QtCore.QRect(55, 0, 40, 40))
+        self.calender.setGeometry(QtCore.QRect(80, 0, 40, 40))
         self.calender.setText(_fromUtf8(""))
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/日历.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.calender.setIcon(icon3)
         self.calender.setObjectName(_fromUtf8("calender"))
-        self.interval = QtGui.QDial(self.slidebar)
-        self.interval.setGeometry(QtCore.QRect(160, 4, 30, 30))
-        self.interval.setStyleSheet(_fromUtf8("border:none;\n"
-"background-color: rgb(239,240,241);"))
-        self.interval.setMinimum(5)
-        self.interval.setMaximum(600)
-        self.interval.setSingleStep(5)
-        self.interval.setWrapping(True)
-        self.interval.setNotchesVisible(False)
-        self.interval.setObjectName(_fromUtf8("interval"))
         self.headlogo = QtGui.QGraphicsView(self.leftWidget)
         self.headlogo.setGeometry(QtCore.QRect(60, 110, 80, 80))
         self.headlogo.setStyleSheet(_fromUtf8("#headlogo{\n"
+"background-color: rgb(242, 242, 242);\n"
 "border-radius:40px;\n"
 "}"))
         self.headlogo.setObjectName(_fromUtf8("headlogo"))
@@ -207,7 +198,7 @@ class Ui_MainWindow(object):
         self.mainreceiveletter.setIcon(icon5)
         self.mainreceiveletter.setObjectName(_fromUtf8("mainreceiveletter"))
         self.loading = QtGui.QLabel(self.groupBox)
-        self.loading.setGeometry(QtCore.QRect(114, 10, 30, 30))
+        self.loading.setGeometry(QtCore.QRect(122, 10, 30, 30))
         self.loading.setText(_fromUtf8(""))
         self.loading.setObjectName(_fromUtf8("loading"))
         self.mainlogin = QtGui.QPushButton(self.leftWidget)
@@ -260,17 +251,6 @@ class Ui_MainWindow(object):
         self.draftBox.setIcon(icon9)
         self.draftBox.setIconSize(QtCore.QSize(20, 20))
         self.draftBox.setObjectName(_fromUtf8("draftBox"))
-        self.headpic_2.raise_()
-        self.slidebar.raise_()
-        self.headlogo.raise_()
-        self.groupBox.raise_()
-        self.mainlogin.raise_()
-        self.mainUserName.raise_()
-        self.sentBox.raise_()
-        self.receivedBox.raise_()
-        self.deleteBox.raise_()
-        self.draftBox.raise_()
-        self.loading.raise_()
         self.receivedletter = QtGui.QGroupBox(self.centralWidget)
         self.receivedletter.setGeometry(QtCore.QRect(200, 50, 260, 540))
         self.receivedletter.setStyleSheet(_fromUtf8("#receivedletter{background-color: white;}\n"
@@ -558,7 +538,6 @@ class Ui_MainWindow(object):
         self.addressbook.setToolTip(_translate("MainWindow", "通讯录", None))
         self.addressbook.setWhatsThis(_translate("MainWindow", "通讯录", None))
         self.calender.setToolTip(_translate("MainWindow", "日历", None))
-        self.interval.setToolTip(_translate("MainWindow", "设置时间间隔", None))
         self.mainwriteletter.setText(_translate("MainWindow", "写信", None))
         self.mainreceiveletter.setText(_translate("MainWindow", "收信", None))
         self.mainlogin.setText(_translate("MainWindow", "登录", None))
@@ -594,6 +573,7 @@ class Ui_MainWindow(object):
         self.searchMode.setItemText(4, _translate("MainWindow", "邮件内容", None))
 
 from PyQt4 import QtWebKit
+import avatars_rc
 import souce_rc
 
 if __name__ == "__main__":

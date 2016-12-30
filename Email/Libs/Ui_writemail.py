@@ -31,30 +31,30 @@ class Ui_WriteEmailDialog(object):
         self.head = QtGui.QWidget(WriteEmailDialog)
         self.head.setGeometry(QtCore.QRect(0, 0, 721, 41))
         self.head.setStyleSheet(_fromUtf8("#head{background-color: rgb(66,74,89);}\n"
-"#send,#save,#accessory{border:none;background-color: rgb(66,74,89);color:white;}\n"
+"#send,#save,#accessory{border:none;background-color: rgb(66,74,89);color:white;border-radius:15px;}\n"
 "#send:hover,#accessory:hover,#save:hover{background-color: rgb(90,90,90);}\n"
 "\n"
 ""))
         self.head.setObjectName(_fromUtf8("head"))
         self.send = QtGui.QPushButton(self.head)
-        self.send.setGeometry(QtCore.QRect(30, 10, 60, 30))
+        self.send.setGeometry(QtCore.QRect(30, 5, 60, 30))
         self.send.setStyleSheet(_fromUtf8(""))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/发送.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.send.setIcon(icon)
         self.send.setObjectName(_fromUtf8("send"))
         self.accessory = QtGui.QPushButton(self.head)
-        self.accessory.setGeometry(QtCore.QRect(110, 10, 60, 30))
+        self.accessory.setGeometry(QtCore.QRect(110, 5, 60, 30))
         self.accessory.setStyleSheet(_fromUtf8(""))
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/附件.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.accessory.setIcon(icon1)
         self.accessory.setObjectName(_fromUtf8("accessory"))
         self.save = QtGui.QPushButton(self.head)
-        self.save.setGeometry(QtCore.QRect(190, 10, 81, 30))
+        self.save.setGeometry(QtCore.QRect(190, 5, 81, 30))
         self.save.setStyleSheet(_fromUtf8(""))
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/保存.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/草稿1.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.save.setIcon(icon2)
         self.save.setObjectName(_fromUtf8("save"))
         self.writeClose = QtGui.QPushButton(self.head)
@@ -128,7 +128,8 @@ class Ui_WriteEmailDialog(object):
         self.richEmailEdit.setUrl(QtCore.QUrl(_fromUtf8("file:///C:/Users/14356/Desktop/EmailSystem_搜索_转发_回复_12.15/Email/Libs/kindeditor-4.1.7/examples/default.html")))
         self.richEmailEdit.setObjectName(_fromUtf8("richEmailEdit"))
         self.loading = QtGui.QLabel(WriteEmailDialog)
-        self.loading.setGeometry(QtCore.QRect(210, 180, 200, 200))
+        self.loading.setGeometry(QtCore.QRect(240, 180, 200, 200))
+        self.loading.setStyleSheet(_fromUtf8("background-color:transparent;"))
         self.loading.setText(_fromUtf8(""))
         self.loading.setObjectName(_fromUtf8("loading"))
 
@@ -151,6 +152,7 @@ class Ui_WriteEmailDialog(object):
         self.label.setText(_translate("WriteEmailDialog", "已添加附件", None))
 
 from PyQt4 import QtWebKit
+import avatars_rc
 import souce_rc
 
 if __name__ == "__main__":

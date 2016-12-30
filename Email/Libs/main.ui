@@ -177,7 +177,7 @@ QPushButton:hover {
      <widget class="QPushButton" name="about">
       <property name="geometry">
        <rect>
-        <x>105</x>
+        <x>140</x>
         <y>0</y>
         <width>40</width>
         <height>40</height>
@@ -210,7 +210,7 @@ background-color: rgb(255, 170, 127);}</string>
      <widget class="QPushButton" name="addressbook">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>20</x>
         <y>0</y>
         <width>40</width>
         <height>40</height>
@@ -236,7 +236,7 @@ background-color: rgb(255, 170, 127);}</string>
      <widget class="QPushButton" name="calender">
       <property name="geometry">
        <rect>
-        <x>55</x>
+        <x>80</x>
         <y>0</y>
         <width>40</width>
         <height>40</height>
@@ -253,38 +253,6 @@ background-color: rgb(255, 170, 127);}</string>
         <normaloff>:/souce/souce/日历.png</normaloff>:/souce/souce/日历.png</iconset>
       </property>
      </widget>
-     <widget class="QDial" name="interval">
-      <property name="geometry">
-       <rect>
-        <x>160</x>
-        <y>4</y>
-        <width>30</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="toolTip">
-       <string>设置时间间隔</string>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border:none;
-background-color: rgb(239,240,241);</string>
-      </property>
-      <property name="minimum">
-       <number>5</number>
-      </property>
-      <property name="maximum">
-       <number>600</number>
-      </property>
-      <property name="singleStep">
-       <number>5</number>
-      </property>
-      <property name="wrapping">
-       <bool>true</bool>
-      </property>
-      <property name="notchesVisible">
-       <bool>false</bool>
-      </property>
-     </widget>
     </widget>
     <widget class="QGraphicsView" name="headlogo">
      <property name="geometry">
@@ -297,6 +265,7 @@ background-color: rgb(239,240,241);</string>
      </property>
      <property name="styleSheet">
       <string notr="true">#headlogo{
+background-color: rgb(242, 242, 242);
 border-radius:40px;
 }</string>
      </property>
@@ -365,7 +334,7 @@ QPushButton:hover {
      <widget class="QLabel" name="loading">
       <property name="geometry">
        <rect>
-        <x>114</x>
+        <x>122</x>
         <y>10</y>
         <width>30</width>
         <height>30</height>
@@ -525,17 +494,6 @@ border-radius:20px;
       </size>
      </property>
     </widget>
-    <zorder>headpic_2</zorder>
-    <zorder>slidebar</zorder>
-    <zorder>headlogo</zorder>
-    <zorder>groupBox</zorder>
-    <zorder>mainlogin</zorder>
-    <zorder>mainUserName</zorder>
-    <zorder>sentBox</zorder>
-    <zorder>receivedBox</zorder>
-    <zorder>deleteBox</zorder>
-    <zorder>draftBox</zorder>
-    <zorder>loading</zorder>
    </widget>
    <widget class="QGroupBox" name="receivedletter">
     <property name="geometry">
@@ -758,7 +716,6 @@ background-color: rgb(41, 189, 139);
     <zorder>deleteList</zorder>
     <zorder>draftList</zorder>
     <zorder>emaillist</zorder>
-    <zorder>attachList</zorder>
    </widget>
    <widget class="QGroupBox" name="showemail">
     <property name="geometry">
@@ -1263,6 +1220,7 @@ background-color:white;
  </customwidgets>
  <resources>
   <include location="souce.qrc"/>
+  <include location="avatars.qrc"/>
  </resources>
  <connections/>
 </ui>

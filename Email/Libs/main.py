@@ -14,6 +14,7 @@ from Ui_main import Ui_MainWindow
 from calender import calenderDialog
 from writemail import WriteEmailDialog
 from login import Login
+from about import About
 from pop import ReceiveMail
 from contacts import contacts
 from DealJsonFile import GetJsonInfo, SaveJsonInfo
@@ -72,7 +73,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				self.deleteJsonName = dir + "delete.json"
 				self.draftJsonName = dir + "draft.json"
 				num = self.generateNum(self.emailInfo['email'])
-				self.headlogo.setStyleSheet("border-image: url(:/avatar/Avatars/%d.jpg);"%num)
+				self.headlogo.setStyleSheet('''
+				background-color: rgb(242, 242, 242);
+				border-radius:40px;
+				border-image: url(:/avatar/Avatars/%d.jpg);
+				'''%num)
 				# t = threading.Thread(target=self.intervalRec(5))
 				# t.start()
 				self.addQList(GetJsonInfo(self.receiveJsonName), 'emaillist')
@@ -613,8 +618,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
 		else:
 
-			self.movie = QMovie("souce/loading.gif")
-			self.movie.setScaledSize(QSize(30,30))
+			self.loading.show()
+			# a =  ' url(:/souce/souce/loading.gif)'
+			self.movie = QMovie('souce/loading.gif')
+			self.movie.setScaledSize(QSize(20,20))
 			self.loading.setMovie(self.movie)
 			self.movie.start()
 
@@ -727,6 +734,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.isSent = {}
 			self.addQList(GetJsonInfo(self.receiveJsonName), 'emaillist')
 
+			num = self.generateNum(self.emailInfo['email'])
+			self.headlogo.setStyleSheet('''
+			background-color: rgb(242, 242, 242);
+			border-radius:40px;
+			border-image: url(:/avatar/Avatars/%d.jpg);
+			''' % num)
+
 	# 日历
 	@pyqtSlot()
 	def on_calender_clicked(self):
@@ -816,7 +830,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	# 关于
 	@pyqtSlot()
 	def on_about_clicked(self):
-		aboutButton = QMessageBox.aboutQt(self,  'AboutQt')
+		my_about = About()
+		my_about.show()
+		my_about.exec_()
+#		aboutButton = QMessageBox.aboutQt(self,  'AboutQt')
 
 if __name__ == "__main__":
 	import sys

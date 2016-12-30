@@ -19,8 +19,6 @@ from smtp import SendMail
 from DealJsonFile import GetJsonInfo, SaveJsonInfo
 import time,os,threading
 
-from loading import Loadgif
-
 def GetEmailText(filename):
 	f = open(filename,'r',encoding='utf-8')
 	s = f.read()
@@ -151,17 +149,22 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 			event.accept()
 
 
+	def sendBuffer(self):
+		self.loading.show()
+		movie = QMovie("souce/sendBuffer.gif")
+		movie.setScaledSize(QSize(200, 200))
+		self.loading.setMovie(movie)
+		movie.start()
+		# time.sleep(2)
+		# self.loading.hide()
+
 	@pyqtSlot()
 	def on_send_clicked(self):
 		receivers = self.receiverEdit.text()
 		subject = self.subjectEdit.text()
 
-		movie = QMovie("souce/sendBuffer.gif")
-		movie.setScaledSize(QSize(200, 200))
-		self.loading.setMovie(movie)
-		movie.start()
-
 		if subject and len(receivers):
+			# self.sendBuffer()
 			try:
 				print("send!")
 				# 对附件夹路径名做处理
@@ -190,17 +193,14 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 						else:
 							self.email.emailInfo["html"] = emailHtml
 
-						t = threading.Thread(target=self.email.Send)
-						t.start()
-					self.loading.hide()
-						# t.join()
+						# self.email.Send()
+						t1 = threading.Thread(target=self.email.Send)
+						t1.start()
 				else:
 					alert = QMessageBox.warning(self,'发送邮件提示','请将信息填写完整!')
 
-				# time.sleep(5)
-				# alert = QMessageBox.warning(self, '发送邮件', u'发送成功！')
+				alert = QMessageBox.warning(self, '发送邮件', u'发送成功！')
 
-				# self.close()
 				sent = GetJsonInfo(self.sendJsonName)
 				temp = {}
 				date = self.parseDate(time.ctime())
@@ -230,6 +230,7 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 				with open(self.richEditDir, 'wb') as f:
 					f.write(self.originHtml)
 
+				self.close()
 			except Exception as e:
 				print(str(e))
 				alert = QMessageBox.warning(self, '发送失败', u'出错啦')

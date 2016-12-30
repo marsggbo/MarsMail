@@ -1,12 +1,14 @@
 <RCC>
   <qresource prefix="souce">
+    <file>souce/关于.png</file>
+    <file>souce/草稿1.png</file>
+    <file>souce/草稿.png</file>
     <file>souce/关闭1.png</file>
     <file>souce/logo1.png</file>
     <file>souce/logo渐变.png</file>
-    <file>sendBuffer.html</file>
     <file>souce/sendBuffer.gif</file>
     <file>souce/logo.png</file>
-    <file>loading.html</file>
+    <file>souce/loading.gif</file>
     <file>souce/搜索_白.png</file>
     <file>souce/转发.png</file>
     <file>souce/收件箱1png.png</file>

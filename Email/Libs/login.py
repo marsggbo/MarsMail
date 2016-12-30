@@ -55,7 +55,6 @@ class Login(QDialog, Ui_Dialog):
 			alert = QMessageBox.warning(self, '登录失败', u'登录失败，请检查配置是否正确！')
 			self.resize(500, 370)
 		else:
-
 			# 创建一个以邮件命名的文件夹，用于区分用户信息
 			dir = '/data/%s'%(self.emailInfo['email'])
 			# 获取当前文件的绝对路径

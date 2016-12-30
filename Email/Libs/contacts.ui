@@ -57,7 +57,7 @@
     </size>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color:white;</string>
+    <string notr="true">background-color: rgb(66, 74, 89);</string>
    </property>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
@@ -65,8 +65,11 @@
       <x>290</x>
       <y>0</y>
       <width>100</width>
-      <height>40</height>
+      <height>51</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:white;</string>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;通讯录&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -656,7 +659,8 @@ background-color:rgb(255,224,81);
     </property>
     <property name="styleSheet">
      <string notr="true">#contUserMail{
-	font: 75 12px &quot;微软雅黑&quot;;
+	font: 75 14px &quot;微软雅黑&quot;;
+color:white;
 }</string>
     </property>
     <property name="text">
@@ -669,23 +673,20 @@ background-color:rgb(255,224,81);
    <widget class="QLabel" name="contUserLogo">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>5</y>
-      <width>40</width>
-      <height>40</height>
+      <x>0</x>
+      <y>0</y>
+      <width>48</width>
+      <height>48</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius:24px;
+background-color: transparent;</string>
     </property>
     <property name="text">
      <string/>
     </property>
    </widget>
-   <zorder>label_7</zorder>
-   <zorder>contactsBox</zorder>
-   <zorder>contactsBox</zorder>
-   <zorder>contClose</zorder>
-   <zorder>contMin</zorder>
-   <zorder>contUserMail</zorder>
-   <zorder>contUserLogo</zorder>
   </widget>
  </widget>
  <resources>

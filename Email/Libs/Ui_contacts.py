@@ -37,10 +37,11 @@ class Ui_contacts(object):
         self.contactsBack.setGeometry(QtCore.QRect(0, 0, 1000, 600))
         self.contactsBack.setMinimumSize(QtCore.QSize(1000, 600))
         self.contactsBack.setMaximumSize(QtCore.QSize(1000, 600))
-        self.contactsBack.setStyleSheet(_fromUtf8("background-color:white;"))
+        self.contactsBack.setStyleSheet(_fromUtf8("background-color: rgb(66, 74, 89);"))
         self.contactsBack.setObjectName(_fromUtf8("contactsBack"))
         self.label_7 = QtGui.QLabel(self.contactsBack)
-        self.label_7.setGeometry(QtCore.QRect(290, 0, 100, 40))
+        self.label_7.setGeometry(QtCore.QRect(290, 0, 100, 51))
+        self.label_7.setStyleSheet(_fromUtf8("color:white;"))
         self.label_7.setObjectName(_fromUtf8("label_7"))
         self.contactsBox = QtGui.QWidget(self.contactsBack)
         self.contactsBox.setGeometry(QtCore.QRect(0, 49, 1000, 541))
@@ -262,22 +263,18 @@ class Ui_contacts(object):
         self.contUserMail = QtGui.QLabel(self.contactsBack)
         self.contUserMail.setGeometry(QtCore.QRect(70, 0, 211, 48))
         self.contUserMail.setStyleSheet(_fromUtf8("#contUserMail{\n"
-"    font: 75 12px \"微软雅黑\";\n"
+"    font: 75 14px \"微软雅黑\";\n"
+"color:white;\n"
 "}"))
         self.contUserMail.setText(_fromUtf8(""))
         self.contUserMail.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.contUserMail.setObjectName(_fromUtf8("contUserMail"))
         self.contUserLogo = QtGui.QLabel(self.contactsBack)
-        self.contUserLogo.setGeometry(QtCore.QRect(10, 5, 40, 40))
+        self.contUserLogo.setGeometry(QtCore.QRect(0, 0, 48, 48))
+        self.contUserLogo.setStyleSheet(_fromUtf8("border-radius:24px;\n"
+"background-color: transparent;"))
         self.contUserLogo.setText(_fromUtf8(""))
         self.contUserLogo.setObjectName(_fromUtf8("contUserLogo"))
-        self.label_7.raise_()
-        self.contactsBox.raise_()
-        self.contactsBox.raise_()
-        self.contClose.raise_()
-        self.contMin.raise_()
-        self.contUserMail.raise_()
-        self.contUserLogo.raise_()
 
         self.retranslateUi(contacts)
         QtCore.QMetaObject.connectSlotsByName(contacts)

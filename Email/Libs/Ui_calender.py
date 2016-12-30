@@ -25,8 +25,14 @@ except AttributeError:
 class Ui_calenderDialog(object):
     def setupUi(self, calenderDialog):
         calenderDialog.setObjectName(_fromUtf8("calenderDialog"))
-        calenderDialog.resize(450, 450)
-        calenderDialog.setMaximumSize(QtCore.QSize(450, 450))
+        calenderDialog.resize(400, 440)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(calenderDialog.sizePolicy().hasHeightForWidth())
+        calenderDialog.setSizePolicy(sizePolicy)
+        calenderDialog.setMinimumSize(QtCore.QSize(400, 440))
+        calenderDialog.setMaximumSize(QtCore.QSize(400, 440))
         calenderDialog.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         calenderDialog.setStyleSheet(_fromUtf8("#calenderDialog{background-color:white;}\n"
 "\n"
@@ -35,19 +41,44 @@ class Ui_calenderDialog(object):
 "#calenderclose:hover{background-color: #ccc;}"))
         calenderDialog.setSizeGripEnabled(True)
         self.calendarWidget = QtGui.QCalendarWidget(calenderDialog)
-        self.calendarWidget.setGeometry(QtCore.QRect(20, 0, 400, 400))
+        self.calendarWidget.setGeometry(QtCore.QRect(0, 40, 400, 400))
         self.calendarWidget.setObjectName(_fromUtf8("calendarWidget"))
-        self.calenderclose = QtGui.QPushButton(calenderDialog)
-        self.calenderclose.setGeometry(QtCore.QRect(160, 400, 121, 41))
-        self.calenderclose.setStyleSheet(_fromUtf8(""))
-        self.calenderclose.setObjectName(_fromUtf8("calenderclose"))
+        self.widget = QtGui.QWidget(calenderDialog)
+        self.widget.setGeometry(QtCore.QRect(0, 0, 401, 40))
+        self.widget.setStyleSheet(_fromUtf8("background-color: rgb(66, 74, 89);"))
+        self.widget.setObjectName(_fromUtf8("widget"))
+        self.calenderMin = QtGui.QPushButton(self.widget)
+        self.calenderMin.setGeometry(QtCore.QRect(340, 10, 20, 20))
+        self.calenderMin.setToolTip(_fromUtf8(""))
+        self.calenderMin.setStyleSheet(_fromUtf8("#calenderMin{\n"
+"background-color:rgb(255,224,81);\n"
+"    border-radius:10px;}\n"
+"#calenderMin:hover{\n"
+"border-image: url(:/souce/souce/最小化.png);\n"
+"}\n"
+""))
+        self.calenderMin.setText(_fromUtf8(""))
+        self.calenderMin.setObjectName(_fromUtf8("calenderMin"))
+        self.calenderClose = QtGui.QPushButton(self.widget)
+        self.calenderClose.setGeometry(QtCore.QRect(370, 10, 20, 20))
+        self.calenderClose.setStyleSheet(_fromUtf8("#calenderClose{\n"
+"    background-color:tomato;\n"
+"    border-radius:10px;}\n"
+"#calenderClose:hover{border-image: url(:/souce/souce/关闭1.png);}\n"
+""))
+        self.calenderClose.setText(_fromUtf8(""))
+        self.calenderClose.setObjectName(_fromUtf8("calenderClose"))
+        self.label = QtGui.QLabel(self.widget)
+        self.label.setGeometry(QtCore.QRect(140, 0, 101, 41))
+        self.label.setStyleSheet(_fromUtf8("color:white;"))
+        self.label.setObjectName(_fromUtf8("label"))
 
         self.retranslateUi(calenderDialog)
         QtCore.QMetaObject.connectSlotsByName(calenderDialog)
 
     def retranslateUi(self, calenderDialog):
         calenderDialog.setWindowTitle(_translate("calenderDialog", "Calender", None))
-        self.calenderclose.setText(_translate("calenderDialog", "关闭", None))
+        self.label.setText(_translate("calenderDialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt; font-weight:600;\">日    历</span></p></body></html>", None))
 
 import souce_rc
 

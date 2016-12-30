@@ -31,7 +31,11 @@ class contacts(QDialog, Ui_contacts):
 		self.emailInfo = GetJsonInfo('conf.json')
 		self.contUserMail.setText(self.emailInfo["email"])
 		num = self.generateNum(self.emailInfo["email"])
-		self.contUserLogo.setStyleSheet("border-image: url(:/avatar/Avatars/%d.jpg);"%num)
+		self.contUserLogo.setStyleSheet('''
+		border-radius:24px;
+		background-color: transparent;
+		border-image: url(:/avatar/Avatars/%d.jpg);
+		'''%num)
 
 		abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/')
 		dir = "%s/data/%s/"%(abDir,self.emailInfo['email'])
