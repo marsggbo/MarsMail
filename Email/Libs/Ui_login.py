@@ -31,33 +31,21 @@ class Ui_Dialog(object):
         Dialog.setStyleSheet(_fromUtf8("*{\n"
 "font: 9pt \"Microsoft YaHei UI\";\n"
 "font-weight:bold;\n"
+"    background-color: rgb(255, 255, 255);\n"
 "}\n"
 "#login,#cancel,#loginSetting{\n"
-"background-color: rgb(0, 109, 182);\n"
+"background-color: rgb(29,171,123);\n"
 "border:none;\n"
 "border-radius:13px;\n"
 "color:white;\n"
 "}\n"
-"#loginSetting:hover{\n"
-"background-color: rgb(0,134,229);\n"
-"}\n"
-"#login:hover{\n"
-"background-color: rgb(0,134,229);\n"
-"}\n"
-"#cancel:hover{\n"
-"background-color: rgb(0,134,229);\n"
-"}\n"
-""))
+"#loginSetting:hover,#login:hover,#cancel:hover{\n"
+"background-color: rgb(41,189,139);\n"
+"}"))
         Dialog.setSizeGripEnabled(True)
         self.cancel = QtGui.QPushButton(Dialog)
         self.cancel.setGeometry(QtCore.QRect(290, 210, 100, 26))
         self.cancel.setObjectName(_fromUtf8("cancel"))
-        self.loginClose = QtGui.QPushButton(Dialog)
-        self.loginClose.setGeometry(QtCore.QRect(470, 0, 31, 31))
-        self.loginClose.setStyleSheet(_fromUtf8("#loginClose{border-image: url(:/souce/souce/关闭1_2.png);}\n"
-"#loginClose:hover{border-image: url(:/souce/souce/关闭1_1.png);}"))
-        self.loginClose.setText(_fromUtf8(""))
-        self.loginClose.setObjectName(_fromUtf8("loginClose"))
         self.loginmail = QtGui.QLineEdit(Dialog)
         self.loginmail.setGeometry(QtCore.QRect(160, 120, 230, 25))
         self.loginmail.setObjectName(_fromUtf8("loginmail"))
@@ -102,27 +90,46 @@ class Ui_Dialog(object):
         self.label_2 = QtGui.QLabel(Dialog)
         self.label_2.setGeometry(QtCore.QRect(110, 160, 50, 25))
         self.label_2.setObjectName(_fromUtf8("label_2"))
-        self.logoName = QtGui.QLabel(Dialog)
-        self.logoName.setGeometry(QtCore.QRect(195, 50, 151, 51))
-        self.logoName.setStyleSheet(_fromUtf8("#logoName{\n"
-"font: 25px \"Helvetica\";\n"
-"font-weight:bold;\n"
-"color:rgb(0,134,229)\n"
-"\n"
-"}\n"
-""))
-        self.logoName.setTextFormat(QtCore.Qt.RichText)
-        self.logoName.setAlignment(QtCore.Qt.AlignCenter)
-        self.logoName.setObjectName(_fromUtf8("logoName"))
-        self.loginlogo = QtGui.QLabel(Dialog)
-        self.loginlogo.setGeometry(QtCore.QRect(240, 5, 50, 50))
-        self.loginlogo.setStyleSheet(_fromUtf8("border-image: url(:/souce/souce/邮箱logo_colorful.png);"))
-        self.loginlogo.setText(_fromUtf8(""))
-        self.loginlogo.setAlignment(QtCore.Qt.AlignCenter)
-        self.loginlogo.setObjectName(_fromUtf8("loginlogo"))
         self.login = QtGui.QPushButton(Dialog)
         self.login.setGeometry(QtCore.QRect(160, 210, 100, 26))
         self.login.setObjectName(_fromUtf8("login"))
+        self.label_5 = QtGui.QLabel(Dialog)
+        self.label_5.setGeometry(QtCore.QRect(230, 40, 71, 71))
+        self.label_5.setStyleSheet(_fromUtf8("border-image: url(:/souce/souce/logo1.png);"))
+        self.label_5.setText(_fromUtf8(""))
+        self.label_5.setObjectName(_fromUtf8("label_5"))
+        self.label_6 = QtGui.QLabel(Dialog)
+        self.label_6.setGeometry(QtCore.QRect(0, -1, 501, 41))
+        self.label_6.setStyleSheet(_fromUtf8("background-color: rgb(66,74,89);"))
+        self.label_6.setText(_fromUtf8(""))
+        self.label_6.setObjectName(_fromUtf8("label_6"))
+        self.mainclose = QtGui.QPushButton(Dialog)
+        self.mainclose.setGeometry(QtCore.QRect(470, 10, 20, 20))
+        self.mainclose.setStyleSheet(_fromUtf8("#mainclose{\n"
+"    background-color:tomato;\n"
+"    border-radius:10px;}\n"
+"#mainclose:hover{border-image: url(:/souce/souce/关闭1.png);}\n"
+""))
+        self.mainclose.setText(_fromUtf8(""))
+        self.mainclose.setObjectName(_fromUtf8("mainclose"))
+        self.mainmin = QtGui.QPushButton(Dialog)
+        self.mainmin.setGeometry(QtCore.QRect(440, 10, 20, 20))
+        self.mainmin.setToolTip(_fromUtf8(""))
+        self.mainmin.setStyleSheet(_fromUtf8("#mainmin{\n"
+"background-color:rgb(255,224,81);\n"
+"    border-radius:10px;}\n"
+"#mainmin:hover{\n"
+"border-image: url(:/souce/souce/最小化.png);\n"
+"}\n"
+""))
+        self.mainmin.setText(_fromUtf8(""))
+        self.mainmin.setObjectName(_fromUtf8("mainmin"))
+        self.label_7 = QtGui.QLabel(Dialog)
+        self.label_7.setGeometry(QtCore.QRect(218, 0, 101, 39))
+        self.label_7.setStyleSheet(_fromUtf8("background-color: rgb(66,74,89);\n"
+"color:white;"))
+        self.label_7.setTextFormat(QtCore.Qt.RichText)
+        self.label_7.setObjectName(_fromUtf8("label_7"))
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -132,7 +139,6 @@ class Ui_Dialog(object):
         Dialog.setTabOrder(self.cancel, self.loginSetting)
         Dialog.setTabOrder(self.loginSetting, self.loginsmtp)
         Dialog.setTabOrder(self.loginsmtp, self.loginpop)
-        Dialog.setTabOrder(self.loginpop, self.loginClose)
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog", None))
@@ -146,8 +152,8 @@ class Ui_Dialog(object):
         self.loginSetting.setText(_translate("Dialog", "手动配置", None))
         self.label.setText(_translate("Dialog", "账号:", None))
         self.label_2.setText(_translate("Dialog", "密码:", None))
-        self.logoName.setText(_translate("Dialog", "M@RS Mail", None))
         self.login.setText(_translate("Dialog", "登录", None))
+        self.label_7.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">登    录</span></p></body></html>", None))
 
 import souce_rc
 

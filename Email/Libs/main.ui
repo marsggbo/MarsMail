@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1069</width>
-    <height>583</height>
+    <height>584</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -78,8 +78,21 @@ border-image: url(:/souce/souce/下拉1.png);
 border-image: url(:/images/Login_Ui/drop_down_pressed.png);
 }*/
 
+#topWidget{
+background-color: rgb(66, 74, 89);
+}
+#searchMode{
+background-color: rgb(66, 74, 89);
+color:white;
+border:1px solid white;
+border-radius:5px;
+}
+#searchMode:hover{
+border:1px solid rgb(41,189,139);
+}
+
 QListWidget{
-background-color: rgb(242,242,242);border:none;
+background-color:white;border:none;
 }
 QListWidget::Item{
 width:260px;
@@ -101,9 +114,9 @@ color: rgb(36, 170, 112);
 
 
 #receivedBox:hover,#sentBox:hover,#deleteBox:hover,#draftBox:hover{
-background-color: rgb(200, 200, 200);
+background-color: rgb(230,230,230);
 color: rgb(41,189,139);
-border-left:5px solid  rgb(85, 255, 127);
+border-left:5px solid  rgb(41,189,139);
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -138,7 +151,7 @@ border-left:5px solid  rgb(85, 255, 127);
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-image: url(:/souce/souce/XYZ.jpg);</string>
+      <string notr="true">border-image: url(:/souce/souce/logo渐变.png);</string>
      </property>
     </widget>
     <widget class="QGroupBox" name="slidebar">
@@ -164,8 +177,8 @@ QPushButton:hover {
      <widget class="QPushButton" name="about">
       <property name="geometry">
        <rect>
-        <x>110</x>
-        <y>2</y>
+        <x>105</x>
+        <y>0</y>
         <width>40</width>
         <height>40</height>
        </rect>
@@ -191,14 +204,14 @@ background-color: rgb(255, 170, 127);}</string>
       </property>
       <property name="icon">
        <iconset resource="souce.qrc">
-        <normaloff>:/souce/souce/关于 (2).png</normaloff>:/souce/souce/关于 (2).png</iconset>
+        <normaloff>:/souce/souce/关于 (1).png</normaloff>:/souce/souce/关于 (1).png</iconset>
       </property>
      </widget>
      <widget class="QPushButton" name="addressbook">
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>2</y>
+        <y>0</y>
         <width>40</width>
         <height>40</height>
        </rect>
@@ -223,8 +236,8 @@ background-color: rgb(255, 170, 127);}</string>
      <widget class="QPushButton" name="calender">
       <property name="geometry">
        <rect>
-        <x>60</x>
-        <y>2</y>
+        <x>55</x>
+        <y>0</y>
         <width>40</width>
         <height>40</height>
        </rect>
@@ -243,8 +256,8 @@ background-color: rgb(255, 170, 127);}</string>
      <widget class="QDial" name="interval">
       <property name="geometry">
        <rect>
-        <x>165</x>
-        <y>6</y>
+        <x>160</x>
+        <y>4</y>
         <width>30</width>
         <height>30</height>
        </rect>
@@ -347,6 +360,19 @@ QPushButton:hover {
       <property name="icon">
        <iconset resource="souce.qrc">
         <normaloff>:/souce/souce/收信 .png</normaloff>:/souce/souce/收信 .png</iconset>
+      </property>
+     </widget>
+     <widget class="QLabel" name="loading">
+      <property name="geometry">
+       <rect>
+        <x>114</x>
+        <y>10</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>
@@ -499,6 +525,17 @@ border-radius:20px;
       </size>
      </property>
     </widget>
+    <zorder>headpic_2</zorder>
+    <zorder>slidebar</zorder>
+    <zorder>headlogo</zorder>
+    <zorder>groupBox</zorder>
+    <zorder>mainlogin</zorder>
+    <zorder>mainUserName</zorder>
+    <zorder>sentBox</zorder>
+    <zorder>receivedBox</zorder>
+    <zorder>deleteBox</zorder>
+    <zorder>draftBox</zorder>
+    <zorder>loading</zorder>
    </widget>
    <widget class="QGroupBox" name="receivedletter">
     <property name="geometry">
@@ -714,25 +751,6 @@ background-color: rgb(41, 189, 139);
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QWebView" name="mainLoading">
-     <property name="geometry">
-      <rect>
-       <x>90</x>
-       <y>480</y>
-       <width>50</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border:none;
-border-radius:25px;</string>
-     </property>
-     <property name="url">
-      <url>
-       <string>file:///C:/Users/14356/Desktop/XYZMail/Libs/loading.html</string>
-      </url>
-     </property>
-    </widget>
     <zorder>sentList</zorder>
     <zorder>searchList</zorder>
     <zorder>itemSortMode</zorder>
@@ -740,7 +758,7 @@ border-radius:25px;</string>
     <zorder>deleteList</zorder>
     <zorder>draftList</zorder>
     <zorder>emaillist</zorder>
-    <zorder>mainLoading</zorder>
+    <zorder>attachList</zorder>
    </widget>
    <widget class="QGroupBox" name="showemail">
     <property name="geometry">
@@ -786,7 +804,7 @@ border-radius:25px;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(242,242,242);
+      <string notr="true">background-color:white;
 font: 14px &quot;微软雅黑&quot;;
 border:none;</string>
      </property>
@@ -937,7 +955,7 @@ border:none;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">#attachList{
-background-color: rgb(221, 221, 221);
+background-color: rgb(242,242,242);
 border:none;
 }
 #attachList::Item{
@@ -966,6 +984,7 @@ background-color: rgb(41, 189, 139);
      </property>
      <property name="styleSheet">
       <string notr="true">#emailBtnBox{
+background-color: rgb(242,242,242);
 border:none;
 }
 QPushButton{
@@ -1015,7 +1034,7 @@ background-color: rgb(232,232,232);
       </property>
       <property name="icon">
        <iconset resource="souce.qrc">
-        <normaloff>:/souce/souce/发送.png</normaloff>:/souce/souce/发送.png</iconset>
+        <normaloff>:/souce/souce/转发.png</normaloff>:/souce/souce/转发.png</iconset>
       </property>
      </widget>
      <widget class="QPushButton" name="delEmail">
@@ -1160,7 +1179,7 @@ border-image: url(:/souce/souce/最小化.png);
      </property>
      <property name="icon">
       <iconset resource="souce.qrc">
-       <normaloff>:/souce/souce/搜索框－搜索.png</normaloff>:/souce/souce/搜索框－搜索.png</iconset>
+       <normaloff>:/souce/souce/搜索_白.png</normaloff>:/souce/souce/搜索_白.png</iconset>
      </property>
     </widget>
     <widget class="QLineEdit" name="searchlineEdit">
@@ -1174,8 +1193,7 @@ border-image: url(:/souce/souce/最小化.png);
      </property>
      <property name="styleSheet">
       <string notr="true">#searchlineEdit{
-background-color:rgb(242,242,242);
-border:2px solid rgb(41,189,139);
+background-color: rgb(213, 213, 213);
 border-radius:15px;
 }
 #searchlineEdit:hover{

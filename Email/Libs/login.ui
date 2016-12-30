@@ -29,23 +29,17 @@
    <string notr="true">*{
 font: 9pt &quot;Microsoft YaHei UI&quot;;
 font-weight:bold;
+	background-color: rgb(255, 255, 255);
 }
 #login,#cancel,#loginSetting{
-background-color: rgb(0, 109, 182);
+background-color: rgb(29,171,123);
 border:none;
 border-radius:13px;
 color:white;
 }
-#loginSetting:hover{
-background-color: rgb(0,134,229);
-}
-#login:hover{
-background-color: rgb(0,134,229);
-}
-#cancel:hover{
-background-color: rgb(0,134,229);
-}
-</string>
+#loginSetting:hover,#login:hover,#cancel:hover{
+background-color: rgb(41,189,139);
+}</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -61,23 +55,6 @@ background-color: rgb(0,134,229);
    </property>
    <property name="text">
     <string>取消</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="loginClose">
-   <property name="geometry">
-    <rect>
-     <x>470</x>
-     <y>0</y>
-     <width>31</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">#loginClose{border-image: url(:/souce/souce/关闭1_2.png);}
-#loginClose:hover{border-image: url(:/souce/souce/关闭1_1.png);}</string>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </widget>
   <widget class="QLineEdit" name="loginmail">
@@ -240,53 +217,6 @@ background-color: rgb(203, 203, 203);
     <string>密码:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="logoName">
-   <property name="geometry">
-    <rect>
-     <x>195</x>
-     <y>50</y>
-     <width>151</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">#logoName{
-font: 25px &quot;Helvetica&quot;;
-font-weight:bold;
-color:rgb(0,134,229)
-
-}
-</string>
-   </property>
-   <property name="text">
-    <string>M@RS Mail</string>
-   </property>
-   <property name="textFormat">
-    <enum>Qt::RichText</enum>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="loginlogo">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>5</y>
-     <width>50</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border-image: url(:/souce/souce/邮箱logo_colorful.png);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QPushButton" name="login">
    <property name="geometry">
     <rect>
@@ -300,6 +230,103 @@ color:rgb(0,134,229)
     <string>登录</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>40</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/souce/souce/logo1.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>-1</y>
+     <width>501</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(66,74,89);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="mainclose">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>10</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#mainclose{
+	background-color:tomato;
+	border-radius:10px;}
+#mainclose:hover{border-image: url(:/souce/souce/关闭1.png);}
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="mainmin">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>10</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#mainmin{
+background-color:rgb(255,224,81);
+	border-radius:10px;}
+#mainmin:hover{
+border-image: url(:/souce/souce/最小化.png);
+}
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>218</x>
+     <y>0</y>
+     <width>101</width>
+     <height>39</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(66,74,89);
+color:white;</string>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;登    录&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="textFormat">
+    <enum>Qt::RichText</enum>
+   </property>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>loginmail</tabstop>
@@ -309,7 +336,6 @@ color:rgb(0,134,229)
   <tabstop>loginSetting</tabstop>
   <tabstop>loginsmtp</tabstop>
   <tabstop>loginpop</tabstop>
-  <tabstop>loginClose</tabstop>
  </tabstops>
  <resources>
   <include location="souce.qrc"/>

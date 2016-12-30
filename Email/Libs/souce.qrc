@@ -1,5 +1,14 @@
 <RCC>
   <qresource prefix="souce">
+    <file>souce/关闭1.png</file>
+    <file>souce/logo1.png</file>
+    <file>souce/logo渐变.png</file>
+    <file>sendBuffer.html</file>
+    <file>souce/sendBuffer.gif</file>
+    <file>souce/logo.png</file>
+    <file>loading.html</file>
+    <file>souce/搜索_白.png</file>
+    <file>souce/转发.png</file>
     <file>souce/收件箱1png.png</file>
     <file>souce/发件箱1.png</file>
     <file>souce/草稿箱1.png</file>
@@ -8,28 +17,24 @@
     <file>souce/下拉.png</file>
     <file>souce/同步.png</file>
     <file>souce/还原.png</file>
-    <file>souce/关于 (2).png</file>
     <file>souce/保存.png</file>
     <file>souce/联系我们.png</file>
     <file>souce/草稿箱.png</file>
     <file>souce/发件箱.png</file>
     <file>souce/垃圾箱.png</file>
     <file>souce/收件箱.png</file>
-    <file>souce/关于.png</file>
     <file>souce/缓冲1.gif</file>
     <file>souce/缓冲2.gif</file>
     <file>souce/收起.png</file>
     <file>souce/邮箱logo_colorful.png</file>
     <file>souce/收信 .png</file>
-    <file>souce/搜索框－搜索.png</file>
-    <file>souce/关闭1_1.png</file>
-    <file>souce/关闭1_2.png</file>
     <file>index.html</file>
+    <file>souce/关闭.png</file>
     <file>souce/附件.png</file>
     <file>souce/设置.png</file>
     <file>souce/XYZ.jpg</file>
-    <file>souce/登录mail图标.png</file>
     <file>souce/登录.png</file>
+    <file>souce/关于 (1).png</file>
     <file>souce/发送.png</file>
     <file>souce/附件.png</file>
     <file>souce/关闭1.png</file>

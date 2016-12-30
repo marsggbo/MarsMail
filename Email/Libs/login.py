@@ -31,7 +31,6 @@ class Login(QDialog, Ui_Dialog):
 			self.loginpwd.setText(pwd)
 			self.loginsmtp.setText(self.emailInfo['smtp_server'])
 			self.loginpop.setText(self.emailInfo['pop3_server'])
-			# self.run()
 
 
 	# 无边框设计

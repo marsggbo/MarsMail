@@ -89,7 +89,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.mainReply.hide()
 		self.mainAttach.hide()
 		self.restoreEmail.hide()
-		self.mainLoading.hide()
 
 		# 绑定emailList
 		self.connect(self.emaillist, SIGNAL('itemClicked(QListWidgetItem *)'), self.emailItemClicked)
@@ -586,7 +585,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.emailNum = myPop.GetEmailNum()
 		# 循环解析邮件
 		for i in range(self.emailNum,0,-1):
-			self.mainLoading.show()
 			resp, lines, octets = self.popServer.retr(i)
 			msg_content = b'\r\n'.join(lines)
 
@@ -606,7 +604,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				print(str(e))
 
 		myPop.quit()
-		self.mainLoading.hide()
+		self.loading.hide()
 
 	# 接收最新邮件按钮
 	@pyqtSlot()
@@ -614,6 +612,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		if self.login == 0:
 			my_alert = QMessageBox.warning(self, '操作失败', u'请先登录您的账号！')
 		else:
+
+			self.movie = QMovie("souce/loading.gif")
+			self.movie.setScaledSize(QSize(30,30))
+			self.loading.setMovie(self.movie)
+			self.movie.start()
+
 			self.searchList.hide()
 			self.sentList.hide()
 			self.emaillist.show()

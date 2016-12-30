@@ -19,30 +19,27 @@
   <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <widget class="QGroupBox" name="head">
+  <widget class="QWidget" name="head" native="true">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>721</width>
-     <height>50</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QGroupBox{background-color: rgb(244, 244, 244);}
-#send,#save,#accessory{border:none;background-color: rgb(244, 244, 244);}
-#send:hover{background-color: rgb(219,219,219);}
-#accessory:hover{background-color: rgb(219,219,219);}
-#save:hover{background-color: rgb(219,219,219);}</string>
-   </property>
-   <property name="title">
-    <string/>
+    <string notr="true">#head{background-color: rgb(66,74,89);}
+#send,#save,#accessory{border:none;background-color: rgb(66,74,89);color:white;}
+#send:hover,#accessory:hover,#save:hover{background-color: rgb(90,90,90);}
+
+</string>
    </property>
    <widget class="QPushButton" name="send">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>15</y>
+      <y>10</y>
       <width>60</width>
       <height>30</height>
      </rect>
@@ -62,7 +59,7 @@
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>15</y>
+      <y>10</y>
       <width>60</width>
       <height>30</height>
      </rect>
@@ -82,7 +79,7 @@
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>15</y>
+      <y>10</y>
       <width>81</width>
       <height>30</height>
      </rect>
@@ -98,14 +95,59 @@
       <normaloff>:/souce/souce/保存.png</normaloff>:/souce/souce/保存.png</iconset>
     </property>
    </widget>
+   <widget class="QPushButton" name="writeClose">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>10</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#writeClose{
+	background-color:tomato;
+	border-radius:10px;}
+#writeClose:hover{border-image: url(:/souce/souce/关闭1.png);}
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="writeMin">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>10</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string/>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#writeMin{
+background-color:rgb(255,224,81);
+	border-radius:10px;}
+#writeMin:hover{
+border-image: url(:/souce/souce/最小化.png);
+}
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>49</y>
+     <y>39</y>
      <width>720</width>
-     <height>91</height>
+     <height>101</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -163,10 +205,10 @@
    <widget class="QGroupBox" name="attachShowBox">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>0</y>
-      <width>321</width>
-      <height>91</height>
+      <x>390</x>
+      <y>2</y>
+      <width>331</width>
+      <height>87</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -182,12 +224,13 @@ border:none;
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>61</width>
+       <width>81</width>
        <height>31</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">color:tomato;</string>
+      <string notr="true">color:tomato;
+font: 75 14px &quot;微软雅黑&quot;;</string>
      </property>
      <property name="text">
       <string>已添加附件</string>
@@ -196,14 +239,15 @@ border:none;
     <widget class="QListWidget" name="attachList">
      <property name="geometry">
       <rect>
-       <x>63</x>
+       <x>77</x>
        <y>0</y>
-       <width>255</width>
-       <height>90</height>
+       <width>251</width>
+       <height>87</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">#attachList{
+border:none;
 }
 #attachList::Item{
 height:30px;
@@ -241,6 +285,19 @@ background-color: rgb(41, 189, 139);
     <url>
      <string>file:///C:/Users/14356/Desktop/EmailSystem_搜索_转发_回复_12.15/Email/Libs/kindeditor-4.1.7/examples/default.html</string>
     </url>
+   </property>
+  </widget>
+  <widget class="QLabel" name="loading">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>180</y>
+     <width>200</width>
+     <height>200</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>

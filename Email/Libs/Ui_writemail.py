@@ -28,38 +28,58 @@ class Ui_WriteEmailDialog(object):
         WriteEmailDialog.resize(718, 560)
         WriteEmailDialog.setStyleSheet(_fromUtf8(""))
         WriteEmailDialog.setSizeGripEnabled(True)
-        self.head = QtGui.QGroupBox(WriteEmailDialog)
-        self.head.setGeometry(QtCore.QRect(0, 0, 721, 50))
-        self.head.setStyleSheet(_fromUtf8("QGroupBox{background-color: rgb(244, 244, 244);}\n"
-"#send,#save,#accessory{border:none;background-color: rgb(244, 244, 244);}\n"
-"#send:hover{background-color: rgb(219,219,219);}\n"
-"#accessory:hover{background-color: rgb(219,219,219);}\n"
-"#save:hover{background-color: rgb(219,219,219);}"))
-        self.head.setTitle(_fromUtf8(""))
+        self.head = QtGui.QWidget(WriteEmailDialog)
+        self.head.setGeometry(QtCore.QRect(0, 0, 721, 41))
+        self.head.setStyleSheet(_fromUtf8("#head{background-color: rgb(66,74,89);}\n"
+"#send,#save,#accessory{border:none;background-color: rgb(66,74,89);color:white;}\n"
+"#send:hover,#accessory:hover,#save:hover{background-color: rgb(90,90,90);}\n"
+"\n"
+""))
         self.head.setObjectName(_fromUtf8("head"))
         self.send = QtGui.QPushButton(self.head)
-        self.send.setGeometry(QtCore.QRect(30, 15, 60, 30))
+        self.send.setGeometry(QtCore.QRect(30, 10, 60, 30))
         self.send.setStyleSheet(_fromUtf8(""))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/发送.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.send.setIcon(icon)
         self.send.setObjectName(_fromUtf8("send"))
         self.accessory = QtGui.QPushButton(self.head)
-        self.accessory.setGeometry(QtCore.QRect(110, 15, 60, 30))
+        self.accessory.setGeometry(QtCore.QRect(110, 10, 60, 30))
         self.accessory.setStyleSheet(_fromUtf8(""))
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/附件.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.accessory.setIcon(icon1)
         self.accessory.setObjectName(_fromUtf8("accessory"))
         self.save = QtGui.QPushButton(self.head)
-        self.save.setGeometry(QtCore.QRect(190, 15, 81, 30))
+        self.save.setGeometry(QtCore.QRect(190, 10, 81, 30))
         self.save.setStyleSheet(_fromUtf8(""))
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/souce/souce/保存.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.save.setIcon(icon2)
         self.save.setObjectName(_fromUtf8("save"))
+        self.writeClose = QtGui.QPushButton(self.head)
+        self.writeClose.setGeometry(QtCore.QRect(680, 10, 20, 20))
+        self.writeClose.setStyleSheet(_fromUtf8("#writeClose{\n"
+"    background-color:tomato;\n"
+"    border-radius:10px;}\n"
+"#writeClose:hover{border-image: url(:/souce/souce/关闭1.png);}\n"
+""))
+        self.writeClose.setText(_fromUtf8(""))
+        self.writeClose.setObjectName(_fromUtf8("writeClose"))
+        self.writeMin = QtGui.QPushButton(self.head)
+        self.writeMin.setGeometry(QtCore.QRect(650, 10, 20, 20))
+        self.writeMin.setToolTip(_fromUtf8(""))
+        self.writeMin.setStyleSheet(_fromUtf8("#writeMin{\n"
+"background-color:rgb(255,224,81);\n"
+"    border-radius:10px;}\n"
+"#writeMin:hover{\n"
+"border-image: url(:/souce/souce/最小化.png);\n"
+"}\n"
+""))
+        self.writeMin.setText(_fromUtf8(""))
+        self.writeMin.setObjectName(_fromUtf8("writeMin"))
         self.groupBox = QtGui.QGroupBox(WriteEmailDialog)
-        self.groupBox.setGeometry(QtCore.QRect(0, 49, 720, 91))
+        self.groupBox.setGeometry(QtCore.QRect(0, 39, 720, 101))
         self.groupBox.setStyleSheet(_fromUtf8("background-color: rgb(255, 255, 255);"))
         self.groupBox.setTitle(_fromUtf8(""))
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
@@ -76,19 +96,21 @@ class Ui_WriteEmailDialog(object):
         self.receiverEdit.setGeometry(QtCore.QRect(100, 10, 271, 20))
         self.receiverEdit.setObjectName(_fromUtf8("receiverEdit"))
         self.attachShowBox = QtGui.QGroupBox(self.groupBox)
-        self.attachShowBox.setGeometry(QtCore.QRect(400, 0, 321, 91))
+        self.attachShowBox.setGeometry(QtCore.QRect(390, 2, 331, 87))
         self.attachShowBox.setStyleSheet(_fromUtf8("#attachShowBox{\n"
 "border:none;\n"
 "}"))
         self.attachShowBox.setTitle(_fromUtf8(""))
         self.attachShowBox.setObjectName(_fromUtf8("attachShowBox"))
         self.label = QtGui.QLabel(self.attachShowBox)
-        self.label.setGeometry(QtCore.QRect(0, 0, 61, 31))
-        self.label.setStyleSheet(_fromUtf8("color:tomato;"))
+        self.label.setGeometry(QtCore.QRect(0, 0, 81, 31))
+        self.label.setStyleSheet(_fromUtf8("color:tomato;\n"
+"font: 75 14px \"微软雅黑\";"))
         self.label.setObjectName(_fromUtf8("label"))
         self.attachList = QtGui.QListWidget(self.attachShowBox)
-        self.attachList.setGeometry(QtCore.QRect(63, 0, 255, 90))
+        self.attachList.setGeometry(QtCore.QRect(77, 0, 251, 87))
         self.attachList.setStyleSheet(_fromUtf8("#attachList{\n"
+"border:none;\n"
 "}\n"
 "#attachList::Item{\n"
 "height:30px;\n"
@@ -105,6 +127,10 @@ class Ui_WriteEmailDialog(object):
         self.richEmailEdit.setGeometry(QtCore.QRect(0, 140, 721, 411))
         self.richEmailEdit.setUrl(QtCore.QUrl(_fromUtf8("file:///C:/Users/14356/Desktop/EmailSystem_搜索_转发_回复_12.15/Email/Libs/kindeditor-4.1.7/examples/default.html")))
         self.richEmailEdit.setObjectName(_fromUtf8("richEmailEdit"))
+        self.loading = QtGui.QLabel(WriteEmailDialog)
+        self.loading.setGeometry(QtCore.QRect(210, 180, 200, 200))
+        self.loading.setText(_fromUtf8(""))
+        self.loading.setObjectName(_fromUtf8("loading"))
 
         self.retranslateUi(WriteEmailDialog)
         QtCore.QMetaObject.connectSlotsByName(WriteEmailDialog)
