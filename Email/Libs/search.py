@@ -1,11 +1,11 @@
 from DealJsonFile import GetJsonInfo, SaveJsonInfo
 import threading,time,os,re
-from multiprocessing import Process
 
 class Search():
 	def __init__(self):
 		self.islock = True  # 锁住
 
+	# 运行搜索函数
 	def run(self,userInfo=None,mode=None,keyword=None):
 		self.userInfo = userInfo
 		self.dir = '/data/%s'%(self.userInfo['email'])
@@ -34,7 +34,7 @@ class Search():
 			self.result = self.searchEmailContent(keyword)
 			self.islock = False  # 解锁
 
-	# 返回结果
+	# 返回结果，用于给外部提供接口
 	def getResult(self):
 		# print("获取结果")
 		while not self.islock:
@@ -57,16 +57,16 @@ class Search():
 
 	# 搜索邮件内容
 	def searchEmailContent(self,content):
-		# content = re.compile(content)
 		contacts = GetJsonInfo(self.receiveJsonName)
 		files = {}
+		# 遍历邮件文件夹
 		if os.path.exists(self.dir):
 			for file in os.listdir(self.dir):
 				if file[-4:] == 'html':
 					fileDir = "%s/%s"%(self.dir,file)
 					with open(fileDir,'rb') as f:
 						emailContent = f.read().decode('utf-8')
-						# if len(content.findall(emailContent))>0:
+
 						if content in emailContent:
 							subject = file.replace('.html','')
 							files[subject] = contacts[subject]
@@ -102,40 +102,3 @@ class Search():
 			if temp in contacts[item]['date'].lower():
 				files[item] = contacts[item]
 		return files
-
-if __name__ == "__main__":
-	# test
-	userInfo={'email':"1435679023@qq.com"}
-	mode=['主题',"时间","联系人","邮件内容"]
-	keyword="lear"
-
-	# 搜索模块测试
-	try:
-		start = time.time()
-		begin = time.time()
-		test = Search()
-		p1 = threading.Thread(target=test.run, args=[userInfo,mode[3],keyword])
-		p1.start()
-		p1.join()
-		files1 = test.getResult()
-		while files1==None:
-			files1 = test.getResult()
-		print("1",files1)
-		print("耗时多线程1：",time.time()-begin)
-
-
-		begin = time.time()
-		test = Search()
-		test.run(userInfo,mode[3],keyword)
-		files2 = test.getResult()
-		while files2==None:
-			files2 = test.getResult()
-		print("2",files2)
-		print("耗时啥都不用2：",time.time()-begin)
-		#
-		print("总耗时:",time.time()-start)
-	except Exception as e:
-		print(str(e))
-
-
-

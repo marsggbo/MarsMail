@@ -57,8 +57,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.emailInfo = GetJsonInfo('conf.json')
 			# 获取当前文件的绝对路径
 			abDir = os.path.abspath(os.path.join(os.path.dirname(__file__))).replace('\\','/')
-			dir = "%s/data/%s/"%(abDir,self.emailInfo['email'])
-			if os.path.exists(dir):
+			dir = "%s/data/%s"%(abDir,self.emailInfo['email'])
+			if os.path.exists(dir) and self.emailInfo['email'] and self.emailInfo['pwd']:
 				self.emailInfo["status"] = 1
 				SaveJsonInfo('conf.json', self.emailInfo)
 
@@ -833,7 +833,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		my_about = About()
 		my_about.show()
 		my_about.exec_()
-#		aboutButton = QMessageBox.aboutQt(self,  'AboutQt')
 
 if __name__ == "__main__":
 	import sys

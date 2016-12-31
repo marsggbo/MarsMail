@@ -59,6 +59,7 @@ class ReceiveMail():
 		my_info = {}
 		my_emailInfos = {}
 
+		# 分别解析出主题、时间、地址和联系人名
 		subject = msg.get('Subject', '')
 		if subject:
 			subject = self.decode_str(subject)
@@ -115,8 +116,10 @@ class ReceiveMail():
 
 		else:
 			content_type = msg.get_content_type()
+			# 解析邮件内容
 			if content_type == 'text/html':
 				content = msg.get_payload(decode=True)
+				# 获取邮件编码格式
 				charset = self.guess_charset(msg)
 				if charset:
 					try:
@@ -124,7 +127,7 @@ class ReceiveMail():
 					except Exception as e:
 						print(str(e))
 						content = content.decode(charset)
-
+				# 指定邮件内容为utf-8
 				content = '<meta charset="utf-8">' + content + '<meta charset="utf-8">'
 
 				# 保存为文件形式
@@ -148,6 +151,7 @@ class ReceiveMail():
 
 
 			else:
+				# 解析附件
 				dir = "data/%s" % self.emailInfo['email']
 				if len(subject) > 30:
 					emailname = subject[:30]
@@ -182,6 +186,7 @@ class ReceiveMail():
 					for x in specialChar:
 						fname = fname.replace(x, '_')
 
+					# 保存邮件附件
 					if not os.path.exists(sonDir):
 						os.makedirs(sonDir)
 						sonDir = sonDir + "/%s" % fname

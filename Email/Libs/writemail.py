@@ -33,16 +33,17 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 		self.setupUi(self)
 		self.emailInfo = GetJsonInfo('conf.json')
 		self.email = SendMail()
-		self.isForwad = isForwad
-		self.isReply = isReply
-		self.fileName = []
+		self.isForwad = isForwad    # 转发标志
+		self.isReply = isReply      # 回复标志
+		self.fileName = []          # 附件名存储器
 
 
 		self.setWindowFlags(Qt.FramelessWindowHint | Qt.Dialog)
 
+		# 初始化隐藏附件列表
 		self.attachShowBox.hide()
 
-
+		# 获取副文本编辑器的内容
 		self.page = self.richEmailEdit.page()
 		self.frame = self.page.mainFrame()
 
@@ -155,8 +156,6 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 		movie.setScaledSize(QSize(200, 200))
 		self.loading.setMovie(movie)
 		movie.start()
-		# time.sleep(2)
-		# self.loading.hide()
 
 	@pyqtSlot()
 	def on_send_clicked(self):
@@ -210,7 +209,7 @@ class WriteEmailDialog(QDialog, Ui_WriteEmailDialog):
 				SaveJsonInfo(self.sendJsonName, sent)
 
 				# 将已发邮件存至指定目录
-				# C:/Users/14356/Desktop/XYZMail/Email/Libs/data/110@qq.com/
+				# 路径格式：C:/Users/14356/Desktop/XYZMail/Email/Libs/data/110@qq.com/
 				sendDir = self.dir + 'send/' + subject
 				with open('%s.html' % sendDir, 'wb') as f:
 					f.write(emailHtml.encode('utf-8'))
